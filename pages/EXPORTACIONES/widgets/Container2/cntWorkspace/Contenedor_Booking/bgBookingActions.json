@@ -227,7 +227,7 @@
           "isDisabled": false,
           "isVisible": true,
           "label": "IR A INFROMACION CAMBIARIA",
-          "onClick": "{{ storeValue(\"active_section\", \"INFORMACION CAMBIARIA\") }}",
+          "onClick": "{{ storeValue(\"active_section\", \"INFORMACION_CAMBIARIA\") }}",
           "widgetId": "c1ry9uj7eb"
         },
         "menuItem3u1ll1kbim": {
@@ -308,7 +308,7 @@
           "isDisabled": false,
           "isVisible": true,
           "label": "IR A GIROS CLIENTES",
-          "onClick": "{{ storeValue(\"active_section\", \"GIROS CLIENTES\") }}",
+          "onClick": "{{ storeValue(\"active_section\", \"GIROS_CLIENTES\") }}",
           "widgetId": "010zfok58l"
         }
       },
@@ -363,7 +363,7 @@
       "itemType": "BUTTON",
       "label": "ELIMINAR",
       "menuItems": {},
-      "onClick": "{{\n  if (!appsmith.store.booking_id) {\n    showAlert(\"No hay registro cargado para eliminar.\", \"warning\");\n    return;\n  }\n  showModal(\"mdlDeleteBooking\");\n}}",
+      "onClick": "{{\n  if (!appsmith.store.current_booking_id) {\n    showAlert(\"No hay registro cargado para eliminar.\", \"warning\");\n    return;\n  }\n  showModal(\"mdlDeleteBooking\");\n}}",
       "placement": "START",
       "variant": "filled",
       "widgetId": "ipf7h3l1dx"
