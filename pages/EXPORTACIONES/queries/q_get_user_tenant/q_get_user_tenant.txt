@@ -1,0 +1,6 @@
+select
+  tu.tenant_id
+from public.tenant_usuarios tu
+where tu.usuario_id = nullif('{{ appsmith.store.user_id || "" }}', '')::uuid
+  and tu.activo = true
+limit 1;

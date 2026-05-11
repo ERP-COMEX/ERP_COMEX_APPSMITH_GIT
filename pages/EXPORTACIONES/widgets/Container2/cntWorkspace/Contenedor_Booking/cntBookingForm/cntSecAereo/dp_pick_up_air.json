@@ -1,0 +1,87 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 7,
+  "boxShadow": "none",
+  "closeOnSelection": true,
+  "dateFormat": "YYYY-MM-DD HH:mm",
+  "datePickerType": "DATE_PICKER",
+  "defaultDate": "{{ appsmith.store.booking_form?.pick_up_air || undefined }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "defaultDate"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "defaultDate"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "onDateSelected"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onDateSelected"
+    }
+  ],
+  "firstDayOfWeek": 0,
+  "isDisabled": "{{\n  appsmith.store.form_mode === \"VIEW\" ||\n  !(\n    (appsmith.store.booking_form?.modalidad_transporte_label || sl_transporte.selectedOptionLabel || \"\")\n      .toUpperCase()\n      .includes(\"A\")\n  )\n}}",
+  "isLoading": false,
+  "isRequired": "{{ true }}",
+  "isVisible": true,
+  "key": "n6kwjmkfec",
+  "label": "FECHA PICK UP",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 0,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 7,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 6,
+  "mobileTopRow": 0,
+  "needsErrorInfo": false,
+  "onDateSelected": "{{\n  (async () => {\n    await storeValue(\"booking_form\", {\n      ...appsmith.store.booking_form,\n      pick_up_air: dp_pick_up_air.selectedDate || \"\",\n      cierre_documental_air: \"\",\n      cierre_fisico_air: \"\",\n      etd_air: \"\",\n      eta_air: \"\"\n    });\n\n    resetWidget(\"dp_cierre_documental_air\", true);\n    resetWidget(\"dp_cierre_fisico_air\", true);\n    resetWidget(\"dp_etd_air\", true);\n    resetWidget(\"dp_eta_air\", true);\n  })()\n}}",
+  "originalBottomRow": 7,
+  "originalTopRow": 0,
+  "parentColumnSpace": 13.32421875,
+  "parentId": "gp8o5426pr",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 11,
+  "shortcuts": false,
+  "shouldScrollContents": true,
+  "timePrecision": "minute",
+  "topRow": 0,
+  "type": "DATE_PICKER_WIDGET2",
+  "version": 2,
+  "widgetId": "jhij7w83vx",
+  "widgetName": "dp_pick_up_air"
+}

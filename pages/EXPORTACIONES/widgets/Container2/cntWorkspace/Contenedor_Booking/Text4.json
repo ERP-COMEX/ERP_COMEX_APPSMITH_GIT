@@ -1,0 +1,63 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 8,
+  "dynamicBindingPathList": [
+    {
+      "key": "truncateButtonColor"
+    },
+    {
+      "key": "fontFamily"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "text"
+    },
+    {
+      "key": "textColor"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "textColor"
+    }
+  ],
+  "dynamicTriggerPathList": [],
+  "fontFamily": "{{appsmith.theme.fontFamily.appFont}}",
+  "fontSize": "1rem",
+  "fontStyle": "BOLD",
+  "isLoading": false,
+  "isVisible": true,
+  "key": "ymm88ajq0y",
+  "leftColumn": 11,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 9,
+  "mobileLeftColumn": 9,
+  "mobileRightColumn": 20,
+  "mobileTopRow": 5,
+  "needsErrorInfo": false,
+  "originalBottomRow": 9,
+  "originalTopRow": 5,
+  "overflow": "NONE",
+  "parentColumnSpace": 13.142868041992188,
+  "parentId": "bcf4uejgw8",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 63,
+  "shouldTruncate": false,
+  "text": "{{\n  appsmith.store.form_mode === \"NEW\"\n    ? \"MODO: NUEVO\"\n    : appsmith.store.form_mode === \"EDIT\"\n    ? \"MODO: EDICIÓN\"\n    : \"MODO: CONSULTA\"\nappsmith.store.form_mode === \"NEW\"\n    ? \"Se creará una nueva operación.\"\n    : appsmith.store.form_mode === \"EDIT\"\n    ? \"Se actualizará la operación cargada.\"\n    : \"Formulario en modo consulta.\"\n}}",
+  "textAlign": "CENTER",
+  "textColor": "{{\n  appsmith.store.form_mode === \"NEW\"\n    ? \"#0ea5e9\"\n    : appsmith.store.form_mode === \"EDIT\"\n    ? \"#f59e0b\"\n    : \"#64748b\"\n}}",
+  "topRow": 4,
+  "truncateButtonColor": "{{appsmith.theme.colors.primaryColor}}",
+  "type": "TEXT_WIDGET",
+  "version": 1,
+  "widgetId": "euprlbd1w7",
+  "widgetName": "Text4"
+}

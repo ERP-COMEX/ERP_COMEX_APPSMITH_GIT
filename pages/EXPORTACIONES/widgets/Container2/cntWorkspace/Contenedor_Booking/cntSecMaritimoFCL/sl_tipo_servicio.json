@@ -1,0 +1,96 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 16,
+  "boxShadow": "none",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store.booking_form?.tipo_ruta_servicio_id || \"\" ))(sl_tipo_servicio.options, sl_tipo_servicio.serverSideFiltering) }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "defaultOptionValue"
+    },
+    {
+      "key": "isVisible"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "optionLabel"
+    },
+    {
+      "key": "optionValue"
+    },
+    {
+      "key": "isVisible"
+    },
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "isDisabled": "{{\n  appsmith.store.form_mode === \"VIEW\" ||\n  appsmith.store.booking_form?.modalidad_transporte_id !== \"53ef926e-1c42-45b2-a978-081922df304d\"\n}}",
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": "{{\n  appsmith.store.booking_form?.modalidad_transporte_id === \"53ef926e-1c42-45b2-a978-081922df304d\"\n}}",
+  "key": "rt33yba8tv",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelText": "SERVICIO",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 31,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 13,
+  "mobileLeftColumn": 36,
+  "mobileRightColumn": 56,
+  "mobileTopRow": 6,
+  "needsErrorInfo": false,
+  "onOptionChange": "{{\n  (async () => {\n    await BookingForm_OLD_hastaFCL.setField(\n      \"tipo_ruta_servicio_id\",\n      sl_tipo_servicio.selectedOptionValue || \"\"\n    );\n\n    await BookingForm_OLD_hastaFCL.setField(\n      \"tipo_ruta_servicio_label\",\n      sl_tipo_servicio.selectedOptionLabel || \"\"\n    );\n\n    await BookingForm_OLD_hastaFCL.clearChildren([\n      \"puerto_transbordo_id\",\n      \"puerto_transbordo_label\"\n    ]);\n\n    resetWidget(\"sl_puerto_transbordo\", true);\n\n    if ((sl_tipo_servicio.selectedOptionLabel || \"\").toUpperCase() === \"CON TRANSBORDO\") {\n      await q_puerto_transbordo_dropdown.run();\n    }\n  })()\n}}",
+  "optionLabel": "label",
+  "optionValue": "value",
+  "originalBottomRow": 16,
+  "originalTopRow": 9,
+  "parentColumnSpace": 13.6044921875,
+  "parentId": "j3o0448hdi",
+  "parentRowSpace": 10,
+  "placeholderText": "Select option",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 48,
+  "serverSideFiltering": false,
+  "shouldScrollContents": true,
+  "sourceData": "{{ q_tipos_ruta_servicio_dropdown.data || [] }}",
+  "topRow": 9,
+  "type": "SELECT_WIDGET",
+  "version": 1,
+  "widgetId": "lwl959gjz1",
+  "widgetName": "sl_tipo_servicio"
+}

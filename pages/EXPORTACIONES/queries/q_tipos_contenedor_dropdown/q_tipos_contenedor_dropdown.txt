@@ -1,0 +1,6 @@
+select
+  id as value,
+  upper(codigo || ' - ' || nombre) as label
+from public.tipos_contenedor
+where activo = true
+order by sort_order nulls last, codigo;

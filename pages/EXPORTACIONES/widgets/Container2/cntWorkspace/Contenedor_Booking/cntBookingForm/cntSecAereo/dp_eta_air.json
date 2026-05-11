@@ -1,0 +1,98 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 7,
+  "boxShadow": "none",
+  "closeOnSelection": true,
+  "dateFormat": "YYYY-MM-DD HH:mm",
+  "datePickerType": "DATE_PICKER",
+  "defaultDate": "{{ appsmith.store.booking_form?.eta_air || undefined }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "defaultDate"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "minDate"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "defaultDate"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "minDate"
+    },
+    {
+      "key": "maxDate"
+    },
+    {
+      "key": "onDateSelected"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onDateSelected"
+    }
+  ],
+  "firstDayOfWeek": 0,
+  "isDisabled": "{{\n  appsmith.store.form_mode === \"VIEW\" ||\n  !appsmith.store.booking_form?.etd_air\n}}",
+  "isLoading": false,
+  "isRequired": "{{\n  !appsmith.store.booking_form?.eta_air ||\n  !appsmith.store.booking_form?.etd_air ||\n  moment(appsmith.store.booking_form.eta_air).isSameOrAfter(\n    appsmith.store.booking_form.etd_air\n  )\n}}",
+  "isVisible": true,
+  "key": "8uh16rh9jm",
+  "label": "ETA DESTINO",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 54,
+  "maxDate": "",
+  "maxDynamicHeight": 9000,
+  "minDate": "{{ appsmith.store.booking_form?.etd_air || undefined }}",
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 42,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 20,
+  "mobileTopRow": 35,
+  "needsErrorInfo": false,
+  "onDateSelected": "{{\n  (async () => {\n    await storeValue(\"booking_form\", {\n      ...appsmith.store.booking_form,\n      eta_air: dp_eta_air.selectedDate || \"\"\n    });\n  })()\n}}",
+  "originalBottomRow": 7,
+  "originalTopRow": 0,
+  "parentColumnSpace": 3.726646974682808,
+  "parentId": "gp8o5426pr",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 64,
+  "shortcuts": false,
+  "shouldScrollContents": true,
+  "timePrecision": "minute",
+  "topRow": 0,
+  "type": "DATE_PICKER_WIDGET2",
+  "version": 2,
+  "widgetId": "pqcd6nqis9",
+  "widgetName": "dp_eta_air"
+}

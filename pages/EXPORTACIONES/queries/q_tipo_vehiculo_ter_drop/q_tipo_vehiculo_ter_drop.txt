@@ -1,0 +1,6 @@
+select
+  id as value,
+  codigo_rndc || ' - ' || descripcion as label
+from public.tipos_vehiculo_terrestre
+where activo = true
+order by sort_order nulls last, codigo_rndc;

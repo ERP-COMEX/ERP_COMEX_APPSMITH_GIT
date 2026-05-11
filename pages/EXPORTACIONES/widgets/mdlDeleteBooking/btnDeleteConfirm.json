@@ -1,0 +1,53 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 14,
+  "boxShadow": "none",
+  "buttonColor": "#1e3a8a",
+  "buttonStyle": "PRIMARY_BUTTON",
+  "buttonVariant": "PRIMARY",
+  "disabledWhenInvalid": false,
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "isDefaultClickDisabled": true,
+  "isDisabled": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "pm7bivhmtm",
+  "leftColumn": 19,
+  "minWidth": 120,
+  "mobileBottomRow": 22,
+  "mobileLeftColumn": 47,
+  "mobileRightColumn": 63,
+  "mobileTopRow": 18,
+  "needsErrorInfo": false,
+  "onClick": "{{\n  const pass = (inp_delete_pass.text || \"\").trim();\n\n  // TODO: en la siguiente iteración reemplazamos esto por validación real (tabla usuarios / rol / hash)\n  if (pass !== \"TU_PASSWORD\") {\n    showAlert(\"Contraseña incorrecta.\", \"error\");\n    return;\n  }\n\n  bk_delete_booking.run()\n    .then(() => {\n      closeModal(\"mdlDeleteBooking\");\n      showAlert(\"Registro eliminado.\", \"success\");\n\n      storeValue(\"booking_id\", null);\n      storeValue(\"booking_mode\", \"VIEW\");\n      storeValue(\"operacion_no_preview\", \"\");\n      resetWidget(\"cntBookingForm\", true);\n    })\n    .catch(() => showAlert(\"Error eliminando.\", \"error\"));\n}}",
+  "originalBottomRow": 14,
+  "originalTopRow": 10,
+  "parentId": "v0b4febfad",
+  "placement": "CENTER",
+  "recaptchaType": "V3",
+  "renderMode": "CANVAS",
+  "resetFormOnClick": false,
+  "responsiveBehavior": "hug",
+  "rightColumn": 37,
+  "text": "CONFIRMAR",
+  "topRow": 10,
+  "type": "BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "vuqz1i3xli",
+  "widgetName": "btnDeleteConfirm"
+}

@@ -1,0 +1,89 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 43,
+  "boxShadow": "none",
+  "closeOnSelection": true,
+  "dateFormat": "YYYY-MM-DD HH:mm",
+  "datePickerType": "DATE_PICKER",
+  "defaultDate": "{{ appsmith.store.booking_form?.fecha_confirmacion_oferta || undefined }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "defaultDate"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "defaultDate"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "onDateSelected"
+    },
+    {
+      "key": "isRequired"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onDateSelected"
+    }
+  ],
+  "firstDayOfWeek": 0,
+  "isDisabled": "{{ appsmith.store.form_mode === \"VIEW\" }}",
+  "isLoading": false,
+  "isRequired": "{{ true }}",
+  "isVisible": true,
+  "key": "js5nx30yi1",
+  "label": "FECHA CONFIRMACION",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 12,
+  "maxDate": "2121-12-31T18:29:00.000Z",
+  "maxDynamicHeight": 9000,
+  "minDate": "1920-12-31T18:30:00.000Z",
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 25,
+  "mobileLeftColumn": 36,
+  "mobileRightColumn": 56,
+  "mobileTopRow": 18,
+  "needsErrorInfo": false,
+  "onDateSelected": "{{\n  storeValue(\"booking_form\", {\n    ...appsmith.store.booking_form,\n    fecha_confirmacion_oferta: dp_confirmacion_oferta.selectedDate || \"\"\n  })\n}}",
+  "originalBottomRow": 43,
+  "originalTopRow": 36,
+  "parentColumnSpace": 16.1142578125,
+  "parentId": "f81nhz5ukq",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 23,
+  "shortcuts": false,
+  "shouldScrollContents": true,
+  "timePrecision": "minute",
+  "topRow": 36,
+  "type": "DATE_PICKER_WIDGET2",
+  "version": 2,
+  "widgetId": "olpejffj00",
+  "widgetName": "dp_confirmacion_oferta"
+}

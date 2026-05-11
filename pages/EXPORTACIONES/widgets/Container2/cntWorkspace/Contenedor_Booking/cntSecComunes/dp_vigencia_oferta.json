@@ -1,0 +1,94 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 43,
+  "boxShadow": "none",
+  "closeOnSelection": true,
+  "dateFormat": "YYYY-MM-DD HH:mm",
+  "datePickerType": "DATE_PICKER",
+  "defaultDate": "{{ appsmith.store.booking_form?.fecha_vigencia_oferta || undefined }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "defaultDate"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "minDate"
+    },
+    {
+      "key": "isRequired"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "defaultDate"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "onDateSelected"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "minDate"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onDateSelected"
+    }
+  ],
+  "firstDayOfWeek": 0,
+  "isDisabled": "{{ appsmith.store.form_mode === \"VIEW\" }}",
+  "isLoading": false,
+  "isRequired": "{{\n  !appsmith.store.booking_form?.fecha_vigencia_oferta ||\n  !appsmith.store.booking_form?.fecha_confirmacion_oferta ||\n  moment(appsmith.store.booking_form.fecha_vigencia_oferta).isSameOrAfter(\n    appsmith.store.booking_form.fecha_confirmacion_oferta\n  )\n}}",
+  "isVisible": true,
+  "key": "js5nx30yi1",
+  "label": "FECHA VIGENCIA",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 23,
+  "maxDate": "2121-12-31T18:29:00.000Z",
+  "maxDynamicHeight": 9000,
+  "minDate": "{{\n  appsmith.store.booking_form?.fecha_confirmacion_oferta || undefined\n}}",
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 25,
+  "mobileLeftColumn": 45,
+  "mobileRightColumn": 64,
+  "mobileTopRow": 18,
+  "needsErrorInfo": false,
+  "onDateSelected": "{{\n  storeValue(\"booking_form\", {\n    ...appsmith.store.booking_form,\n    fecha_vigencia_oferta: dp_vigencia_oferta.selectedDate || \"\"\n  })\n}}",
+  "originalBottomRow": 43,
+  "originalTopRow": 36,
+  "parentColumnSpace": 16.375,
+  "parentId": "f81nhz5ukq",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 32,
+  "shortcuts": false,
+  "timePrecision": "minute",
+  "topRow": 36,
+  "type": "DATE_PICKER_WIDGET2",
+  "version": 2,
+  "widgetId": "zc3jgvjngm",
+  "widgetName": "dp_vigencia_oferta"
+}

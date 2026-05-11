@@ -1,0 +1,81 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 7,
+  "boxShadow": "none",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store.booking_form?.caracteristica_carga_id || \"\" ))(sl_caracteristicas.options, sl_caracteristicas.serverSideFiltering) }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "defaultOptionValue"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "isDisabled": "{{\n  appsmith.store.form_mode === \"VIEW\" ||\n  !appsmith.store.booking_form?.tipo_carga_id\n}}",
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "rt33yba8tv",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelText": "CARACTERISTICAS",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 54,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 7,
+  "mobileLeftColumn": 43,
+  "mobileRightColumn": 63,
+  "mobileTopRow": 0,
+  "needsErrorInfo": false,
+  "onOptionChange": "{{\n  BookingForm_OLD_hastaFCL.setField(\n    \"caracteristica_carga_id\",\n    sl_caracteristicas.selectedOptionValue\n  )\n}}",
+  "optionLabel": "label",
+  "optionValue": "value",
+  "parentColumnSpace": 13.00811767578125,
+  "parentId": "7l2q097pz8",
+  "parentRowSpace": 10,
+  "placeholderText": "Seleccione",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 64,
+  "serverSideFiltering": false,
+  "sourceData": "{{ q_caracteristicas_carga_dropdo.data || [] }}",
+  "topRow": 0,
+  "type": "SELECT_WIDGET",
+  "version": 1,
+  "widgetId": "dxt23cqq14",
+  "widgetName": "sl_caracteristicas"
+}

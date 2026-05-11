@@ -1,0 +1,88 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "autoFocus": false,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 16,
+  "boxShadow": "none",
+  "defaultText": "{{ appsmith.store.booking_form?.cbm_air || \"\" }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "errorMessage"
+    },
+    {
+      "key": "defaultText"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "onTextChanged"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onTextChanged"
+    }
+  ],
+  "errorMessage": "{{ \"Ingrese un CBM válido, mayor a cero y con máximo 3 decimales.\" }}",
+  "iconAlign": "left",
+  "inputType": "NUMBER",
+  "isDisabled": "{{\n  appsmith.store.form_mode === \"VIEW\"\n  || !(\n    (appsmith.store.booking_form?.modalidad_transporte_label || sl_transporte.selectedOptionLabel || \"\")\n      .toUpperCase()\n      .includes(\"A\")\n  )\n}}",
+  "isLoading": false,
+  "isRequired": "{{\n  (appsmith.store.booking_form?.cbm_air || \"\") === \"\" ||\n  (\n    /^[0-9]+(\\.[0-9]{1,3})?$/.test(appsmith.store.booking_form?.cbm_air || \"\") &&\n    Number(appsmith.store.booking_form?.cbm_air) > 0\n  )\n}}",
+  "isVisible": true,
+  "key": "kkyivtxqwg",
+  "label": "CBM",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 51,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 26,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 20,
+  "mobileTopRow": 19,
+  "needsErrorInfo": false,
+  "onTextChanged": "{{\n  (() => {\n    const raw = inp_cbm_air.text;\n\n    if (raw === \"\" || raw === null || raw === undefined) {\n      return storeValue(\"booking_form\", {\n        ...appsmith.store.booking_form,\n        cbm_air: \"\"\n      });\n    }\n\n    let limpio = String(raw)\n      .replace(\",\", \".\")\n      .replace(/[^0-9.]/g, \"\");\n\n    const partes = limpio.split(\".\");\n    if (partes.length > 2) {\n      limpio = partes[0] + \".\" + partes.slice(1).join(\"\");\n    }\n\n    if (limpio.startsWith(\".\")) {\n      limpio = \"0\" + limpio;\n    }\n\n    let numero = Number(limpio);\n\n    if (isNaN(numero) || numero <= 0) {\n      numero = \"\";\n    } else {\n      numero = Number(numero.toFixed(3));\n    }\n\n    return storeValue(\"booking_form\", {\n      ...appsmith.store.booking_form,\n      cbm_air: numero === \"\" ? \"\" : String(numero)\n    });\n  })()\n}}",
+  "originalBottomRow": 16,
+  "originalTopRow": 9,
+  "parentColumnSpace": 3.726646974682808,
+  "parentId": "gp8o5426pr",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "resetOnSubmit": true,
+  "responsiveBehavior": "fill",
+  "rightColumn": 57,
+  "shouldAllowAutofill": false,
+  "showStepArrows": false,
+  "topRow": 9,
+  "type": "INPUT_WIDGET_V2",
+  "validation": "",
+  "version": 2,
+  "widgetId": "j7202az04a",
+  "widgetName": "inp_cbm_air"
+}

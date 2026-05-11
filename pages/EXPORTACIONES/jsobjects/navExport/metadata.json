@@ -1,0 +1,16 @@
+{
+  "gitSyncId": "693476e8bab1731f64a493f4_be53bd89-5b41-4d11-80be-1e42c22d4da5",
+  "id": "EXPORTACIONES_navExport",
+  "unpublishedCollection": {
+    "name": "navExport",
+    "pageId": "EXPORTACIONES",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": [
+      {
+        "name": "KEYS",
+        "value": "{\n  BOOKING: \"BOOKING\",\n  CONFIRMACION_VENTA: \"CONFIRMACION_VENTA\",\n  CARGUE_EN_PLANTA: \"CARGUE_EN_PLANTA\",\n  FACTURACION: \"FACTURACION\",\n  INFORMACION_SANITARIA: \"INFORMACION_SANITARIA\",\n  MANEJO_EN_PUERTO: \"MANEJO_EN_PUERTO\",\n  INFORMACION_ADUANERA: \"INFORMACION_ADUANERA\",\n  GIROS_CLIENTES: \"GIROS_CLIENTES\",\n  INFORMACION_CAMBIARIA: \"INFORMACION_CAMBIARIA\",\n  ACUERDOS_COMERCIALES: \"ACUERDOS_COMERCIALES\"\n}"
+      }
+    ]
+  }
+}

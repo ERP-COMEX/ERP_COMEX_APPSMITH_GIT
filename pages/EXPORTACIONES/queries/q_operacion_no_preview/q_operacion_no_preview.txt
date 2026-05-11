@@ -1,0 +1,57 @@
+with base as (
+  select
+    oe.id,
+    oe.codigo,
+    oe.nombre,
+    oe.prefijo_codigo,
+    pp.id as prefijo_id,
+    coalesce(oc.last_number, 0) as last_number_tabla
+  from public.operaciones_exportacion oe
+  left join public.operacion_consecutivos oc
+    on oc.operacion_exportacion_id = oe.id
+  left join public.prefijos_operacion pp
+    on replace(pp.codigo, '-', '') = replace(oe.prefijo_codigo, '-', '')
+  where oe.id =
+    nullif('{{ appsmith.store.booking_form?.tipo_operacion_exportacion_id || "" }}', '')::uuid
+  limit 1
+),
+
+usado as (
+  select
+    coalesce(
+      max(
+        cast(
+          regexp_replace(e.operacion_no, '^.*-0*', '')
+          as integer
+        )
+      ),
+      0
+    ) as last_number_exportaciones
+  from public.exportaciones e
+  cross join base b
+  where e.tenant_id =
+    nullif('{{ appsmith.store.tenant_id || "" }}', '')::uuid
+    and e.operacion_no like b.prefijo_codigo || '%'
+),
+
+final as (
+  select
+    b.id,
+    b.codigo,
+    b.nombre,
+    b.prefijo_codigo,
+    b.prefijo_id,
+    greatest(b.last_number_tabla, u.last_number_exportaciones) as last_number
+  from base b
+  cross join usado u
+)
+
+select
+  id,
+  codigo,
+  nombre,
+  prefijo_codigo,
+  prefijo_id,
+  last_number,
+  prefijo_codigo || lpad((last_number + 1)::text, 5, '0') as preview_operacion_no
+from final;

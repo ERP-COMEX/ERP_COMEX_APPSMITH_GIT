@@ -1,0 +1,98 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 7,
+  "boxShadow": "none",
+  "closeOnSelection": true,
+  "dateFormat": "YYYY-MM-DD HH:mm",
+  "datePickerType": "DATE_PICKER",
+  "defaultDate": "{{ appsmith.store.booking_form?.consolidacion_sea || undefined }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "defaultDate"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "minDate"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "defaultDate"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "minDate"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "onDateSelected"
+    },
+    {
+      "key": "maxDate"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onDateSelected"
+    }
+  ],
+  "firstDayOfWeek": 0,
+  "isDisabled": "{{\n  appsmith.store.form_mode === \"VIEW\" ||\n  !appsmith.store.booking_form?.pick_up_sea\n}}",
+  "isLoading": false,
+  "isRequired": "{{\n  !appsmith.store.booking_form?.consolidacion_sea ||\n  !appsmith.store.booking_form?.pick_up_sea ||\n  moment(appsmith.store.booking_form.consolidacion_sea).isSameOrAfter(\n    appsmith.store.booking_form.pick_up_sea\n  )\n}}",
+  "isVisible": true,
+  "key": "n6kwjmkfec",
+  "label": "FECHA CONSOLIDACION",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 9,
+  "maxDate": "",
+  "maxDynamicHeight": 9000,
+  "minDate": "{{ appsmith.store.booking_form?.pick_up_sea || undefined }}",
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 7,
+  "mobileLeftColumn": 9,
+  "mobileRightColumn": 29,
+  "mobileTopRow": 0,
+  "needsErrorInfo": false,
+  "onDateSelected": "{{\n  (async () => {\n    await storeValue(\"booking_form\", {\n      ...appsmith.store.booking_form,\n      consolidacion_sea: dp_consolidacion_sea.selectedDate || \"\",\n      cierre_fisico_lcl: \"\",\n      eta_origen_sea: \"\",\n      etd_sea: \"\",\n      eta_destino_sea: \"\"\n    });\n\n    resetWidget(\"dp_cierre_fisico_lcl\", true);\n    resetWidget(\"dp_eta_origen_sea\", true);\n    resetWidget(\"dp_etd_sea\", true);\n    resetWidget(\"dp_eta_destino_sea\", true);\n  })()\n}}",
+  "originalBottomRow": 7,
+  "originalTopRow": 0,
+  "parentColumnSpace": 13.32421875,
+  "parentId": "n9op8t9yi4",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 20,
+  "shortcuts": false,
+  "shouldScrollContents": true,
+  "timePrecision": "minute",
+  "topRow": 0,
+  "type": "DATE_PICKER_WIDGET2",
+  "version": 2,
+  "widgetId": "fp8yhikxy3",
+  "widgetName": "dp_consolidacion_sea"
+}

@@ -1,0 +1,95 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 7,
+  "boxShadow": "none",
+  "closeOnSelection": true,
+  "dateFormat": "YYYY-MM-DD HH:mm",
+  "datePickerType": "DATE_PICKER",
+  "defaultDate": "{{ appsmith.store.booking_form?.etd_sea || undefined }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "defaultDate"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "minDate"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "defaultDate"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "minDate"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "onDateSelected"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onDateSelected"
+    }
+  ],
+  "firstDayOfWeek": 0,
+  "isDisabled": "{{\n  appsmith.store.form_mode === \"VIEW\" ||\n  !appsmith.store.booking_form?.eta_origen_sea\n}}",
+  "isLoading": false,
+  "isRequired": "{{\n  !appsmith.store.booking_form?.etd_sea ||\n  !appsmith.store.booking_form?.eta_origen_sea ||\n  moment(appsmith.store.booking_form.etd_sea).isSameOrAfter(\n    appsmith.store.booking_form.eta_origen_sea\n  )\n}}",
+  "isVisible": true,
+  "key": "n6kwjmkfec",
+  "label": "ETD ORIGEN",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 43,
+  "maxDate": "2121-12-31T18:29:00.000Z",
+  "maxDynamicHeight": 9000,
+  "minDate": "{{ appsmith.store.booking_form?.eta_origen_sea || undefined }}",
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 7,
+  "mobileLeftColumn": 22,
+  "mobileRightColumn": 42,
+  "mobileTopRow": 0,
+  "needsErrorInfo": false,
+  "onDateSelected": "{{\n  (async () => {\n    await storeValue(\"booking_form\", {\n      ...appsmith.store.booking_form,\n      etd_sea: dp_etd_sea.selectedDate || \"\",\n      eta_destino_sea: \"\"\n    });\n\n    resetWidget(\"dp_eta_destino_sea\", true);\n  })()\n}}",
+  "originalBottomRow": 7,
+  "originalTopRow": 0,
+  "parentColumnSpace": 13.32421875,
+  "parentId": "n9op8t9yi4",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 55,
+  "shortcuts": false,
+  "shouldScrollContents": true,
+  "timePrecision": "minute",
+  "topRow": 0,
+  "type": "DATE_PICKER_WIDGET2",
+  "version": 2,
+  "widgetId": "98qloflk4v",
+  "widgetName": "dp_etd_sea"
+}

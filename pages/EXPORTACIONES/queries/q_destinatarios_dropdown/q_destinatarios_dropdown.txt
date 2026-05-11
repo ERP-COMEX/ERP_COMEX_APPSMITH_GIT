@@ -1,0 +1,6 @@
+select
+  d.id as value,
+  upper(d.nombre) as label
+from public.destinatarios d
+where d.activo = true
+order by d.sort_order nulls last, d.nombre;

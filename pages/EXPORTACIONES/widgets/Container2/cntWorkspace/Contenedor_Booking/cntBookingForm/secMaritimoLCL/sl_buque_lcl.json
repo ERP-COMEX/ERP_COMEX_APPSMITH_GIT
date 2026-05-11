@@ -1,0 +1,102 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 25,
+  "boxShadow": "none",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store.booking_form?.buque_lcl_id || \"\" ))(sl_buque_lcl.options, sl_buque_lcl.serverSideFiltering) }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "defaultOptionValue"
+    },
+    {
+      "key": "isVisible"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "isRequired"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "optionLabel"
+    },
+    {
+      "key": "optionValue"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "isVisible"
+    },
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "isDisabled": "{{\n  appsmith.store.form_mode === \"VIEW\"\n  || !(\n    (appsmith.store.booking_form?.modalidad_transporte_label || sl_transporte.selectedOptionLabel || \"\")\n      .toUpperCase()\n      .includes(\"MAR\")\n    && (appsmith.store.booking_form?.tipo_carga_label || sl_tipo_carga.selectedOptionLabel || \"\")\n      .toUpperCase()\n      .includes(\"LCL\")\n  )\n  || !appsmith.store.booking_form?.transportadora_internacional_id\n}}",
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": "{{\n  appsmith.store.form_mode !== \"VIEW\"\n  && (appsmith.store.booking_form?.modalidad_transporte_label || sl_transporte.selectedOptionLabel || \"\")\n    .toUpperCase()\n    .includes(\"MAR\")\n  && (appsmith.store.booking_form?.tipo_carga_label || sl_tipo_carga.selectedOptionLabel || \"\")\n    .toUpperCase()\n    .includes(\"LCL\")\n  && !!appsmith.store.booking_form?.transportadora_internacional_id\n}}",
+  "isVisible": "{{\n  (appsmith.store.booking_form?.modalidad_transporte_label || sl_transporte.selectedOptionLabel || \"\")\n    .toUpperCase()\n    .includes(\"MAR\")\n}}",
+  "key": "rlc40onarg",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelText": "BUQUE",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 0,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 28,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 12,
+  "mobileTopRow": 21,
+  "needsErrorInfo": false,
+  "onOptionChange": "{{\n  BookingForm.setFields({\n    buque_lcl_id: sl_buque_lcl.selectedOptionValue || \"\",\n    buque_lcl_label: sl_buque_lcl.selectedOptionLabel || \"\"\n  })\n}}",
+  "optionLabel": "label",
+  "optionValue": "value",
+  "originalBottomRow": 25,
+  "originalTopRow": 18,
+  "parentColumnSpace": 16.1142578125,
+  "parentId": "n9op8t9yi4",
+  "parentRowSpace": 10,
+  "placeholderText": "Select option",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 21,
+  "serverSideFiltering": false,
+  "shouldScrollContents": true,
+  "sourceData": "{{ q_buques_dropdown.data || [] }}",
+  "topRow": 18,
+  "type": "SELECT_WIDGET",
+  "version": 1,
+  "widgetId": "7utqy9wrgl",
+  "widgetName": "sl_buque_lcl"
+}

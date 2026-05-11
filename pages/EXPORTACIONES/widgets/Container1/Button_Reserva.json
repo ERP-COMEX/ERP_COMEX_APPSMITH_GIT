@@ -1,0 +1,67 @@
+{
+  "animateLoading": "true",
+  "borderRadius": "1.5rem",
+  "bottomRow": 8,
+  "boxShadow": "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
+  "buttonColor": "#93c5fd",
+  "buttonVariant": "{{ appsmith.store.active_section === \"BOOKING\" ? \"PRIMARY\" : \"TERTIARY\" }}\n",
+  "disabledWhenInvalid": false,
+  "dynamicBindingPathList": [
+    {
+      "key": "buttonVariant"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "buttonVariant"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "animateLoading"
+    },
+    {
+      "key": "isVisible"
+    },
+    {
+      "key": "onClick"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "iconAlign": "left",
+  "iconName": "timeline-events",
+  "isDefaultClickDisabled": true,
+  "isDisabled": "false",
+  "isLoading": false,
+  "isVisible": "true",
+  "key": "vvq1q1tfg7",
+  "leftColumn": 0,
+  "minWidth": 120,
+  "mobileBottomRow": 10,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 16,
+  "mobileTopRow": 6,
+  "needsErrorInfo": false,
+  "onClick": "{{\n  (async () => {\n    navExport.go(navExport.KEYS.BOOKING);\n\n    await storeValue(\"tenant_id\", appsmith.store.tenant_id || \"9aa932bd-c31d-4e6a-8df2-b57645f65dfa\");\n    await storeValue(\"active_section\", \"BOOKING\");\n    await storeValue(\"booking_mode\", \"VIEW\");\n    await storeValue(\"booking_id\", null);\n    await storeValue(\"operacion_no_preview\", \"\");\n    await storeValue(\"show_booking_search_results\", false);\n\n    await BookingForm_OLD_hastaFCL.init();\n\n    await q_exportadores_dropdown.run();\n    await q_booking_search.run();\n  })()\n}}",
+  "parentColumnSpace": 4.759765625,
+  "parentId": "hjz8lst9pg",
+  "parentRowSpace": 10,
+  "placement": "START",
+  "recaptchaType": "V3",
+  "renderMode": "CANVAS",
+  "resetFormOnClick": false,
+  "responsiveBehavior": "hug",
+  "rightColumn": 64,
+  "text": "BOOKING",
+  "tooltip": "",
+  "topRow": 4,
+  "type": "BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "qdwn4eymt5",
+  "widgetName": "Button_Reserva"
+}

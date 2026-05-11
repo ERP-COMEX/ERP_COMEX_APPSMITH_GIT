@@ -1,0 +1,84 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "autoFocus": false,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 25,
+  "boxShadow": "none",
+  "defaultText": "{{ appsmith.store.booking_form?.viaje_lcl || \"\" }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "defaultText"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "onTextChanged"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onTextChanged"
+    }
+  ],
+  "iconAlign": "left",
+  "inputType": "TEXT",
+  "isDisabled": "{{\n  appsmith.store.form_mode === \"VIEW\"\n  || !(\n    (appsmith.store.booking_form?.modalidad_transporte_label || sl_transporte.selectedOptionLabel || \"\")\n      .toUpperCase()\n      .includes(\"MAR\")\n    && (appsmith.store.booking_form?.tipo_carga_label || sl_tipo_carga.selectedOptionLabel || \"\")\n      .toUpperCase()\n      .includes(\"LCL\")\n  )\n}}",
+  "isLoading": false,
+  "isRequired": "{{\n  (appsmith.store.booking_form?.viaje_lcl || \"\") === \"\" ||\n  (\n    (appsmith.store.booking_form?.viaje_lcl || \"\").length >= 1 &&\n    (appsmith.store.booking_form?.viaje_lcl || \"\").length <= 30\n  )\n}}",
+  "isVisible": true,
+  "key": "puz566vfy5",
+  "label": "VIAJE",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 21,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 28,
+  "mobileLeftColumn": 17,
+  "mobileRightColumn": 37,
+  "mobileTopRow": 21,
+  "needsErrorInfo": false,
+  "onTextChanged": "{{\n  (() => {\n    const raw = inp_viaje_lcl.text;\n\n    if (raw === \"\" || raw === null || raw === undefined) {\n      return storeValue(\"booking_form\", {\n        ...appsmith.store.booking_form,\n        viaje_lcl: \"\"\n      });\n    }\n\n    const limpio = String(raw)\n      .toUpperCase()\n      .replace(/\\s+/g, \"\")\n      .replace(/[^A-Z0-9\\-\\/]/g, \"\")\n      .slice(0, 30);\n\n    return storeValue(\"booking_form\", {\n      ...appsmith.store.booking_form,\n      viaje_lcl: limpio\n    });\n  })()\n}}",
+  "originalBottomRow": 25,
+  "originalTopRow": 18,
+  "parentColumnSpace": 16.1142578125,
+  "parentId": "n9op8t9yi4",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "resetOnSubmit": true,
+  "responsiveBehavior": "fill",
+  "rightColumn": 32,
+  "shouldScrollContents": true,
+  "showStepArrows": false,
+  "topRow": 18,
+  "type": "INPUT_WIDGET_V2",
+  "validation": "",
+  "version": 2,
+  "widgetId": "rf84y04o64",
+  "widgetName": "inp_viaje_lcl"
+}

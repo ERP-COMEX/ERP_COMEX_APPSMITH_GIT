@@ -1,0 +1,90 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 7,
+  "boxShadow": "none",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( \n  appsmith.store.form_mode === \"NEW\"\n    ? (appsmith.store.booking_form?.destinatario_id || \"\")\n    : (appsmith.store.booking_form?.destinatario_id || q_booking_detail.data?.[0]?.destinatario_id || \"\")\n))(sl_destinatario.options, sl_destinatario.serverSideFiltering) }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "defaultOptionValue"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "optionLabel"
+    },
+    {
+      "key": "optionValue"
+    },
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "isDisabled": "{{ appsmith.store.form_mode === \"VIEW\" }}",
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "gwh9wdpvql",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelText": "DESTINATARIO",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 41,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 17,
+  "mobileLeftColumn": 32,
+  "mobileRightColumn": 52,
+  "mobileTopRow": 10,
+  "needsErrorInfo": false,
+  "onOptionChange": "{{\n  (async () => {\n    await BookingForm_OLD_hastaFCL.setField(\n      \"destinatario_id\",\n      sl_destinatario.selectedOptionValue || \"\"\n    );\n\n    await BookingForm_OLD_hastaFCL.setField(\n      \"destinatario_label\",\n      sl_destinatario.selectedOptionLabel || \"\"\n    );\n  })()\n}}",
+  "optionLabel": "label",
+  "optionValue": "value",
+  "originalBottomRow": 7,
+  "originalTopRow": 0,
+  "parentColumnSpace": 13.387039184570312,
+  "parentId": "f81nhz5ukq",
+  "parentRowSpace": 10,
+  "placeholderText": "Seleccione",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 64,
+  "serverSideFiltering": false,
+  "shouldScrollContents": true,
+  "sourceData": "{{ q_destinatarios_dropdown.data || [] }}",
+  "topRow": 0,
+  "type": "SELECT_WIDGET",
+  "version": 1,
+  "widgetId": "8a2zu5dshz",
+  "widgetName": "sl_destinatario"
+}

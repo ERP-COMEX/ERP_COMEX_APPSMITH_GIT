@@ -1,0 +1,7 @@
+select
+  id as value,
+  upper(nombre) as label
+from public.transportadoras
+where activo = true
+  and tipo_transportador = 'TERRESTRE'
+order by nombre;

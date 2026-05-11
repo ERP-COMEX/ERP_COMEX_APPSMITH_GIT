@@ -1,0 +1,84 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "autoFocus": false,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 34,
+  "boxShadow": "none",
+  "defaultText": "{{ appsmith.store.booking_form?.tarifa_flete_usd || \"\" }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "defaultText"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "onTextChanged"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onTextChanged"
+    }
+  ],
+  "iconAlign": "left",
+  "inputType": "NUMBER",
+  "isDisabled": "{{\n  appsmith.store.form_mode === \"VIEW\" ||\n  !(appsmith.store.booking_form?.flete_pagado_en_label || \"\").toUpperCase().includes(\"PREPA\")\n}}",
+  "isLoading": false,
+  "isRequired": "{{\n  (appsmith.store.booking_form?.tarifa_flete_usd || \"\") === \"\" ||\n  /^\\d+(\\.\\d{1,2})?$/.test(appsmith.store.booking_form?.tarifa_flete_usd || \"\")\n}}",
+  "isVisible": true,
+  "key": "tnc1ua6b24",
+  "label": "TARIFA FLETE USD",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 55,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 100,
+  "mobileLeftColumn": 3,
+  "mobileRightColumn": 23,
+  "mobileTopRow": 93,
+  "needsErrorInfo": false,
+  "onTextChanged": "{{\n  storeValue(\"booking_form\", {\n    ...appsmith.store.booking_form,\n    tarifa_flete_usd: inp_tarifa_flete_usd.text || \"\"\n  })\n}}",
+  "originalBottomRow": 34,
+  "originalTopRow": 27,
+  "parentColumnSpace": 3.796287439763546,
+  "parentId": "f81nhz5ukq",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "resetOnSubmit": true,
+  "responsiveBehavior": "fill",
+  "rightColumn": 64,
+  "shouldAllowAutofill": false,
+  "shouldScrollContents": true,
+  "showStepArrows": false,
+  "topRow": 27,
+  "type": "INPUT_WIDGET_V2",
+  "version": 2,
+  "widgetId": "xwbz755ork",
+  "widgetName": "inp_tarifa_flete_usd"
+}

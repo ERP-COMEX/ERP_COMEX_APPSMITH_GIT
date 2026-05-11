@@ -1,0 +1,12 @@
+select
+  ua.id as user_id,
+  ua.email as user_email,
+  ua.nombre as user_name,
+  tu.tenant_id
+from public.usuarios_app ua
+join public.tenant_usuarios tu
+  on tu.usuario_id = ua.id
+where lower(ua.email) = lower('{{ appsmith.user.email || "" }}')
+  and ua.activo = true
+  and tu.activo = true
+limit 1;

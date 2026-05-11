@@ -1,0 +1,91 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "autoFocus": false,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 16,
+  "boxShadow": "none",
+  "defaultText": "{{ appsmith.store.booking_form?.peso_neto_kg_sea || \"\" }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "validation"
+    },
+    {
+      "key": "errorMessage"
+    },
+    {
+      "key": "defaultText"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "onTextChanged"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onTextChanged"
+    }
+  ],
+  "errorMessage": "{{ \"Ingrese un peso neto válido en kg, mayor a cero y con máximo 3 decimales.\" }}",
+  "iconAlign": "left",
+  "inputType": "NUMBER",
+  "isDisabled": "{{\n  appsmith.store.form_mode === \"VIEW\"\n  || !(\n    (appsmith.store.booking_form?.modalidad_transporte_label || sl_transporte.selectedOptionLabel || \"\")\n      .toUpperCase()\n      .includes(\"MAR\")\n    && (appsmith.store.booking_form?.tipo_carga_label || sl_tipo_carga.selectedOptionLabel || \"\")\n      .toUpperCase()\n      .includes(\"LCL\")\n  )\n}}",
+  "isLoading": false,
+  "isRequired": "{{\n  (appsmith.store.booking_form?.peso_neto_kg_sea || \"\") === \"\" ||\n  (\n    /^[0-9]+(\\.[0-9]{1,3})?$/.test(appsmith.store.booking_form?.peso_neto_kg_sea || \"\") &&\n    Number(appsmith.store.booking_form?.peso_neto_kg_sea) > 0\n  )\n}}",
+  "isVisible": true,
+  "key": "wb9sypmxfa",
+  "label": "TOTAL PESO NETO Kg",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 20,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 24,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 6,
+  "mobileTopRow": 17,
+  "needsErrorInfo": false,
+  "onTextChanged": "{{\n  (() => {\n    const raw = inp_peso_neto_kg_sea.text;\n\n    if (raw === \"\" || raw === null || raw === undefined) {\n      return storeValue(\"booking_form\", {\n        ...appsmith.store.booking_form,\n        peso_neto_kg_sea: \"\"\n      });\n    }\n\n    let limpio = String(raw)\n      .replace(\",\", \".\")\n      .replace(/[^0-9.]/g, \"\");\n\n    const partes = limpio.split(\".\");\n    if (partes.length > 2) {\n      limpio = partes[0] + \".\" + partes.slice(1).join(\"\");\n    }\n\n    if (limpio.startsWith(\".\")) {\n      limpio = \"0\" + limpio;\n    }\n\n    const numero = Number(limpio);\n\n    const valor =\n      limpio !== \"\" && !isNaN(numero) && numero > 0\n        ? limpio\n        : \"\";\n\n    return storeValue(\"booking_form\", {\n      ...appsmith.store.booking_form,\n      peso_neto_kg_sea: valor\n    });\n  })()\n}}",
+  "originalBottomRow": 16,
+  "originalTopRow": 9,
+  "parentColumnSpace": 13.32421875,
+  "parentId": "n9op8t9yi4",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "resetOnSubmit": true,
+  "responsiveBehavior": "fill",
+  "rightColumn": 31,
+  "shouldAllowAutofill": false,
+  "showStepArrows": false,
+  "topRow": 9,
+  "type": "INPUT_WIDGET_V2",
+  "validation": "{{\n  inp_peso_neto_kg_sea.text\n  && /^\\d+(\\.\\d{1,3})?$/.test(inp_peso_neto_kg_sea.text)\n  && Number(inp_peso_neto_kg_sea.text) > 0\n}}",
+  "version": 2,
+  "widgetId": "x5l8k3wmwf",
+  "widgetName": "inp_peso_neto_kg_sea"
+}

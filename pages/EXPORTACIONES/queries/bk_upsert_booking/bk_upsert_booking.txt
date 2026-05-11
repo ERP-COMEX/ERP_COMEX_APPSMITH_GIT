@@ -1,0 +1,589 @@
+with f as (
+  select
+    nullif($${{ appsmith.store.tenant_id || "" }}$$, '')::uuid as tenant_id,
+    nullif($${{ appsmith.store.user_id || "" }}$$, '')::uuid as user_id,
+
+    case
+      when $${{ bk_upsert_exportacion.data?.[0]?.id || appsmith.store.current_exportacion_id || "" }}$$ ~
+           '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
+      then $${{ bk_upsert_exportacion.data?.[0]?.id || appsmith.store.current_exportacion_id || "" }}$$::uuid
+      else null
+    end as exportacion_id,
+
+    nullif($${{ appsmith.store.booking_form?.booking_id || "" }}$$, '')::uuid as booking_id,
+
+    nullif($${{ appsmith.store.booking_form?.exportador_id || "" }}$$, '')::uuid as exportador_id,
+    nullif($${{ appsmith.store.booking_form?.cliente_id || "" }}$$, '')::uuid as cliente_id,
+    nullif($${{ appsmith.store.booking_form?.tipo_operacion_exportacion_id || "" }}$$, '')::uuid as tipo_operacion_exportacion_id,
+
+    nullif($${{ appsmith.store.booking_form?.operacion_no || "" }}$$, '') as operacion_no,
+    nullif($${{ appsmith.store.booking_form?.booking_no || "" }}$$, '') as booking_no,
+    nullif($${{ appsmith.store.booking_form?.referencia_cliente || "" }}$$, '') as referencia_cliente,
+
+    nullif($${{ appsmith.store.booking_form?.modalidad_transporte_id || "" }}$$, '')::uuid as modalidad_transporte_id,
+    nullif($${{ appsmith.store.booking_form?.tipo_carga_id || "" }}$$, '')::uuid as tipo_carga_id,
+    nullif($${{ appsmith.store.booking_form?.caracteristica_carga_id || "" }}$$, '')::uuid as caracteristica_carga_id,
+    nullif($${{ appsmith.store.booking_form?.estado_operacion_id || "" }}$$, '')::uuid as estado_operacion_id,
+
+    nullif($${{ appsmith.store.booking_form?.incoterm_id || "" }}$$, '')::uuid as incoterm_id,
+    nullif($${{ appsmith.store.booking_form?.ciudad_incoterm_id || "" }}$$, '')::uuid as ciudad_incoterm_id,
+    nullif($${{ appsmith.store.booking_form?.ubicacion_internacional_id || "" }}$$, '')::uuid as ubicacion_internacional_id,
+
+    nullif($${{ appsmith.store.booking_form?.pais_origen_id || "" }}$$, '')::uuid as pais_origen_id,
+    nullif($${{ appsmith.store.booking_form?.pais_destino_id || "" }}$$, '')::uuid as pais_destino_id,
+    nullif($${{ appsmith.store.booking_form?.pol_id || "" }}$$, '')::uuid as pol_id,
+    nullif($${{ appsmith.store.booking_form?.terminal_pol_id || "" }}$$, '')::uuid as terminal_pol_id,
+    nullif($${{ appsmith.store.booking_form?.pod_id || "" }}$$, '')::uuid as pod_id,
+
+    nullif($${{ appsmith.store.booking_form?.destinatario_id || "" }}$$, '')::uuid as destinatario_id,
+    nullif($${{ appsmith.store.booking_form?.bodega_cargue_id || "" }}$$, '')::uuid as bodega_cargue_id,
+    nullif($${{ appsmith.store.booking_form?.agente_carga_id || "" }}$$, '')::uuid as agente_carga_id,
+    nullif($${{ appsmith.store.booking_form?.transportadora_internacional_id || "" }}$$, '')::uuid as transportadora_internacional_id,
+    nullif($${{ appsmith.store.booking_form?.flete_pagado_en_id || "" }}$$, '')::uuid as flete_pagado_en_id,
+    nullif($${{ appsmith.store.booking_form?.alcance_servicio_id || appsmith.store.booking_form?.tipo_servicio_id || "" }}$$, '')::uuid as tipo_servicio_id,
+    nullif($${{ appsmith.store.booking_form?.tipo_ruta_servicio_id || "" }}$$, '')::uuid as tipo_ruta_servicio_id,
+    nullif($${{ appsmith.store.booking_form?.puerto_transbordo_id || "" }}$$, '')::uuid as puerto_transbordo_id,
+
+    nullif($${{ appsmith.store.booking_form?.oferta || "" }}$$, '') as oferta,
+
+    case
+      when nullif(trim($${{ appsmith.store.booking_form?.tarifa_flete_usd || "" }}$$), '') is null then null
+      when trim($${{ appsmith.store.booking_form?.tarifa_flete_usd || "" }}$$) ~ '^[0-9]+(\.[0-9]{1,2})?$'
+        then trim($${{ appsmith.store.booking_form?.tarifa_flete_usd || "" }}$$)::numeric
+      else null
+    end as tarifa_flete_usd,
+
+    nullif($${{ appsmith.store.booking_form?.fecha_booking || "" }}$$, '')::timestamptz as fecha_booking,
+    nullif($${{ appsmith.store.booking_form?.fecha_confirmacion_oferta || "" }}$$, '')::timestamptz as fecha_confirmacion_oferta,
+    nullif($${{ appsmith.store.booking_form?.fecha_vigencia_oferta || "" }}$$, '')::timestamptz as fecha_vigencia_oferta,
+
+    case
+      when nullif(trim($${{ appsmith.store.booking_form?.total_contenedores || "" }}$$), '') is null then null
+      when trim($${{ appsmith.store.booking_form?.total_contenedores || "" }}$$) ~ '^[0-9]+$'
+        then trim($${{ appsmith.store.booking_form?.total_contenedores || "" }}$$)::integer
+      else null
+    end as total_contenedores,
+
+    nullif($${{ appsmith.store.booking_form?.tipo_contenedor_id || "" }}$$, '')::uuid as tipo_contenedor_id,
+    nullif($${{ appsmith.store.booking_form?.patio_retiro_vacios_id || "" }}$$, '')::uuid as patio_retiro_vacios_id,
+
+    case
+      when nullif(trim($${{ appsmith.store.booking_form?.dias_libres || "" }}$$), '') is null then null
+      when trim($${{ appsmith.store.booking_form?.dias_libres || "" }}$$) ~ '^[0-9]+$'
+        then trim($${{ appsmith.store.booking_form?.dias_libres || "" }}$$)::integer
+      else null
+    end as dias_libres,
+
+    nullif($${{ appsmith.store.booking_form?.buque_id || "" }}$$, '')::uuid as buque_id,
+    nullif($${{ appsmith.store.booking_form?.viaje || "" }}$$, '') as viaje,
+
+    nullif($${{ appsmith.store.booking_form?.retiro_vacios || "" }}$$, '')::timestamptz as retiro_vacios,
+    nullif($${{ appsmith.store.booking_form?.cierre_documental || "" }}$$, '')::timestamptz as cierre_documental,
+    nullif($${{ appsmith.store.booking_form?.entrega_puerto || "" }}$$, '')::timestamptz as entrega_puerto,
+    nullif($${{ appsmith.store.booking_form?.cierre_fisico || "" }}$$, '')::timestamptz as cierre_fisico,
+    nullif($${{ appsmith.store.booking_form?.eta || "" }}$$, '')::timestamptz as eta,
+    nullif($${{ appsmith.store.booking_form?.etd || "" }}$$, '')::timestamptz as etd,
+    nullif($${{ appsmith.store.booking_form?.eta_pod || "" }}$$, '')::timestamptz as eta_pod,
+
+    nullif($${{ appsmith.store.booking_form?.pick_up_sea || "" }}$$, '')::timestamptz as pick_up_sea,
+    nullif($${{ appsmith.store.booking_form?.consolidacion_sea || "" }}$$, '')::timestamptz as consolidacion_sea,
+    nullif($${{ appsmith.store.booking_form?.cierre_fisico_lcl || "" }}$$, '')::timestamptz as cierre_fisico_lcl,
+    nullif($${{ appsmith.store.booking_form?.eta_origen_sea || "" }}$$, '')::timestamptz as eta_origen_sea,
+    nullif($${{ appsmith.store.booking_form?.etd_sea || "" }}$$, '')::timestamptz as etd_sea,
+    nullif($${{ appsmith.store.booking_form?.eta_destino_sea || "" }}$$, '')::timestamptz as eta_destino_sea,
+
+    case
+      when nullif(trim($${{ appsmith.store.booking_form?.bultos_sea || "" }}$$), '') is null then null
+      when trim($${{ appsmith.store.booking_form?.bultos_sea || "" }}$$) ~ '^[0-9]+$'
+        then trim($${{ appsmith.store.booking_form?.bultos_sea || "" }}$$)::integer
+      else null
+    end as bultos_sea,
+
+    nullif($${{ appsmith.store.booking_form?.embalaje_sea_id || "" }}$$, '')::uuid as embalaje_sea_id,
+	    case
+      when nullif(trim($${{ appsmith.store.booking_form?.peso_neto_kg_sea || "" }}$$), '') is null then null
+      when trim($${{ appsmith.store.booking_form?.peso_neto_kg_sea || "" }}$$) ~ '^[0-9]+(\.[0-9]+)?$'
+        then trim($${{ appsmith.store.booking_form?.peso_neto_kg_sea || "" }}$$)::numeric
+      else null
+    end as peso_neto_kg_sea,
+
+    case
+      when nullif(trim($${{ appsmith.store.booking_form?.peso_bruto_kg_sea || "" }}$$), '') is null then null
+      when trim($${{ appsmith.store.booking_form?.peso_bruto_kg_sea || "" }}$$) ~ '^[0-9]+(\.[0-9]+)?$'
+        then trim($${{ appsmith.store.booking_form?.peso_bruto_kg_sea || "" }}$$)::numeric
+      else null
+    end as peso_bruto_kg_sea,
+
+    nullif($${{ appsmith.store.booking_form?.medidas_sea || "" }}$$, '') as medidas_sea,
+
+    case
+      when nullif(trim($${{ appsmith.store.booking_form?.cbm_sea || "" }}$$), '') is null then null
+      when trim($${{ appsmith.store.booking_form?.cbm_sea || "" }}$$) ~ '^[0-9]+(\.[0-9]+)?$'
+        then trim($${{ appsmith.store.booking_form?.cbm_sea || "" }}$$)::numeric
+      else null
+    end as cbm_sea,
+
+    case
+      when upper($${{ appsmith.store.booking_form?.remontable_sea || "" }}$$) = 'SI' then true
+      when upper($${{ appsmith.store.booking_form?.remontable_sea || "" }}$$) = 'NO' then false
+      else null
+    end as remontable_sea,
+
+    nullif($${{ appsmith.store.booking_form?.buque_lcl_id || "" }}$$, '')::uuid as buque_lcl_id,
+    nullif($${{ appsmith.store.booking_form?.viaje_lcl || "" }}$$, '') as viaje_lcl,
+
+    nullif($${{ appsmith.store.booking_form?.pick_up_air || "" }}$$, '')::timestamptz as pick_up_air,
+    nullif($${{ appsmith.store.booking_form?.cierre_documental_air || "" }}$$, '')::timestamptz as cierre_documental_air,
+    nullif($${{ appsmith.store.booking_form?.cierre_fisico_air || "" }}$$, '')::timestamptz as cierre_fisico_air,
+    nullif($${{ appsmith.store.booking_form?.etd_air || "" }}$$, '')::timestamptz as etd_air,
+    nullif($${{ appsmith.store.booking_form?.eta_air || "" }}$$, '')::timestamptz as eta_air,
+
+    case
+      when nullif(trim($${{ appsmith.store.booking_form?.bultos_air || "" }}$$), '') is null then null
+      when trim($${{ appsmith.store.booking_form?.bultos_air || "" }}$$) ~ '^[0-9]+$'
+        then trim($${{ appsmith.store.booking_form?.bultos_air || "" }}$$)::integer
+      else null
+    end as bultos_air,
+
+    nullif($${{ appsmith.store.booking_form?.embalaje_air_id || "" }}$$, '')::uuid as embalaje_air_id,
+
+    case
+      when nullif(trim($${{ appsmith.store.booking_form?.peso_neto_kg_air || "" }}$$), '') is null then null
+      when trim($${{ appsmith.store.booking_form?.peso_neto_kg_air || "" }}$$) ~ '^[0-9]+(\.[0-9]+)?$'
+        then trim($${{ appsmith.store.booking_form?.peso_neto_kg_air || "" }}$$)::numeric
+      else null
+    end as peso_neto_kg_air,
+
+    case
+      when nullif(trim($${{ appsmith.store.booking_form?.peso_bruto_kg_air || "" }}$$), '') is null then null
+      when trim($${{ appsmith.store.booking_form?.peso_bruto_kg_air || "" }}$$) ~ '^[0-9]+(\.[0-9]+)?$'
+        then trim($${{ appsmith.store.booking_form?.peso_bruto_kg_air || "" }}$$)::numeric
+      else null
+    end as peso_bruto_kg_air,
+
+    nullif($${{ appsmith.store.booking_form?.medidas_air || "" }}$$, '') as medidas_air,
+
+    case
+      when nullif(trim($${{ appsmith.store.booking_form?.cbm_air || "" }}$$), '') is null then null
+      when trim($${{ appsmith.store.booking_form?.cbm_air || "" }}$$) ~ '^[0-9]+(\.[0-9]+)?$'
+        then trim($${{ appsmith.store.booking_form?.cbm_air || "" }}$$)::numeric
+      else null
+    end as cbm_air,
+
+    case
+      when upper($${{ appsmith.store.booking_form?.remontable_air || "" }}$$) = 'SI' then true
+      when upper($${{ appsmith.store.booking_form?.remontable_air || "" }}$$) = 'NO' then false
+      else null
+    end as remontable_air,
+
+    nullif($${{ appsmith.store.booking_form?.transporte_nacional_ter || "" }}$$, '') as transporte_nacional_ter,
+
+    case
+      when nullif(trim($${{ appsmith.store.booking_form?.total_vehiculos_ter || "" }}$$), '') is null then null
+      when trim($${{ appsmith.store.booking_form?.total_vehiculos_ter || "" }}$$) ~ '^[0-9]+$'
+        then trim($${{ appsmith.store.booking_form?.total_vehiculos_ter || "" }}$$)::integer
+      else null
+    end as total_vehiculos_ter,
+
+    nullif($${{ appsmith.store.booking_form?.tipo_vehiculo_id || "" }}$$, '')::uuid as tipo_vehiculo_id,
+    nullif($${{ appsmith.store.booking_form?.cargue_ter || "" }}$$, '')::timestamptz as cargue_ter,
+    nullif($${{ appsmith.store.booking_form?.manejo_frontera_id || "" }}$$, '')::uuid as manejo_frontera_id,
+    nullif($${{ appsmith.store.booking_form?.deposito_frontera_id || "" }}$$, '')::uuid as deposito_frontera_id,
+    nullif($${{ appsmith.store.booking_form?.ingreso_deposito_ter || "" }}$$, '')::timestamptz as ingreso_deposito_ter,
+    nullif($${{ appsmith.store.booking_form?.factura_triangulacion_ter || "" }}$$, '') as factura_triangulacion_ter,
+    nullif($${{ appsmith.store.booking_form?.fecha_factura_ter || "" }}$$, '')::timestamptz as fecha_factura_ter,
+
+    nullif($${{ appsmith.store.booking_form?.pick_up_correo || "" }}$$, '')::timestamptz as pick_up_correo,
+    nullif($${{ appsmith.store.booking_form?.eta_correo || "" }}$$, '')::timestamptz as eta_correo,
+    nullif($${{ appsmith.store.booking_form?.courier_correo_id || "" }}$$, '')::uuid as courier_correo_id,
+    nullif($${{ appsmith.store.booking_form?.cuenta_courier_id || "" }}$$, '')::uuid as cuenta_courier_id,
+    nullif($${{ appsmith.store.booking_form?.awb_correo || "" }}$$, '') as awb_correo,
+
+    case
+      when nullif(trim($${{ appsmith.store.booking_form?.bultos_correo || "" }}$$), '') is null then null
+      when trim($${{ appsmith.store.booking_form?.bultos_correo || "" }}$$) ~ '^[0-9]+$'
+        then trim($${{ appsmith.store.booking_form?.bultos_correo || "" }}$$)::integer
+      else null
+    end as bultos_correo,
+
+    nullif($${{ appsmith.store.booking_form?.embalaje_correo_id || "" }}$$, '')::uuid as embalaje_correo_id,
+
+    case
+      when nullif(trim($${{ appsmith.store.booking_form?.peso_neto_kg_correo || "" }}$$), '') is null then null
+      when trim($${{ appsmith.store.booking_form?.peso_neto_kg_correo || "" }}$$) ~ '^[0-9]+(\.[0-9]+)?$'
+        then trim($${{ appsmith.store.booking_form?.peso_neto_kg_correo || "" }}$$)::numeric
+      else null
+    end as peso_neto_kg_correo,
+
+    case
+      when nullif(trim($${{ appsmith.store.booking_form?.peso_bruto_kg_correo || "" }}$$), '') is null then null
+      when trim($${{ appsmith.store.booking_form?.peso_bruto_kg_correo || "" }}$$) ~ '^[0-9]+(\.[0-9]+)?$'
+        then trim($${{ appsmith.store.booking_form?.peso_bruto_kg_correo || "" }}$$)::numeric
+      else null
+    end as peso_bruto_kg_correo,
+
+    nullif($${{ appsmith.store.booking_form?.medidas_correo || "" }}$$, '') as medidas_correo,
+
+    case
+      when nullif(trim($${{ appsmith.store.booking_form?.cbm_correo || "" }}$$), '') is null then null
+      when trim($${{ appsmith.store.booking_form?.cbm_correo || "" }}$$) ~ '^[0-9]+(\.[0-9]+)?$'
+        then trim($${{ appsmith.store.booking_form?.cbm_correo || "" }}$$)::numeric
+      else null
+    end as cbm_correo,
+
+    nullif($${{ appsmith.store.booking_form?.notas_internas || "" }}$$, '') as notas_internas
+),
+
+op as (
+  select
+    oe.codigo as operacion,
+    pp.id as prefijo_id
+  from f
+  join public.operaciones_exportacion oe
+    on oe.id = f.tipo_operacion_exportacion_id
+  left join public.prefijos_operacion pp
+    on replace(pp.codigo, '-', '') = replace(oe.prefijo_codigo, '-', '')
+  limit 1
+),
+
+existente as (
+  select be.id
+  from public.booking_exportacion be
+  join f on true
+  where be.id = f.booking_id
+     or (
+       f.booking_id is null
+       and be.exportacion_id = f.exportacion_id
+     )
+  limit 1
+),
+
+actualizada as (
+  update public.booking_exportacion be
+  set
+    tenant_id = f.tenant_id,
+    exportacion_id = f.exportacion_id,
+    exportador_id = f.exportador_id,
+    operacion = op.operacion,
+    modalidad_transporte_id = f.modalidad_transporte_id,
+    tipo_carga_id = f.tipo_carga_id,
+    caracteristica_carga_id = f.caracteristica_carga_id,
+    prefijo_id = op.prefijo_id,
+    operacion_no = f.operacion_no,
+    booking_no = f.booking_no,
+    estado_operacion_id = f.estado_operacion_id,
+    fecha_booking = f.fecha_booking,
+    cliente_id = f.cliente_id,
+    incoterm_id = f.incoterm_id,
+    ciudad_incoterm_id = f.ciudad_incoterm_id,
+    ubicacion_internacional_id = f.ubicacion_internacional_id,
+    pais_origen_id = f.pais_origen_id,
+    pais_destino_id = f.pais_destino_id,
+    pol_id = f.pol_id,
+    terminal_pol_id = f.terminal_pol_id,
+    pod_id = f.pod_id,
+    destinatario_id = f.destinatario_id,
+    bodega_cargue_id = f.bodega_cargue_id,
+    agente_carga_id = f.agente_carga_id,
+    tarifa_flete_usd = f.tarifa_flete_usd,
+    transportadora_internacional_id = f.transportadora_internacional_id,
+    flete_pagado_en_id = f.flete_pagado_en_id,
+    tipo_servicio_id = f.tipo_servicio_id,
+    tipo_ruta_servicio_id = f.tipo_ruta_servicio_id,
+    puerto_transbordo_id = f.puerto_transbordo_id,
+    referencia_cliente = f.referencia_cliente,
+    oferta = f.oferta,
+    fecha_confirmacion_oferta = f.fecha_confirmacion_oferta,
+    fecha_vigencia_oferta = f.fecha_vigencia_oferta,
+
+    total_contenedores = f.total_contenedores,
+    tipo_contenedor_id = f.tipo_contenedor_id,
+    patio_retiro_vacios_id = f.patio_retiro_vacios_id,
+    dias_libres = f.dias_libres,
+    buque_id = f.buque_id,
+    viaje = f.viaje,
+    retiro_vacios = f.retiro_vacios,
+    cierre_documental = f.cierre_documental,
+    entrega_puerto = f.entrega_puerto,
+    cierre_fisico = f.cierre_fisico,
+    eta = f.eta,
+    etd = f.etd,
+    eta_pod = f.eta_pod,
+
+    pick_up_sea = f.pick_up_sea,
+    consolidacion_sea = f.consolidacion_sea,
+    cierre_fisico_lcl = f.cierre_fisico_lcl,
+    eta_origen_sea = f.eta_origen_sea,
+    etd_sea = f.etd_sea,
+    eta_destino_sea = f.eta_destino_sea,
+    bultos_sea = f.bultos_sea,
+    embalaje_sea_id = f.embalaje_sea_id,
+    peso_neto_kg_sea = f.peso_neto_kg_sea,
+    peso_bruto_kg_sea = f.peso_bruto_kg_sea,
+    medidas_sea = f.medidas_sea,
+    cbm_sea = f.cbm_sea,
+    remontable_sea = f.remontable_sea,
+    buque_lcl_id = f.buque_lcl_id,
+    viaje_lcl = f.viaje_lcl,
+
+    pick_up_air = f.pick_up_air,
+    cierre_documental_air = f.cierre_documental_air,
+    cierre_fisico_air = f.cierre_fisico_air,
+    etd_air = f.etd_air,
+    eta_air = f.eta_air,
+    bultos_air = f.bultos_air,
+    embalaje_air_id = f.embalaje_air_id,
+    peso_neto_kg_air = f.peso_neto_kg_air,
+    peso_bruto_kg_air = f.peso_bruto_kg_air,
+    medidas_air = f.medidas_air,
+    cbm_air = f.cbm_air,
+    remontable_air = f.remontable_air,
+
+    transporte_nacional_ter = f.transporte_nacional_ter,
+    total_vehiculos_ter = f.total_vehiculos_ter,
+    tipo_vehiculo_id = f.tipo_vehiculo_id,
+    cargue_ter = f.cargue_ter,
+    manejo_frontera_id = f.manejo_frontera_id,
+    deposito_frontera_id = f.deposito_frontera_id,
+    ingreso_deposito_ter = f.ingreso_deposito_ter,
+    factura_triangulacion_ter = f.factura_triangulacion_ter,
+    fecha_factura_ter = f.fecha_factura_ter,
+
+    pick_up_correo = f.pick_up_correo,
+    eta_correo = f.eta_correo,
+    courier_correo_id = f.courier_correo_id,
+    cuentacourrier_correo_id = f.cuenta_courier_id,
+    awb_correo = f.awb_correo,
+    bultos_correo = f.bultos_correo,
+    embalaje_correo_id = f.embalaje_correo_id,
+    peso_neto_kg_correo = f.peso_neto_kg_correo,
+    peso_bruto_kg_correo = f.peso_bruto_kg_correo,
+    medidas_correo = f.medidas_correo,
+    cbm_correo = f.cbm_correo,
+
+    notas_internas = f.notas_internas,
+
+    updated_by = f.user_id,
+    updated_at = now()
+  from f, op, existente ex
+  where be.id = ex.id
+  returning be.id, be.operacion_no
+),
+
+insertada as (
+  insert into public.booking_exportacion (
+    tenant_id,
+    exportacion_id,
+    exportador_id,
+    operacion,
+    modalidad_transporte_id,
+    tipo_carga_id,
+    caracteristica_carga_id,
+    prefijo_id,
+    operacion_no,
+    booking_no,
+    estado_operacion_id,
+    fecha_booking,
+    cliente_id,
+    incoterm_id,
+    ciudad_incoterm_id,
+    ubicacion_internacional_id,
+    pais_origen_id,
+    pais_destino_id,
+    pol_id,
+    terminal_pol_id,
+    pod_id,
+    destinatario_id,
+    bodega_cargue_id,
+    agente_carga_id,
+    tarifa_flete_usd,
+    transportadora_internacional_id,
+    flete_pagado_en_id,
+    tipo_servicio_id,
+    tipo_ruta_servicio_id,
+    puerto_transbordo_id,
+    referencia_cliente,
+    oferta,
+    fecha_confirmacion_oferta,
+    fecha_vigencia_oferta,
+    created_by,
+    updated_by,
+
+    total_contenedores,
+    tipo_contenedor_id,
+    patio_retiro_vacios_id,
+    dias_libres,
+    buque_id,
+    viaje,
+    retiro_vacios,
+    cierre_documental,
+    entrega_puerto,
+    cierre_fisico,
+    eta,
+    etd,
+    eta_pod,
+
+    pick_up_sea,
+    consolidacion_sea,
+    cierre_fisico_lcl,
+    eta_origen_sea,
+    etd_sea,
+    eta_destino_sea,
+    bultos_sea,
+    embalaje_sea_id,
+    peso_neto_kg_sea,
+    peso_bruto_kg_sea,
+    medidas_sea,
+    cbm_sea,
+    remontable_sea,
+    buque_lcl_id,
+    viaje_lcl,
+
+    pick_up_air,
+    cierre_documental_air,
+    cierre_fisico_air,
+    etd_air,
+    eta_air,
+    bultos_air,
+    embalaje_air_id,
+    peso_neto_kg_air,
+    peso_bruto_kg_air,
+    medidas_air,
+    cbm_air,
+    remontable_air,
+
+    transporte_nacional_ter,
+    total_vehiculos_ter,
+    tipo_vehiculo_id,
+    cargue_ter,
+    manejo_frontera_id,
+    deposito_frontera_id,
+    ingreso_deposito_ter,
+    factura_triangulacion_ter,
+    fecha_factura_ter,
+
+    pick_up_correo,
+    eta_correo,
+    courier_correo_id,
+    cuentacourrier_correo_id,
+    awb_correo,
+    bultos_correo,
+    embalaje_correo_id,
+    peso_neto_kg_correo,
+    peso_bruto_kg_correo,
+    medidas_correo,
+    cbm_correo,
+
+    notas_internas
+  )
+  select
+    f.tenant_id,
+    f.exportacion_id,
+    f.exportador_id,
+    op.operacion,
+    f.modalidad_transporte_id,
+    f.tipo_carga_id,
+    f.caracteristica_carga_id,
+    op.prefijo_id,
+    f.operacion_no,
+    f.booking_no,
+    f.estado_operacion_id,
+    f.fecha_booking,
+    f.cliente_id,
+    f.incoterm_id,
+    f.ciudad_incoterm_id,
+    f.ubicacion_internacional_id,
+    f.pais_origen_id,
+    f.pais_destino_id,
+    f.pol_id,
+    f.terminal_pol_id,
+    f.pod_id,
+    f.destinatario_id,
+    f.bodega_cargue_id,
+    f.agente_carga_id,
+    f.tarifa_flete_usd,
+    f.transportadora_internacional_id,
+    f.flete_pagado_en_id,
+    f.tipo_servicio_id,
+    f.tipo_ruta_servicio_id,
+    f.puerto_transbordo_id,
+    f.referencia_cliente,
+    f.oferta,
+    f.fecha_confirmacion_oferta,
+    f.fecha_vigencia_oferta,
+    f.user_id,
+    f.user_id,
+
+    f.total_contenedores,
+    f.tipo_contenedor_id,
+    f.patio_retiro_vacios_id,
+    f.dias_libres,
+    f.buque_id,
+    f.viaje,
+    f.retiro_vacios,
+    f.cierre_documental,
+    f.entrega_puerto,
+    f.cierre_fisico,
+    f.eta,
+    f.etd,
+    f.eta_pod,
+
+    f.pick_up_sea,
+    f.consolidacion_sea,
+    f.cierre_fisico_lcl,
+    f.eta_origen_sea,
+    f.etd_sea,
+    f.eta_destino_sea,
+    f.bultos_sea,
+    f.embalaje_sea_id,
+    f.peso_neto_kg_sea,
+    f.peso_bruto_kg_sea,
+    f.medidas_sea,
+    f.cbm_sea,
+    f.remontable_sea,
+    f.buque_lcl_id,
+    f.viaje_lcl,
+
+    f.pick_up_air,
+    f.cierre_documental_air,
+    f.cierre_fisico_air,
+    f.etd_air,
+    f.eta_air,
+    f.bultos_air,
+    f.embalaje_air_id,
+    f.peso_neto_kg_air,
+    f.peso_bruto_kg_air,
+    f.medidas_air,
+    f.cbm_air,
+    f.remontable_air,
+
+    f.transporte_nacional_ter,
+    f.total_vehiculos_ter,
+    f.tipo_vehiculo_id,
+    f.cargue_ter,
+    f.manejo_frontera_id,
+    f.deposito_frontera_id,
+    f.ingreso_deposito_ter,
+    f.factura_triangulacion_ter,
+    f.fecha_factura_ter,
+
+    f.pick_up_correo,
+    f.eta_correo,
+    f.courier_correo_id,
+    f.cuenta_courier_id,
+    f.awb_correo,
+    f.bultos_correo,
+    f.embalaje_correo_id,
+    f.peso_neto_kg_correo,
+    f.peso_bruto_kg_correo,
+    f.medidas_correo,
+    f.cbm_correo,
+
+    f.notas_internas
+  from f, op
+  where not exists (select 1 from existente)
+  returning id, operacion_no
+)
+select id, operacion_no from actualizada
+union all
+select id, operacion_no from insertada;

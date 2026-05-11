@@ -1,0 +1,60 @@
+{
+  "animateLoading": true,
+  "borderRadius": "1.5rem",
+  "bottomRow": 28,
+  "boxShadow": "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
+  "buttonColor": "#93c5fd",
+  "buttonVariant": "{{ uiExportaciones.isActive(\"INFORMACION_ADUANERA\") ? \"PRIMARY\" : \"TERTIARY\" }}\n\n",
+  "disabledWhenInvalid": false,
+  "dynamicBindingPathList": [
+    {
+      "key": "buttonVariant"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "onClick"
+    },
+    {
+      "key": "isVisible"
+    },
+    {
+      "key": "buttonVariant"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "iconAlign": "left",
+  "iconName": "search-template",
+  "isDefaultClickDisabled": true,
+  "isDisabled": false,
+  "isLoading": false,
+  "isVisible": "true",
+  "key": "n4grhe7r5x",
+  "leftColumn": 0,
+  "minWidth": 120,
+  "mobileBottomRow": 35,
+  "mobileLeftColumn": 2,
+  "mobileRightColumn": 18,
+  "mobileTopRow": 31,
+  "needsErrorInfo": false,
+  "onClick": "{{ navExport.go(navExport.KEYS.INFORMACION_ADUANERA) }}",
+  "parentColumnSpace": 4.759765625,
+  "parentId": "hjz8lst9pg",
+  "parentRowSpace": 10,
+  "placement": "START",
+  "recaptchaType": "V3",
+  "renderMode": "CANVAS",
+  "resetFormOnClick": false,
+  "responsiveBehavior": "hug",
+  "rightColumn": 64,
+  "text": "INFORMACION ADUANERA",
+  "topRow": 24,
+  "type": "BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "d0porv0cy7",
+  "widgetName": "Button_Informacion_Aduanera"
+}

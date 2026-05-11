@@ -1,0 +1,76 @@
+{
+  "accentColor": "#1e3a8a",
+  "alignment": "left",
+  "animateLoading": true,
+  "bottomRow": 17,
+  "boxShadow": "none",
+  "defaultOptionValue": "{{ appsmith.store.booking_form?.remontable_sea || \"\" }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "defaultOptionValue"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "options"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "onSelectionChange"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onSelectionChange"
+    }
+  ],
+  "flexVerticalAlignment": "start",
+  "isDisabled": "{{\n  appsmith.store.form_mode === \"VIEW\"\n  || !(\n    (appsmith.store.booking_form?.modalidad_transporte_label || sl_transporte.selectedOptionLabel || \"\")\n      .toUpperCase()\n      .includes(\"MAR\")\n    && (appsmith.store.booking_form?.tipo_carga_label || sl_tipo_carga.selectedOptionLabel || \"\")\n      .toUpperCase()\n      .includes(\"LCL\")\n  )\n}}",
+  "isInline": true,
+  "isLoading": false,
+  "isRequired": "{{\n  appsmith.store.form_mode === \"VIEW\" ||\n  !(\n    (appsmith.store.booking_form?.modalidad_transporte_label || sl_transporte.selectedOptionLabel || \"\")\n      .toUpperCase()\n      .includes(\"MAR\")\n    && (appsmith.store.booking_form?.tipo_carga_label || sl_tipo_carga.selectedOptionLabel || \"\")\n      .toUpperCase()\n      .includes(\"LCL\")\n  ) ||\n  [\"SI\", \"NO\"].includes(appsmith.store.booking_form?.remontable_sea || \"\")\n}}",
+  "isVisible": true,
+  "key": "wtybn4zat7",
+  "label": "REMONTABLE",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 56,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "mobileBottomRow": 14,
+  "mobileLeftColumn": 35,
+  "mobileRightColumn": 55,
+  "mobileTopRow": 8,
+  "needsErrorInfo": false,
+  "onSelectionChange": "{{\n  (() => {\n    const value = rd_remontable_sea.selectedOptionValue || \"\";\n\n    return storeValue(\"booking_form\", {\n      ...appsmith.store.booking_form,\n      remontable_sea: value\n    });\n  })()\n}}",
+  "options": "[\n  {\n    \"label\": \"SI\",\n    \"value\": \"SI\"\n  },\n  {\n    \"label\": \"NO\",\n    \"value\": \"NO\"\n  }\n]",
+  "originalBottomRow": 17,
+  "originalTopRow": 9,
+  "parentColumnSpace": 13.32421875,
+  "parentId": "n9op8t9yi4",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "rightColumn": 64,
+  "shouldScrollContents": true,
+  "topRow": 9,
+  "type": "RADIO_GROUP_WIDGET",
+  "version": 1,
+  "widgetId": "rtneb89gkn",
+  "widgetName": "rd_remontable_sea"
+}

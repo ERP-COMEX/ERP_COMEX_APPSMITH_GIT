@@ -1,0 +1,6 @@
+select
+  id as value,
+  upper(nombre) as label
+from public.depositos_frontera
+where activo = true
+order by sort_order nulls last, nombre;

@@ -1,0 +1,90 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 43,
+  "boxShadow": "none",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( \n  appsmith.store.form_mode === \"NEW\"\n    ? (appsmith.store.booking_form?.estado_operacion_id || \"\")\n    : (appsmith.store.booking_form?.estado_operacion_id || q_booking_detail.data?.[0]?.estado_operacion_id || \"\")\n))(sl_estado_operacion.options, sl_estado_operacion.serverSideFiltering) }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "defaultOptionValue"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "optionLabel"
+    },
+    {
+      "key": "optionValue"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "isDisabled": "{{ appsmith.store.form_mode === \"VIEW\" }}",
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "4m3xtdzv9h",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelText": "ESTADO DE LA OPERACION",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 32,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 35,
+  "mobileLeftColumn": 23,
+  "mobileRightColumn": 43,
+  "mobileTopRow": 28,
+  "needsErrorInfo": false,
+  "onOptionChange": "{{\n  (async () => {\n    await BookingForm_OLD_hastaFCL.setField(\n      \"estado_operacion_id\",\n      sl_estado_operacion.selectedOptionValue || \"\"\n    );\n\n    await BookingForm_OLD_hastaFCL.setField(\n      \"estado_operacion_label\",\n      sl_estado_operacion.selectedOptionLabel || \"\"\n    );\n  })()\n}}",
+  "optionLabel": "label",
+  "optionValue": "value",
+  "originalBottomRow": 43,
+  "originalTopRow": 36,
+  "parentColumnSpace": 16.375,
+  "parentId": "f81nhz5ukq",
+  "parentRowSpace": 10,
+  "placeholderText": "Select option",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 64,
+  "serverSideFiltering": false,
+  "shouldScrollContents": true,
+  "sourceData": "{{ q_estados_operacion_booking.data || [] }}",
+  "topRow": 36,
+  "type": "SELECT_WIDGET",
+  "version": 1,
+  "widgetId": "j9dnsiuhmz",
+  "widgetName": "sl_estado_operacion"
+}

@@ -1,0 +1,55 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 4,
+  "boxShadow": "none",
+  "buttonColor": "#1e3a8a",
+  "buttonVariant": "PRIMARY",
+  "disabledWhenInvalid": false,
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "onClick"
+    },
+    {
+      "key": "isVisible"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "isDefaultClickDisabled": true,
+  "isDisabled": false,
+  "isLoading": false,
+  "isVisible": "true",
+  "key": "t1srl7ge8b",
+  "leftColumn": 45,
+  "minWidth": 120,
+  "mobileBottomRow": 9,
+  "mobileLeftColumn": 15,
+  "mobileRightColumn": 31,
+  "mobileTopRow": 5,
+  "needsErrorInfo": false,
+  "onClick": "{{\n  storeValue(\"show_booking_search_results\", false);\n  resetWidget(\"tblBookingSearch_New\");\n}}",
+  "parentColumnSpace": 10.134639739990234,
+  "parentId": "ms53u4klw1",
+  "parentRowSpace": 10,
+  "placement": "CENTER",
+  "recaptchaType": "V3",
+  "renderMode": "CANVAS",
+  "resetFormOnClick": false,
+  "responsiveBehavior": "hug",
+  "rightColumn": 64,
+  "text": "FINALIZAR BUSQUEDA",
+  "topRow": 0,
+  "type": "BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "q83x2djz4a",
+  "widgetName": "Button_Cerrar_Resultados"
+}

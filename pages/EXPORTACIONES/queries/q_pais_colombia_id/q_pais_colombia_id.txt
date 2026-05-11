@@ -1,0 +1,4 @@
+select id, nombre
+from public.ubicaciones_internacionales
+where upper(nombre) like '%COLOMBIA%'
+order by nombre;

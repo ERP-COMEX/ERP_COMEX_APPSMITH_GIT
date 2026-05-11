@@ -1,0 +1,11 @@
+select
+  be.*,
+  e.operacion_no as exportacion_operacion_no,
+  e.tipo_operacion_exportacion_id,
+  e.cliente_id as exportacion_cliente_id,
+  e.referencia_cliente as exportacion_referencia_cliente
+from public.booking_exportacion be
+join public.exportaciones e
+  on e.id = be.exportacion_id
+where be.id = {{ appsmith.store.current_booking_id }}::uuid
+limit 1;

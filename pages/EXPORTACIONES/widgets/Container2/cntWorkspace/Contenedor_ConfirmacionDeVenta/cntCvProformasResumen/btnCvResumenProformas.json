@@ -1,0 +1,211 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 4,
+  "boxShadow": "none",
+  "buttonVariant": "PRIMARY",
+  "childStylesheet": {
+    "button": {
+      "buttonColor": "{{appsmith.theme.colors.primaryColor}}"
+    }
+  },
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "groupButtons.groupButtonf1mwztqves.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton3.onClick"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "groupButtons.groupButtonf1mwztqves.onClick"
+    }
+  ],
+  "groupButtons": {
+    "groupButton0z3o0yb4qt": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "iconName": "search-template",
+      "id": "groupButton0z3o0yb4qt",
+      "index": 5,
+      "isDisabled": false,
+      "isSeparator": false,
+      "isVisible": true,
+      "itemType": "BUTTON",
+      "label": "BUSCAR",
+      "menuItems": {},
+      "placement": "START",
+      "variant": "filled",
+      "widgetId": "hp6yar1f8n"
+    },
+    "groupButton1": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "disabledWhenInvalid": false,
+      "iconName": "properties",
+      "id": "groupButton1",
+      "index": 0,
+      "isDisabled": false,
+      "isVisible": true,
+      "label": "MENU",
+      "menuItems": {},
+      "placement": "START",
+      "widgetId": ""
+    },
+    "groupButton2": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "disabledWhenInvalid": false,
+      "iconName": "folder-new",
+      "id": "groupButton2",
+      "index": 1,
+      "isDisabled": false,
+      "isVisible": true,
+      "label": "NUEVO",
+      "menuItems": {},
+      "placement": "START",
+      "widgetId": ""
+    },
+    "groupButton2eurxo2u9t": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "iconName": "trash",
+      "id": "groupButton2eurxo2u9t",
+      "index": 6,
+      "isDisabled": false,
+      "isSeparator": false,
+      "isVisible": true,
+      "itemType": "BUTTON",
+      "label": "ELIMINAR",
+      "menuItems": {},
+      "placement": "START",
+      "variant": "filled",
+      "widgetId": "5b3qqwi43i"
+    },
+    "groupButton3": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "disabledWhenInvalid": false,
+      "iconName": "edit",
+      "id": "groupButton3",
+      "index": 2,
+      "isDisabled": false,
+      "isVisible": true,
+      "label": "EDITAR",
+      "menuItems": {
+        "menuItem1": {
+          "backgroundColor": "#FFFFFF",
+          "disabledWhenInvalid": false,
+          "id": "menuItem1",
+          "index": 0,
+          "isDisabled": false,
+          "isVisible": true,
+          "label": "First Option",
+          "onClick": "",
+          "widgetId": ""
+        },
+        "menuItem2": {
+          "backgroundColor": "#FFFFFF",
+          "disabledWhenInvalid": false,
+          "id": "menuItem2",
+          "index": 1,
+          "isDisabled": false,
+          "isVisible": true,
+          "label": "Second Option",
+          "onClick": "",
+          "widgetId": ""
+        },
+        "menuItem3": {
+          "backgroundColor": "#DD4B34",
+          "disabledWhenInvalid": false,
+          "iconAlign": "right",
+          "iconColor": "#FFFFFF",
+          "iconName": "trash",
+          "id": "menuItem3",
+          "index": 2,
+          "isDisabled": false,
+          "isVisible": true,
+          "label": "Delete",
+          "onClick": "",
+          "textColor": "#FFFFFF",
+          "widgetId": ""
+        }
+      },
+      "onClick": "{{}}",
+      "placement": "START",
+      "widgetId": ""
+    },
+    "groupButtonf1mwztqves": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "iconName": "floppy-disk",
+      "id": "groupButtonf1mwztqves",
+      "index": 3,
+      "isDisabled": false,
+      "isSeparator": false,
+      "isVisible": true,
+      "itemType": "BUTTON",
+      "label": "GUARDAR",
+      "menuItems": {},
+      "onClick": "{{\n  bk_upsert_exportacion.run()\n    .then(() => bk_upsert_booking.run())\n    .then(() => showAlert('Booking creado correctamente', 'success'))\n    .catch((e) => showAlert('Error al guardar: ' + e.message, 'error'))\n}}",
+      "placement": "START",
+      "variant": "filled",
+      "widgetId": "ox17mlyqv6"
+    },
+    "groupButtonm7mz0erk8l": {
+      "iconName": "search-template"
+    },
+    "groupButtonqjnuyjna0i": {
+      "buttonColor": "#1e3a8a",
+      "iconName": "properties",
+      "placement": "START"
+    },
+    "groupButtony8e8xe6j3c": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "iconName": "disable",
+      "id": "groupButtony8e8xe6j3c",
+      "index": 4,
+      "isDisabled": false,
+      "isSeparator": false,
+      "isVisible": true,
+      "itemType": "BUTTON",
+      "label": "CANCELAR",
+      "menuItems": {},
+      "placement": "START",
+      "variant": "filled",
+      "widgetId": "0wcnep16pc"
+    }
+  },
+  "isCanvas": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "8meibkymex",
+  "leftColumn": 15,
+  "minWidth": 450,
+  "mobileBottomRow": 28,
+  "mobileLeftColumn": 4,
+  "mobileRightColumn": 28,
+  "mobileTopRow": 24,
+  "needsErrorInfo": false,
+  "orientation": "horizontal",
+  "originalBottomRow": 56,
+  "originalTopRow": 52,
+  "parentColumnSpace": 13.3564453125,
+  "parentId": "czimsmp70p",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 64,
+  "topRow": 0,
+  "type": "BUTTON_GROUP_WIDGET",
+  "version": 1,
+  "widgetId": "puc41wozvu",
+  "widgetName": "btnCvResumenProformas"
+}

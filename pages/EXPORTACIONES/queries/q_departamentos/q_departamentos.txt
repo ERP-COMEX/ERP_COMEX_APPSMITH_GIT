@@ -1,0 +1,6 @@
+select
+id as value,
+nombre as label
+from public.divisiones_territoriales
+where tipo='DEPARTAMENTO'
+order by nombre;

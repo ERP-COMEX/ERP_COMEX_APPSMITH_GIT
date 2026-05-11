@@ -1,0 +1,13 @@
+select
+  b.id as value,
+  upper(b.nombre) as label
+from public.bodegas_cargue b
+where b.activo = true
+  and (
+    b.is_global = true
+    or (
+      nullif('{{ appsmith.store.booking_form?.pais_origen_id || "" }}', '') is not null
+      and b.pais_id = nullif('{{ appsmith.store.booking_form?.pais_origen_id || "" }}', '')::uuid
+    )
+  )
+order by b.sort_order nulls last, b.nombre;

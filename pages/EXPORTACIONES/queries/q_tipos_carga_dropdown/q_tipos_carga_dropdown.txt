@@ -1,0 +1,13 @@
+select distinct
+  tc.id as value,
+  upper(tc.nombre) as label
+from public.tipos_carga tc
+join public.tipos_carga_modalidades tcm
+  on tcm.tipo_carga_id = tc.id
+ and tcm.activo = true
+join public.modalidades_transporte mt
+  on mt.id = tcm.modalidad_transporte_id
+ and mt.activo = true
+where tc.activo = true
+  and mt.id = nullif('{{ sl_transporte.selectedOptionValue || "" }}', '')::uuid
+order by upper(tc.nombre);

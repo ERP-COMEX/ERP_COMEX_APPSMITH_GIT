@@ -1,0 +1,87 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "autoFocus": false,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 7,
+  "boxShadow": "none",
+  "defaultText": "{{\n  appsmith.store.booking_form?.referencia_cliente || \"\"\n}}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "defaultText"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "isVisible"
+    },
+    {
+      "key": "onTextChanged"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onTextChanged"
+    }
+  ],
+  "iconAlign": "left",
+  "inputType": "TEXT",
+  "isDisabled": "{{\n  appsmith.store.form_mode === \"VIEW\"\n}}",
+  "isLoading": false,
+  "isRequired": "{{\n  (appsmith.store.booking_form?.referencia_cliente || \"\").trim().length > 0\n}}",
+  "isVisible": "true",
+  "key": "1fus79ee88",
+  "label": "REFERENCIA CLIENTE",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 30,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 7,
+  "mobileLeftColumn": 32,
+  "mobileRightColumn": 52,
+  "mobileTopRow": 0,
+  "needsErrorInfo": false,
+  "onTextChanged": "{{\n  storeValue(\"booking_form\", {\n    ...appsmith.store.booking_form,\n    referencia_cliente: (inp_referencia_cliente.text || \"\").toUpperCase()\n  })\n}}",
+  "originalBottomRow": 7,
+  "originalTopRow": 0,
+  "parentColumnSpace": 12.517868041992188,
+  "parentId": "f81nhz5ukq",
+  "parentRowSpace": 10,
+  "placeholderText": "Ingrese Referencia",
+  "renderMode": "CANVAS",
+  "resetOnSubmit": true,
+  "responsiveBehavior": "fill",
+  "rightColumn": 41,
+  "shouldScrollContents": true,
+  "showStepArrows": false,
+  "topRow": 0,
+  "type": "INPUT_WIDGET_V2",
+  "version": 2,
+  "widgetId": "0eavb7ewg6",
+  "widgetName": "inp_referencia_cliente"
+}

@@ -1,0 +1,86 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "autoFocus": false,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 7,
+  "boxShadow": "none",
+  "defaultText": "{{ appsmith.store.booking_form?.total_vehiculos_ter || \"\" }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "errorMessage"
+    },
+    {
+      "key": "defaultText"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "onTextChanged"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onTextChanged"
+    }
+  ],
+  "errorMessage": "{{ \"Ingrese un número entero de vehículos, mayor a cero.\" }}",
+  "iconAlign": "left",
+  "inputType": "NUMBER",
+  "isDisabled": "{{\n  appsmith.store.form_mode === \"VIEW\"\n  || !(\n    (appsmith.store.booking_form?.modalidad_transporte_label || sl_transporte.selectedOptionLabel || \"\")\n      .toUpperCase()\n      .includes(\"CAR\")\n  )\n}}",
+  "isLoading": false,
+  "isRequired": "{{\n  (appsmith.store.booking_form?.total_vehiculos_ter || \"\") === \"\" ||\n  (\n    /^[0-9]+$/.test(appsmith.store.booking_form?.total_vehiculos_ter || \"\") &&\n    Number(appsmith.store.booking_form?.total_vehiculos_ter) >= 1\n  )\n}}",
+  "isVisible": true,
+  "key": "wb9sypmxfa",
+  "label": "TOTAL VEHICULOS",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 17,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 7,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 7,
+  "mobileTopRow": 0,
+  "needsErrorInfo": false,
+  "onTextChanged": "{{\n  (() => {\n    const raw = inp_total_vehiculos_ter.text;\n\n    if (raw === \"\" || raw === null || raw === undefined) {\n      return storeValue(\"booking_form\", {\n        ...appsmith.store.booking_form,\n        total_vehiculos_ter: \"\"\n      });\n    }\n\n    const limpio = String(raw).replace(/\\D/g, \"\");\n    const numero = Number(limpio || 0);\n\n    const valor =\n      numero >= 1\n        ? String(numero)\n        : \"\";\n\n    return storeValue(\"booking_form\", {\n      ...appsmith.store.booking_form,\n      total_vehiculos_ter: valor\n    });\n  })()\n}}",
+  "parentColumnSpace": 13.32421875,
+  "parentId": "0gjne2fv42",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "resetOnSubmit": true,
+  "responsiveBehavior": "fill",
+  "rightColumn": 26,
+  "shouldAllowAutofill": false,
+  "showStepArrows": false,
+  "topRow": 0,
+  "type": "INPUT_WIDGET_V2",
+  "validation": "",
+  "version": 2,
+  "widgetId": "jr17jj1xlo",
+  "widgetName": "inp_total_vehiculos_ter"
+}

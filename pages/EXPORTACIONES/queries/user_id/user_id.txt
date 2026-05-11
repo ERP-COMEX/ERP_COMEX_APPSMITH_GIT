@@ -1,0 +1,4 @@
+select
+  *
+from public.tenant_usuarios
+limit 10;

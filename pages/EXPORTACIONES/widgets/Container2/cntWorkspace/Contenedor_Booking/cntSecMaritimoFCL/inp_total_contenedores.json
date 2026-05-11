@@ -1,0 +1,85 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "autoFocus": false,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 7,
+  "boxShadow": "none",
+  "defaultText": "{{ appsmith.store.booking_form?.total_contenedores || \"\" }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "defaultText"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "onTextChanged"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onTextChanged"
+    }
+  ],
+  "iconAlign": "left",
+  "inputType": "NUMBER",
+  "isDisabled": "{{ appsmith.store.form_mode === \"VIEW\" }}",
+  "isLoading": false,
+  "isRequired": "{{\n  (appsmith.store.booking_form?.total_contenedores || \"\") === \"\" ||\n  (\n    /^[0-9]+$/.test(appsmith.store.booking_form?.total_contenedores || \"\") &&\n    Number(appsmith.store.booking_form?.total_contenedores) >= 1 &&\n    Number(appsmith.store.booking_form?.total_contenedores) <= 30\n  )\n}}",
+  "isVisible": true,
+  "key": "kkyivtxqwg",
+  "label": "TOTAL CTU",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 0,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 8,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 20,
+  "mobileTopRow": 1,
+  "needsErrorInfo": false,
+  "onTextChanged": "{{\n  (() => {\n    const raw = inp_total_contenedores.text;\n\n    if (raw === \"\" || raw === null || raw === undefined) {\n      return storeValue(\"booking_form\", {\n        ...appsmith.store.booking_form,\n        total_contenedores: \"\"\n      });\n    }\n\n    const limpio = String(raw).replace(/\\D/g, \"\");\n    const numero = Math.min(Number(limpio || 0), 30);\n    const valor = numero >= 1 ? String(numero) : \"\";\n\n    return storeValue(\"booking_form\", {\n      ...appsmith.store.booking_form,\n      total_contenedores: valor\n    });\n  })()\n}}",
+  "originalBottomRow": 7,
+  "originalTopRow": 0,
+  "parentColumnSpace": 3.865927904844284,
+  "parentId": "j3o0448hdi",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "resetOnSubmit": true,
+  "responsiveBehavior": "fill",
+  "rightColumn": 6,
+  "shouldAllowAutofill": false,
+  "shouldScrollContents": true,
+  "showStepArrows": false,
+  "topRow": 0,
+  "type": "INPUT_WIDGET_V2",
+  "validation": "",
+  "version": 2,
+  "widgetId": "zqp6ymdryz",
+  "widgetName": "inp_total_contenedores"
+}

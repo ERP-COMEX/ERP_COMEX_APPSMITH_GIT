@@ -1,0 +1,13 @@
+select
+  ts.id as value,
+  upper(ts.nombre) as label
+from public.tipos_servicio ts
+where ts.activo = true
+  and upper(ts.modalidad_aplicable) = case
+    when nullif('{{ appsmith.store.booking_form?.modalidad_transporte_id || "" }}', '')::uuid = '53ef926e-1c42-45b2-a978-081922df304d'::uuid then 'MARITIMO'
+    when nullif('{{ appsmith.store.booking_form?.modalidad_transporte_id || "" }}', '')::uuid = '511eb94c-de6f-4fa6-b68e-7ed15bdcc4ec'::uuid then 'AEREO'
+    when nullif('{{ appsmith.store.booking_form?.modalidad_transporte_id || "" }}', '')::uuid = '1c0ece93-9fff-4392-8338-e89dde6bd8cd'::uuid then 'TERRESTRE'
+    when nullif('{{ appsmith.store.booking_form?.modalidad_transporte_id || "" }}', '')::uuid = 'b0f4f344-0a48-4a33-9e94-84a8bdd91c39'::uuid then 'COURIER'
+    else null
+  end
+order by ts.sort_order nulls last, ts.nombre;

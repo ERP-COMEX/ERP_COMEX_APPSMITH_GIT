@@ -1,0 +1,91 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 16,
+  "boxShadow": "none",
+  "closeOnSelection": true,
+  "dateFormat": "YYYY-MM-DD HH:mm",
+  "datePickerType": "DATE_PICKER",
+  "defaultDate": "{{ appsmith.store.booking_form?.fecha_factura_ter || undefined }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "defaultDate"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "defaultDate"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "minDate"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "onDateSelected"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onDateSelected"
+    }
+  ],
+  "firstDayOfWeek": 0,
+  "isDisabled": "{{\n  appsmith.store.form_mode === \"VIEW\"\n  || !(\n    (appsmith.store.booking_form?.modalidad_transporte_label || sl_transporte.selectedOptionLabel || \"\")\n      .toUpperCase()\n      .includes(\"CAR\")\n  )\n  || !appsmith.store.booking_form?.factura_triangulacion_ter\n}}",
+  "isLoading": false,
+  "isRequired": "{{\n  appsmith.store.form_mode === \"VIEW\"\n  || !appsmith.store.booking_form?.factura_triangulacion_ter\n  || !!appsmith.store.booking_form?.fecha_factura_ter\n}}",
+  "isVisible": true,
+  "key": "n6kwjmkfec",
+  "label": "FECHA FACTURA",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 56,
+  "maxDynamicHeight": 9000,
+  "minDate": "",
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 16,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 5,
+  "mobileTopRow": 9,
+  "needsErrorInfo": false,
+  "onDateSelected": "{{\n  BookingForm.setFields({\n    fecha_factura_ter: dt_fecha_factura_ter.selectedDate || \"\"\n  })\n}}",
+  "originalBottomRow": 16,
+  "originalTopRow": 9,
+  "parentColumnSpace": 13.32421875,
+  "parentId": "0gjne2fv42",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 64,
+  "shortcuts": false,
+  "shouldScrollContents": true,
+  "timePrecision": "minute",
+  "topRow": 9,
+  "type": "DATE_PICKER_WIDGET2",
+  "version": 2,
+  "widgetId": "rrzl0ubo6t",
+  "widgetName": "dt_fecha_factura_ter"
+}

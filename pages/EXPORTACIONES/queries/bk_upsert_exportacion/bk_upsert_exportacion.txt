@@ -1,0 +1,116 @@
+with f as (
+  select
+    nullif('{{ appsmith.store.tenant_id || "" }}', '')::uuid as tenant_id,
+    nullif('{{ appsmith.store.user_id || "" }}', '')::uuid as user_id,
+
+    nullif('{{ appsmith.store.booking_form?.exportacion_id || "" }}', '')::uuid as exportacion_id,
+    nullif('{{ appsmith.store.booking_form?.exportador_id || "" }}', '')::uuid as exportador_id,
+    nullif('{{ appsmith.store.booking_form?.cliente_id || "" }}', '')::uuid as cliente_id,
+    nullif('{{ appsmith.store.booking_form?.tipo_operacion_exportacion_id || "" }}', '')::uuid as tipo_operacion_exportacion_id,
+
+    nullif('{{ appsmith.store.booking_form?.operacion_no || "" }}', '') as operacion_no,
+    nullif('{{ appsmith.store.booking_form?.referencia_cliente || "" }}', '') as referencia_cliente
+),
+
+actualizada as (
+  update public.exportaciones e
+  set
+    exportador_id = f.exportador_id,
+    cliente_id = f.cliente_id,
+    tipo_operacion_exportacion_id = f.tipo_operacion_exportacion_id,
+    referencia_cliente = f.referencia_cliente,
+    updated_by = f.user_id,
+    updated_at = now()
+  from f
+  where e.id = f.exportacion_id
+    and e.tenant_id = f.tenant_id
+  returning e.id
+),
+
+existente_por_operacion as (
+  select e.id
+  from public.exportaciones e
+  join f on f.tenant_id = e.tenant_id
+  where e.operacion_no = f.operacion_no
+    and f.exportacion_id is null
+  limit 1
+),
+
+actualizada_por_operacion as (
+  update public.exportaciones e
+  set
+    exportador_id = f.exportador_id,
+    cliente_id = f.cliente_id,
+    tipo_operacion_exportacion_id = f.tipo_operacion_exportacion_id,
+    referencia_cliente = f.referencia_cliente,
+    updated_by = f.user_id,
+    updated_at = now()
+  from f, existente_por_operacion ex
+  where e.id = ex.id
+    and not exists (select 1 from actualizada)
+  returning e.id
+),
+
+insertada as (
+  insert into public.exportaciones (
+    tenant_id,
+    exportador_id,
+    cliente_id,
+    tipo_operacion_exportacion_id,
+    operacion_no,
+    referencia_cliente,
+    estado_general,
+    porcentaje_avance,
+    ultimo_modulo_actualizado,
+    booking_status,
+    confirmacion_venta_status,
+    cargue_planta_status,
+    facturacion_status,
+    sanitario_status,
+    puerto_status,
+    aduanero_status,
+    giros_clientes_status,
+    cambiario_status,
+    acuerdos_comerciales_status,
+    fecha_apertura,
+    observaciones_generales,
+    activo,
+    created_by,
+    updated_by
+  )
+  select
+    tenant_id,
+    exportador_id,
+    cliente_id,
+    tipo_operacion_exportacion_id,
+    operacion_no,
+    referencia_cliente,
+    'ABIERTA',
+    0,
+    'BOOKING',
+    'PENDIENTE',
+    'PENDIENTE',
+    'PENDIENTE',
+    'PENDIENTE',
+    'PENDIENTE',
+    'PENDIENTE',
+    'PENDIENTE',
+    'PENDIENTE',
+    'PENDIENTE',
+    'PENDIENTE',
+    now(),
+    null,
+    true,
+    user_id,
+    user_id
+  from f
+  where not exists (select 1 from actualizada)
+    and not exists (select 1 from actualizada_por_operacion)
+  returning id
+)
+
+select id from actualizada
+union all
+select id from actualizada_por_operacion
+union all
+select id from insertada;

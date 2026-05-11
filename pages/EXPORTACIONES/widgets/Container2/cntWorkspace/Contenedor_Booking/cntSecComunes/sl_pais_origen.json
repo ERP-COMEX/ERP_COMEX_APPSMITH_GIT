@@ -1,0 +1,93 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 16,
+  "boxShadow": "none",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store.booking_form?.pais_origen_id || \"\" ))(sl_pais_origen.options, sl_pais_origen.serverSideFiltering) }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "defaultOptionValue"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "isVisible"
+    },
+    {
+      "key": "optionValue"
+    },
+    {
+      "key": "optionLabel"
+    },
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "isDisabled": "{{\n  appsmith.store.form_mode === \"VIEW\" ||\n  !appsmith.store.booking_form?.modalidad_transporte_id\n}}",
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": "true",
+  "key": "gwh9wdpvql",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelText": "PAIS ORIGEN",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 0,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 41,
+  "mobileLeftColumn": 18,
+  "mobileRightColumn": 38,
+  "mobileTopRow": 34,
+  "needsErrorInfo": false,
+  "onOptionChange": "{{\n  (async () => {\n    await BookingForm_OLD_hastaFCL.setField(\n      \"pais_origen_id\",\n      sl_pais_origen.selectedOptionValue\n    );\n\n    await BookingForm_OLD_hastaFCL.clearChildren([\n      \"pol_id\",\n      \"terminal_pol_id\"\n    ]);\n\n    await q_pol_dropdown.run();\n  })()\n}}",
+  "optionLabel": "label",
+  "optionValue": "value",
+  "originalBottomRow": 16,
+  "originalTopRow": 9,
+  "parentColumnSpace": 12.492365837097168,
+  "parentId": "f81nhz5ukq",
+  "parentRowSpace": 10,
+  "placeholderText": "Seleccion Pais",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 12,
+  "serverSideFiltering": false,
+  "shouldScrollContents": true,
+  "sourceData": "{{ q_paises.data }}",
+  "topRow": 9,
+  "type": "SELECT_WIDGET",
+  "version": 1,
+  "widgetId": "t2w6kh6p2b",
+  "widgetName": "sl_pais_origen"
+}

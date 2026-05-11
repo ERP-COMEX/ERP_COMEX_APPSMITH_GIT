@@ -1,0 +1,90 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 34,
+  "boxShadow": "none",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store.booking_form?.transportadora_internacional_id || \"\" ))(sl_transportadora_internaciona.options, sl_transportadora_internaciona.serverSideFiltering) }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "defaultOptionValue"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "optionLabel"
+    },
+    {
+      "key": "optionValue"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "isDisabled": "{{\n  appsmith.store.form_mode === \"VIEW\" ||\n  !appsmith.store.booking_form?.modalidad_transporte_id ||\n  appsmith.store.booking_form?.modalidad_transporte_id === \"b0f4f344-0a48-4a33-9e94-84a8bdd91c39\"\n}}",
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "o0yzctgwic",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelText": "TRANSPORTADORA INTERNACIONAL",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 0,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 67,
+  "mobileLeftColumn": 3,
+  "mobileRightColumn": 23,
+  "mobileTopRow": 60,
+  "needsErrorInfo": false,
+  "onOptionChange": "{{\n  (async () => {\n    await BookingForm_OLD_hastaFCL.setField(\n      \"transportadora_internacional_id\",\n      sl_transportadora_internaciona.selectedOptionValue || \"\"\n    );\n\n    await BookingForm_OLD_hastaFCL.setField(\n      \"transportadora_internacional_label\",\n      sl_transportadora_internaciona.selectedOptionLabel || \"\"\n    );\n\n    await BookingForm_OLD_hastaFCL.clearChildren([\n      \"patio_retiro_vacios_id\",\n      \"patio_retiro_vacios_label\",\n      \"buque_id\",\n      \"buque_label\",\n      \"buque_lcl_id\",\n      \"buque_lcl_label\"\n    ]);\n\n    resetWidget(\"sl_patio_retiro_vacios\", true);\n    resetWidget(\"sl_buque\", true);\n\n    if (sl_transportadora_internaciona.selectedOptionValue) {\n      await q_buques_dropdown.run();\n      await q_patios_retiro_vacios.run();\n    }\n  })()\n}}",
+  "optionLabel": "label",
+  "optionValue": "value",
+  "originalBottomRow": 34,
+  "originalTopRow": 27,
+  "parentColumnSpace": 3.796287439763546,
+  "parentId": "f81nhz5ukq",
+  "parentRowSpace": 10,
+  "placeholderText": "Select option",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 17,
+  "serverSideFiltering": false,
+  "shouldScrollContents": true,
+  "sourceData": "{{ q_transportadoras.data || [] }}",
+  "topRow": 27,
+  "type": "SELECT_WIDGET",
+  "version": 1,
+  "widgetId": "9ncwufewwt",
+  "widgetName": "sl_transportadora_internaciona"
+}

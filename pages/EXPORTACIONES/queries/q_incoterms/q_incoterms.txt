@@ -1,0 +1,5 @@
+select
+  id as value,
+  codigo as label
+from public.incoterms
+order by codigo;

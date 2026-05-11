@@ -1,0 +1,95 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 25,
+  "boxShadow": "none",
+  "closeOnSelection": true,
+  "dateFormat": "YYYY-MM-DD HH:mm",
+  "datePickerType": "DATE_PICKER",
+  "defaultDate": "{{ appsmith.store.booking_form?.fecha_booking || undefined }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "defaultDate"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "maxDate"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "defaultDate"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "maxDate"
+    },
+    {
+      "key": "onDateSelected"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onDateSelected"
+    }
+  ],
+  "firstDayOfWeek": 0,
+  "isDisabled": "{{ appsmith.store.form_mode === \"VIEW\" }}",
+  "isLoading": false,
+  "isRequired": "{{ !!appsmith.store.booking_form?.fecha_booking }}",
+  "isVisible": true,
+  "key": "8uh16rh9jm",
+  "label": "FECHA BOOKING",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 55,
+  "maxDate": "{{ moment().add(30, \"days\").toISOString() }}",
+  "maxDynamicHeight": 9000,
+  "minDate": "1920-12-31T18:30:00.000Z",
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 23,
+  "mobileLeftColumn": 2,
+  "mobileRightColumn": 22,
+  "mobileTopRow": 16,
+  "needsErrorInfo": false,
+  "onDateSelected": "{{\n  storeValue(\"booking_form\", {\n    ...appsmith.store.booking_form,\n    fecha_booking: dp_fecha_booking.selectedDate || \"\"\n  })\n}}",
+  "originalBottomRow": 25,
+  "originalTopRow": 18,
+  "parentColumnSpace": 4.456989765167236,
+  "parentId": "f81nhz5ukq",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 64,
+  "shortcuts": false,
+  "shouldScrollContents": true,
+  "timePrecision": "minute",
+  "topRow": 18,
+  "type": "DATE_PICKER_WIDGET2",
+  "version": 2,
+  "widgetId": "2io5baf66b",
+  "widgetName": "dp_fecha_booking"
+}

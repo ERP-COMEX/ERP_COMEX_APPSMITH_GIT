@@ -1,0 +1,60 @@
+{
+  "animateLoading": true,
+  "borderRadius": "1.5rem",
+  "bottomRow": 36,
+  "boxShadow": "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
+  "buttonColor": "#93c5fd",
+  "buttonVariant": "{{ uiExportaciones.isActive(\"INFORMACION_CAMBIARIA\") ? \"PRIMARY\" : \"TERTIARY\" }}\n\n",
+  "disabledWhenInvalid": false,
+  "dynamicBindingPathList": [
+    {
+      "key": "buttonVariant"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "onClick"
+    },
+    {
+      "key": "isVisible"
+    },
+    {
+      "key": "buttonVariant"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "iconAlign": "left",
+  "iconName": "dollar",
+  "isDefaultClickDisabled": true,
+  "isDisabled": false,
+  "isLoading": false,
+  "isVisible": "true",
+  "key": "n4grhe7r5x",
+  "leftColumn": 0,
+  "minWidth": 120,
+  "mobileBottomRow": 45,
+  "mobileLeftColumn": 3,
+  "mobileRightColumn": 19,
+  "mobileTopRow": 41,
+  "needsErrorInfo": false,
+  "onClick": "{{ navExport.go(navExport.KEYS.INFORMACION_CAMBIARIA) }}",
+  "parentColumnSpace": 4.759765625,
+  "parentId": "hjz8lst9pg",
+  "parentRowSpace": 10,
+  "placement": "START",
+  "recaptchaType": "V3",
+  "renderMode": "CANVAS",
+  "resetFormOnClick": false,
+  "responsiveBehavior": "hug",
+  "rightColumn": 64,
+  "text": "INFORMACION CAMBIARIA",
+  "topRow": 32,
+  "type": "BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "3ds753igwu",
+  "widgetName": "Button_Informacion_Cambiaria"
+}

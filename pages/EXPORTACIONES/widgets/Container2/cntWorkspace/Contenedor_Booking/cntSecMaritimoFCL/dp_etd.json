@@ -1,0 +1,94 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 25,
+  "boxShadow": "none",
+  "closeOnSelection": true,
+  "dateFormat": "YYYY-MM-DD HH:mm",
+  "datePickerType": "DATE_PICKER",
+  "defaultDate": "{{ appsmith.store.booking_form?.etd || undefined }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "defaultDate"
+    },
+    {
+      "key": "minDate"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "isRequired"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "defaultDate"
+    },
+    {
+      "key": "onDateSelected"
+    },
+    {
+      "key": "minDate"
+    },
+    {
+      "key": "isRequired"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onDateSelected"
+    }
+  ],
+  "firstDayOfWeek": 0,
+  "isDisabled": "{{\n  appsmith.store.form_mode === \"VIEW\" ||\n  !appsmith.store.booking_form?.eta\n}}",
+  "isLoading": false,
+  "isRequired": "{{\n  !appsmith.store.booking_form?.etd ||\n  !appsmith.store.booking_form?.eta ||\n  moment(appsmith.store.booking_form.etd).isSameOrAfter(\n    appsmith.store.booking_form.eta\n  )\n}}",
+  "isVisible": true,
+  "key": "8uh16rh9jm",
+  "label": "ETD ORIGEN",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 48,
+  "maxDynamicHeight": 9000,
+  "minDate": "{{ appsmith.store.booking_form?.eta || undefined }}",
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 43,
+  "mobileLeftColumn": 2,
+  "mobileRightColumn": 22,
+  "mobileTopRow": 36,
+  "needsErrorInfo": false,
+  "onDateSelected": "{{\n  (() => {\n    const etd = dp_etd.selectedDate || \"\";\n    const dias = appsmith.store.booking_form?.dias_libres || \"\";\n\n    const retiro = etd && dias !== \"\"\n      ? moment(etd).subtract(Number(dias), \"days\").toISOString()\n      : \"\";\n\n    return storeValue(\"booking_form\", {\n      ...appsmith.store.booking_form,\n      etd: etd,\n      retiro_vacios: retiro,\n      eta_pod: \"\"\n    }).then(() => {\n      resetWidget(\"dp_eta_pod\", true);\n    });\n  })()\n}}",
+  "originalBottomRow": 25,
+  "originalTopRow": 18,
+  "parentColumnSpace": 3.865927904844284,
+  "parentId": "j3o0448hdi",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 56,
+  "shortcuts": false,
+  "shouldScrollContents": true,
+  "timePrecision": "minute",
+  "topRow": 18,
+  "type": "DATE_PICKER_WIDGET2",
+  "version": 2,
+  "widgetId": "gmn59up43r",
+  "widgetName": "dp_etd"
+}

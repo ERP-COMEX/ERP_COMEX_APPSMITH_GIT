@@ -1,0 +1,6 @@
+select
+  id as value,
+  upper(nombre) as label
+from public.modalidades_transporte
+where activo = true
+order by nombre;

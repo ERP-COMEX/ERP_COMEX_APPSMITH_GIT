@@ -1,0 +1,95 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 25,
+  "boxShadow": "none",
+  "closeOnSelection": true,
+  "dateFormat": "YYYY-MM-DD HH:mm",
+  "datePickerType": "DATE_PICKER",
+  "defaultDate": "{{ appsmith.store.booking_form?.eta_pod || undefined }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "defaultDate"
+    },
+    {
+      "key": "minDate"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "isRequired"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "minDate"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "defaultDate"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "onDateSelected"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onDateSelected"
+    }
+  ],
+  "firstDayOfWeek": 0,
+  "isDisabled": "{{\n  appsmith.store.form_mode === \"VIEW\" ||\n  !appsmith.store.booking_form?.etd\n}}",
+  "isLoading": false,
+  "isRequired": "{{\n  !appsmith.store.booking_form?.eta_pod ||\n  !appsmith.store.booking_form?.etd ||\n  moment(appsmith.store.booking_form.eta_pod).isSameOrAfter(\n    appsmith.store.booking_form.etd\n  )\n}}",
+  "isVisible": true,
+  "key": "0lsheiugbm",
+  "label": "ETA DESTINO",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelTooltip": "",
+  "labelWidth": 5,
+  "leftColumn": 56,
+  "maxDynamicHeight": 9000,
+  "minDate": "{{ appsmith.store.booking_form?.etd || undefined }}",
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 22,
+  "mobileLeftColumn": 44,
+  "mobileRightColumn": 64,
+  "mobileTopRow": 15,
+  "needsErrorInfo": false,
+  "onDateSelected": "{{\n  storeValue(\"booking_form\", {\n    ...appsmith.store.booking_form,\n    eta_pod: dp_eta_pod.selectedDate || \"\"\n  })\n}}",
+  "originalBottomRow": 25,
+  "originalTopRow": 18,
+  "parentColumnSpace": 16.375,
+  "parentId": "j3o0448hdi",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 64,
+  "shortcuts": false,
+  "shouldScrollContents": true,
+  "timePrecision": "minute",
+  "topRow": 18,
+  "type": "DATE_PICKER_WIDGET2",
+  "version": 2,
+  "widgetId": "5p9hmvhvyl",
+  "widgetName": "dp_eta_pod"
+}

@@ -1,0 +1,36 @@
+with base as (
+  select
+    oe.id as operacion_exportacion_id,
+    oe.prefijo_codigo
+  from public.operaciones_exportacion oe
+  where {{ !!sl_operacion.selectedOptionValue }}
+    and oe.id = {{ sl_operacion.selectedOptionValue }}::uuid
+  limit 1
+),
+
+max_real as (
+  select
+    b.operacion_exportacion_id,
+    coalesce(
+      max(
+        cast(
+          regexp_replace(e.operacion_no, '^.*-0*', '')
+          as integer
+        )
+      ),
+      0
+    ) as max_real
+  from base b
+  left join public.exportaciones e
+    on e.tenant_id = {{ appsmith.store.tenant_id }}::uuid
+   and e.operacion_no like b.prefijo_codigo || '%'
+  group by b.operacion_exportacion_id
+)
+
+update public.operacion_consecutivos oc
+set
+  last_number = greatest(coalesce(oc.last_number, 0), mr.max_real),
+  updated_at = now()
+from max_real mr
+where oc.operacion_exportacion_id = mr.operacion_exportacion_id
+returning oc.operacion_exportacion_id, oc.last_number;

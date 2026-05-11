@@ -1,0 +1,90 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 7,
+  "boxShadow": "none",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store.booking_form?.cuenta_courier_id || \"\" ))(sl_cuentacourier_correo.options, sl_cuentacourier_correo.serverSideFiltering) }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "defaultOptionValue"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "optionValue"
+    },
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "isDisabled": "{{\n  appsmith.store.form_mode === \"VIEW\"\n  || !(\n    (appsmith.store.booking_form?.modalidad_transporte_label || sl_transporte.selectedOptionLabel || \"\")\n      .toUpperCase()\n      .includes(\"CORREO\")\n  )\n  || !appsmith.store.booking_form?.courier_correo_id\n  || !appsmith.store.booking_form?.flete_pagado_en_id\n  || !(\n    appsmith.store.booking_form?.exportador_id\n    || appsmith.store.booking_form?.cliente_id\n  )\n}}",
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": "{{\n  appsmith.store.form_mode === \"VIEW\"\n  || !(\n    (appsmith.store.booking_form?.modalidad_transporte_label || sl_transporte.selectedOptionLabel || \"\")\n      .toUpperCase()\n      .includes(\"CORREO\")\n  )\n  || !appsmith.store.booking_form?.courier_correo_id\n  || !appsmith.store.booking_form?.flete_pagado_en_id\n  || !(\n    appsmith.store.booking_form?.exportador_id\n    || appsmith.store.booking_form?.cliente_id\n  )\n  || !!appsmith.store.booking_form?.cuenta_courier_id\n}}",
+  "isVisible": true,
+  "key": "uft9rxbns7",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelText": "CUENTA COURRIER No",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 35,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 7,
+  "mobileLeftColumn": 2,
+  "mobileRightColumn": 22,
+  "mobileTopRow": 0,
+  "needsErrorInfo": false,
+  "onOptionChange": "{{\n  BookingForm.setFields({\n    cuenta_courier_id: sl_cuentacourier_correo.selectedOptionValue || \"\",\n    cuenta_courier_label: sl_cuentacourier_correo.selectedOptionLabel || \"\"\n  })\n}}",
+  "optionLabel": "label",
+  "optionValue": "value",
+  "parentColumnSpace": 16.375,
+  "parentId": "jdc5zt6jv5",
+  "parentRowSpace": 10,
+  "placeholderText": "Select option",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 47,
+  "serverSideFiltering": false,
+  "sourceData": "{{ q_cuentacourrier_correo_drop.data || [] }}",
+  "topRow": 0,
+  "type": "SELECT_WIDGET",
+  "version": 1,
+  "widgetId": "98xpw3gxax",
+  "widgetName": "sl_cuentacourier_correo"
+}

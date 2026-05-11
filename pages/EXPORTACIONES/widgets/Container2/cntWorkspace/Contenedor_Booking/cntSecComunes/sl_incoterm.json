@@ -1,0 +1,102 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 25,
+  "boxShadow": "none",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store.booking_form?.incoterm_id || \"\" ))(sl_incoterm.options, sl_incoterm.serverSideFiltering) }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "isVisible"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "placeholderText"
+    },
+    {
+      "key": "defaultOptionValue"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "labelTextColor"
+    },
+    {
+      "key": "optionLabel"
+    },
+    {
+      "key": "optionValue"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "isVisible"
+    },
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "isDisabled": "{{\n  appsmith.store.form_mode === \"VIEW\" ||\n  !appsmith.store.booking_form?.pais_origen_id ||\n  !appsmith.store.booking_form?.pol_id ||\n  !appsmith.store.booking_form?.terminal_pol_id ||\n  !appsmith.store.booking_form?.pais_destino_id ||\n  !appsmith.store.booking_form?.pod_id\n}}",
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": "{{ true }}",
+  "key": "huuyifl63x",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelText": "INCOTERM",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 24,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 39,
+  "mobileLeftColumn": 2,
+  "mobileRightColumn": 22,
+  "mobileTopRow": 32,
+  "needsErrorInfo": false,
+  "onOptionChange": "{{\n  (async () => {\n    await BookingForm_OLD_hastaFCL.setField(\n      \"incoterm_id\",\n      sl_incoterm.selectedOptionValue\n    );\n\n    await BookingForm_OLD_hastaFCL.clearChildren([\n      \"ciudad_incoterm_id\",\n      \"ubicacion_internacional_id\"\n    ]);\n\n    await q_ciudad_incoterm_dropdown.run();\n  })()\n}}",
+  "optionLabel": "label",
+  "optionValue": "value",
+  "originalBottomRow": 25,
+  "originalTopRow": 18,
+  "parentColumnSpace": 4.456989765167236,
+  "parentId": "f81nhz5ukq",
+  "parentRowSpace": 10,
+  "placeholderText": "{{\n  !appsmith.store.booking_form?.pais_origen_id ||\n  !appsmith.store.booking_form?.pol_id ||\n  !appsmith.store.booking_form?.terminal_pol_id ||\n  !appsmith.store.booking_form?.pais_destino_id ||\n  !appsmith.store.booking_form?.pod_id\n    ? \"Complete origen, terminal y destino antes de seleccionar INCOTERM\"\n    : \"Seleccione INCOTERM\"\n}}",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 31,
+  "serverSideFiltering": false,
+  "shouldScrollContents": true,
+  "sourceData": "{{\n  (q_incoterms.data || []).filter(i => {\n    const transporte = (sl_transporte.selectedOptionLabel || \"\").toUpperCase();\n    const inc = (i.label || \"\").toUpperCase();\n\n    const soloMaritimos = [\"FAS\", \"FOB\", \"CFR\", \"CIF\"];\n\n    if (!transporte) return true;\n\n    if (transporte.includes(\"MAR\")) {\n      return true;\n    }\n\n    return !soloMaritimos.includes(inc);\n  })\n}}",
+  "topRow": 18,
+  "type": "SELECT_WIDGET",
+  "version": 1,
+  "widgetId": "qd45dnrizn",
+  "widgetName": "sl_incoterm"
+}

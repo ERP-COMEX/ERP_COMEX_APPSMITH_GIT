@@ -1,0 +1,83 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 7,
+  "boxShadow": "none",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store.booking_form?.tipo_carga_id || \"\" ))(sl_tipo_carga.options, sl_tipo_carga.serverSideFiltering) }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "defaultOptionValue"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "isDisabled": "{{ appsmith.store.form_mode === \"VIEW\" }}",
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "huuyifl63x",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelText": "TIPO DE CARGA",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 43,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 23,
+  "mobileLeftColumn": 1,
+  "mobileRightColumn": 21,
+  "mobileTopRow": 16,
+  "needsErrorInfo": false,
+  "onOptionChange": "{{\n  (async () => {\n    await BookingForm_OLD_hastaFCL.setField(\n      \"tipo_carga_id\",\n      sl_tipo_carga.selectedOptionValue || \"\"\n    );\n\n    await BookingForm_OLD_hastaFCL.setField(\n      \"tipo_carga_label\",\n      sl_tipo_carga.selectedOptionLabel || \"\"\n    );\n\n    await BookingForm_OLD_hastaFCL.clearChildren([\n      \"caracteristica_carga_id\",\n      \"caracteristica_carga_label\",\n      \"transportadora_internacional_id\",\n      \"transportadora_internacional_label\",\n      \"patio_retiro_vacios_id\",\n      \"patio_retiro_vacios_label\",\n      \"buque_id\",\n      \"buque_label\",\n      \"buque_lcl_id\",\n      \"buque_lcl_label\"\n    ]);\n\n    resetWidget(\"sl_caracteristicas\", true);\n    resetWidget(\"sl_transportadora_internaciona\", true);\n    resetWidget(\"sl_patio_retiro_vacios\", true);\n    resetWidget(\"sl_buque\", true);\n    resetWidget(\"sl_buque_lcl\", true);\n  })()\n}}",
+  "optionLabel": "label",
+  "optionValue": "value",
+  "originalBottomRow": 29,
+  "originalTopRow": 22,
+  "parentColumnSpace": 4.456989765167236,
+  "parentId": "7l2q097pz8",
+  "parentRowSpace": 10,
+  "placeholderText": "Seleccione",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 54,
+  "serverSideFiltering": false,
+  "sourceData": "{{ q_tipos_carga_dropdown.data || [] \n}}",
+  "topRow": 0,
+  "type": "SELECT_WIDGET",
+  "version": 1,
+  "widgetId": "e7l8jg9xuq",
+  "widgetName": "sl_tipo_carga"
+}

@@ -1,0 +1,86 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "autoFocus": false,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 7,
+  "boxShadow": "none",
+  "defaultText": "{{ appsmith.store.booking_form?.dias_libres || \"\" }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "defaultText"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "onTextChanged"
+    },
+    {
+      "key": "isRequired"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onTextChanged"
+    }
+  ],
+  "errorMessage": "Debe ser un número entero mayor a 0",
+  "iconAlign": "left",
+  "inputType": "NUMBER",
+  "isDisabled": "{{ appsmith.store.form_mode === \"VIEW\" }}",
+  "isLoading": false,
+  "isRequired": "{{\n  (appsmith.store.booking_form?.dias_libres || \"\") === \"\" ||\n  (\n    /^[0-9]+$/.test(appsmith.store.booking_form?.dias_libres || \"\") &&\n    Number(appsmith.store.booking_form?.dias_libres) >= 0 &&\n    Number(appsmith.store.booking_form?.dias_libres) <= 30\n  )\n}}",
+  "isVisible": true,
+  "key": "wb9sypmxfa",
+  "label": "DIAS LIBRES",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 48,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 7,
+  "mobileLeftColumn": 43,
+  "mobileRightColumn": 63,
+  "mobileTopRow": 0,
+  "needsErrorInfo": false,
+  "onTextChanged": "{{\n  (() => {\n    const raw = inp_dias_libres.text;\n\n    const limpio = raw === \"\" || raw === null || raw === undefined\n      ? \"\"\n      : String(raw).replace(/\\D/g, \"\");\n\n    const numero = limpio === \"\"\n      ? \"\"\n      : Math.min(Math.floor(Number(limpio)), 30);\n\n    const dias = numero === \"\" ? \"\" : String(numero);\n\n    const etd = appsmith.store.booking_form?.etd || dp_etd.selectedDate || \"\";\n\n    const retiro = etd && dias !== \"\"\n      ? moment(etd).subtract(Number(dias), \"days\").toISOString()\n      : \"\";\n\n    return storeValue(\"booking_form\", {\n      ...appsmith.store.booking_form,\n      dias_libres: dias,\n      retiro_vacios: retiro\n    });\n  })()\n}}",
+  "originalBottomRow": 7,
+  "originalTopRow": 0,
+  "parentColumnSpace": 13.6044921875,
+  "parentId": "j3o0448hdi",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "resetOnSubmit": true,
+  "responsiveBehavior": "fill",
+  "rightColumn": 55,
+  "shouldAllowAutofill": false,
+  "shouldScrollContents": true,
+  "showStepArrows": false,
+  "topRow": 0,
+  "type": "INPUT_WIDGET_V2",
+  "validation": "",
+  "version": 2,
+  "widgetId": "5lrbj7m9m5",
+  "widgetName": "inp_dias_libres"
+}

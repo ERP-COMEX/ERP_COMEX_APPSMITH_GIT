@@ -1,0 +1,395 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 4,
+  "boxShadow": "none",
+  "buttonVariant": "PRIMARY",
+  "childStylesheet": {
+    "button": {
+      "buttonColor": "{{appsmith.theme.colors.primaryColor}}"
+    }
+  },
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "groupButtons.groupButtonqjnuyjna0i.onClick"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "groupButtons.groupButton1.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton2.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtondppikj6s3b.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonwcw2r41920.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonm7mz0erk8l.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonqjnuyjna0i.menuItems.menuItemluhtzyjw5x.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonqjnuyjna0i.menuItems.menuItemraoi4n0kbm.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonqjnuyjna0i.menuItems.menuItemqdhxwaaero.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonqjnuyjna0i.menuItems.menuItemhrktqmpmdi.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonqjnuyjna0i.menuItems.menuItem8gpbw0gbri.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonqjnuyjna0i.menuItems.menuItembjtwb94gkk.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonqjnuyjna0i.menuItems.menuItemhdcpwgapzy.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonqjnuyjna0i.menuItems.menuItemwqrjvzrqcm.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonqjnuyjna0i.menuItems.menuItem0hi6t8c9fj.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonqjnuyjna0i.menuItems.menuItem3u1ll1kbim.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonyzf8waygvl.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonqjnuyjna0i.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton2yjtisccgj.onClick"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "groupButtons.groupButton1.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton2.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtondppikj6s3b.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonwcw2r41920.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonm7mz0erk8l.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonqjnuyjna0i.menuItems.menuItemluhtzyjw5x.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonqjnuyjna0i.menuItems.menuItemraoi4n0kbm.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonqjnuyjna0i.menuItems.menuItemqdhxwaaero.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonqjnuyjna0i.menuItems.menuItemhrktqmpmdi.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonqjnuyjna0i.menuItems.menuItem8gpbw0gbri.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonqjnuyjna0i.menuItems.menuItembjtwb94gkk.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonqjnuyjna0i.menuItems.menuItemhdcpwgapzy.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonqjnuyjna0i.menuItems.menuItemwqrjvzrqcm.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonqjnuyjna0i.menuItems.menuItem0hi6t8c9fj.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonqjnuyjna0i.menuItems.menuItem3u1ll1kbim.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonyzf8waygvl.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton2yjtisccgj.onClick"
+    }
+  ],
+  "groupButtons": {
+    "groupButton1": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "disabledWhenInvalid": false,
+      "iconName": "folder-new",
+      "id": "groupButton1",
+      "index": 1,
+      "isDisabled": false,
+      "isVisible": true,
+      "label": "NUEVO",
+      "menuItems": {},
+      "onClick": "{{\n  (async () => {\n    await BookingForm_OLD_hastaFCL.newForm();\n    showAlert(\"Modo NUEVO activado.\", \"info\");\n  })()\n}}",
+      "placement": "START",
+      "widgetId": ""
+    },
+    "groupButton2": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "disabledWhenInvalid": false,
+      "iconName": "edit",
+      "id": "groupButton2",
+      "index": 2,
+      "isDisabled": false,
+      "isVisible": true,
+      "label": "EDITAR",
+      "menuItems": {},
+      "onClick": "{{\n  appsmith.store.current_booking_id\n    ? (\n        resetWidget(\"sl_ciudad_incoterm\", true),\n        resetWidget(\"sl_pol\", true),\n        resetWidget(\"sl_terminal_pol\", true),\n        resetWidget(\"sl_pod\", true),\n        resetWidget(\"sl_puerto_transbordo\", true),\n\n        storeValue(\"form_mode\", \"EDIT\"),\n        showAlert(\"Modo EDICIÓN activado.\", \"info\")\n      )\n    : showAlert(\"Primero debes cargar un registro desde la búsqueda.\", \"warning\")\n}}",
+      "placement": "START",
+      "widgetId": ""
+    },
+    "groupButton2yjtisccgj": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "iconName": "applications",
+      "id": "groupButton2yjtisccgj",
+      "index": 3,
+      "isDisabled": false,
+      "isSeparator": false,
+      "isVisible": true,
+      "itemType": "BUTTON",
+      "label": "DUPLICAR",
+      "menuItems": {},
+      "onClick": "{{\n  (async () => {\n    const ok = await BookingForm_OLD_hastaFCL.duplicateFromSelectedRow();\n\n    if (!ok) return;\n\n    showAlert(\n      \"Duplicado listo. Ahora selecciona RÉGIMEN para generar el consecutivo.\",\n      \"info\"\n    );\n  })()\n}}",
+      "placement": "START",
+      "variant": "filled",
+      "widgetId": "zv53k3uc92"
+    },
+    "groupButtondppikj6s3b": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "iconName": "floppy-disk",
+      "id": "groupButtondppikj6s3b",
+      "index": 4,
+      "isDisabled": false,
+      "isSeparator": false,
+      "isVisible": true,
+      "itemType": "BUTTON",
+      "label": "GUARDAR",
+      "menuItems": {},
+      "onClick": "{{\n  (async () => {\n    const modoActual = appsmith.store.form_mode;\n    const form = appsmith.store.booking_form || {};\n\n    if (![\"NEW\", \"EDIT\"].includes(modoActual)) {\n      showAlert(\"Debes estar en modo NUEVO o EDICIÓN antes de guardar.\", \"warning\");\n      return;\n    }\n\n    if (!appsmith.store.tenant_id || !appsmith.store.user_id) {\n      showAlert(\"No existe contexto de usuario/tenant.\", \"error\");\n      return;\n    }\n\n    if (!form.exportador_id) {\n      showAlert(\"Debes seleccionar el exportador.\", \"error\");\n      return;\n    }\n\n    if (!form.cliente_id) {\n      showAlert(\"Debes seleccionar el cliente.\", \"error\");\n      return;\n    }\n\n    if (!form.tipo_operacion_exportacion_id) {\n      showAlert(\"Debes seleccionar el tipo de operación.\", \"error\");\n      return;\n    }\n\n    if (!form.operacion_no) {\n      showAlert(\"No existe número de operación.\", \"error\");\n      return;\n    }\n\n    if (!form.modalidad_transporte_id) {\n      showAlert(\"Debes seleccionar el medio de transporte.\", \"error\");\n      return;\n    }\n\n    try {\n      const exportacion = await bk_upsert_exportacion.run();\n      const exportacionId = exportacion?.[0]?.id || \"\";\n\n      if (!exportacionId) {\n        showAlert(\"No se pudo obtener exportacion_id.\", \"error\");\n        return;\n      }\n\n      await storeValue(\"current_exportacion_id\", exportacionId);\n\n      const booking = await bk_upsert_booking.run();\n      const bookingId = booking?.[0]?.id || \"\";\n\n      if (!bookingId) {\n        showAlert(\"No se pudo obtener booking_id.\", \"error\");\n        return;\n      }\n\n      await storeValue(\"current_booking_id\", bookingId);\n      await storeValue(\"current_operacion_no\", form.operacion_no);\n\n      await storeValue(\"booking_form\", {\n        ...appsmith.store.booking_form,\n        exportacion_id: exportacionId,\n        booking_id: bookingId\n      });\n\n      try {\n        if (q_sync_operacion_consecutivo?.run && typeof q_sync_operacion_consecutivo.run === \"function\") {\n          await q_sync_operacion_consecutivo.run();\n        }\n      } catch (syncErr) {\n        showAlert(\"Guardado correcto, pero no se pudo sincronizar el consecutivo.\", \"warning\");\n      }\n\n      await storeValue(\"form_mode\", \"VIEW\");\n\n      try {\n        if (q_booking_detail?.run && typeof q_booking_detail.run === \"function\") {\n          await q_booking_detail.run();\n        }\n      } catch (detailErr) {}\n\n      try {\n        if (q_booking_search?.run && typeof q_booking_search.run === \"function\") {\n          await q_booking_search.run();\n        }\n      } catch (searchErr) {}\n\n      showAlert(\n        modoActual === \"NEW\"\n          ? \"Nueva operación guardada correctamente.\"\n          : \"Cambios guardados correctamente.\",\n        \"success\"\n      );\n\n    } catch (err) {\n      showAlert(\"Error al guardar: \" + JSON.stringify(err), \"error\");\n    }\n  })()\n}}",
+      "placement": "START",
+      "variant": "filled",
+      "widgetId": "d8jzoo2nsu"
+    },
+    "groupButtonm7mz0erk8l": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "iconAlign": "left",
+      "iconName": "search-template",
+      "id": "groupButtonm7mz0erk8l",
+      "index": 5,
+      "isDisabled": false,
+      "isSeparator": false,
+      "isVisible": true,
+      "itemType": "BUTTON",
+      "label": "BUSCAR",
+      "menuItems": {},
+      "onClick": "{{\n  storeValue(\"show_booking_search_results\", true);\n}}",
+      "placement": "START",
+      "variant": "filled",
+      "widgetId": "ib78jzzsnk"
+    },
+    "groupButtonqjnuyjna0i": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "MENU",
+      "iconName": "properties",
+      "id": "groupButtonqjnuyjna0i",
+      "index": 0,
+      "isDisabled": false,
+      "isSeparator": false,
+      "isVisible": true,
+      "itemType": "BUTTON",
+      "label": "MENU",
+      "menuItems": {
+        "menuItem0hi6t8c9fj": {
+          "id": "menuItem0hi6t8c9fj",
+          "index": 8,
+          "isDisabled": false,
+          "isVisible": true,
+          "label": "IR A INFROMACION CAMBIARIA",
+          "onClick": "{{ storeValue(\"active_section\", \"INFORMACION CAMBIARIA\") }}",
+          "widgetId": "c1ry9uj7eb"
+        },
+        "menuItem3u1ll1kbim": {
+          "id": "menuItem3u1ll1kbim",
+          "index": 9,
+          "isDisabled": false,
+          "isVisible": true,
+          "label": "IR A ACUERDOS COMERCIALES",
+          "onClick": "{{ storeValue(\"active_section\", \"ACUERDOS_COMERCIALES\") }}",
+          "widgetId": "ux6l6v1o2u"
+        },
+        "menuItem8gpbw0gbri": {
+          "id": "menuItem8gpbw0gbri",
+          "index": 4,
+          "isDisabled": false,
+          "isVisible": true,
+          "label": "IR A INFORMACION SANITARIA",
+          "onClick": "{{ storeValue(\"active_section\", \"INFORMACION_SANITARIA\") }}",
+          "widgetId": "pi5xrgiw19"
+        },
+        "menuItembjtwb94gkk": {
+          "id": "menuItembjtwb94gkk",
+          "index": 5,
+          "isDisabled": false,
+          "isVisible": true,
+          "label": "IR A MANEJO EN PUERTO",
+          "onClick": "{{ storeValue(\"active_section\", \"MANEJO_EN_PUERTO\") }}",
+          "widgetId": "tm5qinkrmv"
+        },
+        "menuItemhdcpwgapzy": {
+          "id": "menuItemhdcpwgapzy",
+          "index": 6,
+          "isDisabled": false,
+          "isVisible": true,
+          "label": "IR A INFORMACION ADUANERA",
+          "onClick": "{{ storeValue(\"active_section\", \"INFORMACION_ADUANERA\") }}",
+          "widgetId": "pc24dtr60k"
+        },
+        "menuItemhrktqmpmdi": {
+          "id": "menuItemhrktqmpmdi",
+          "index": 3,
+          "isDisabled": false,
+          "isVisible": true,
+          "label": "IR A FACTURACION",
+          "onClick": "{{ storeValue(\"active_section\", \"FACTURACION\") }}",
+          "widgetId": "uzfb9ap65w"
+        },
+        "menuItemluhtzyjw5x": {
+          "id": "menuItemluhtzyjw5x",
+          "index": 0,
+          "isDisabled": false,
+          "isVisible": true,
+          "label": "IR A CONFIRMACION VENTA",
+          "onClick": "{{ storeValue(\"active_section\", \"CONFIRMACION_VENTA\") }}",
+          "widgetId": "kbd6avnuub"
+        },
+        "menuItemqdhxwaaero": {
+          "id": "menuItemqdhxwaaero",
+          "index": 2,
+          "isDisabled": false,
+          "isVisible": true,
+          "label": "IR A CARGUE EN PLANTA",
+          "onClick": "{{ storeValue(\"active_section\", \"CARGUE_EN_PLANTA\") }}",
+          "widgetId": "l9k4430w1v"
+        },
+        "menuItemraoi4n0kbm": {
+          "id": "menuItemraoi4n0kbm",
+          "index": 1,
+          "isDisabled": false,
+          "isVisible": true,
+          "label": "IR A BOOKING",
+          "onClick": "{{ storeValue(\"active_section\", \"BOOKING\") }}",
+          "widgetId": "byt4q0q29n"
+        },
+        "menuItemwqrjvzrqcm": {
+          "id": "menuItemwqrjvzrqcm",
+          "index": 7,
+          "isDisabled": false,
+          "isVisible": true,
+          "label": "IR A GIROS CLIENTES",
+          "onClick": "{{ storeValue(\"active_section\", \"GIROS CLIENTES\") }}",
+          "widgetId": "010zfok58l"
+        }
+      },
+      "onClick": "{{}}",
+      "placement": "START",
+      "variant": "filled",
+      "widgetId": "tn5pwtkcil"
+    },
+    "groupButtonwcw2r41920": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "iconName": "disable",
+      "id": "groupButtonwcw2r41920",
+      "index": 6,
+      "isDisabled": false,
+      "isSeparator": false,
+      "isVisible": true,
+      "itemType": "BUTTON",
+      "label": "CANCELAR",
+      "menuItems": {
+        "menuItem2akwym6b3y": {
+          "id": "menuItem2akwym6b3y",
+          "index": 0,
+          "isDisabled": false,
+          "isVisible": true,
+          "label": "CANCELAR",
+          "widgetId": "40xxnmkrbz"
+        },
+        "menuItembi5h8bjh92": {
+          "id": "menuItembi5h8bjh92",
+          "index": 1,
+          "isDisabled": false,
+          "isVisible": true,
+          "label": "ELIMINAR",
+          "widgetId": "gpgdn4fw7x"
+        }
+      },
+      "onClick": "{{\n  storeValue(\"form_mode\", \"VIEW\");\n  showAlert(\"Operación cancelada.\", \"info\")\n}}",
+      "placement": "START",
+      "variant": "filled",
+      "widgetId": "3iw7z9udiv"
+    },
+    "groupButtonyzf8waygvl": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "iconName": "trash",
+      "id": "groupButtonyzf8waygvl",
+      "index": 7,
+      "isDisabled": false,
+      "isSeparator": false,
+      "isVisible": true,
+      "itemType": "BUTTON",
+      "label": "ELIMINAR",
+      "menuItems": {},
+      "onClick": "{{\n  if (!appsmith.store.booking_id) {\n    showAlert(\"No hay registro cargado para eliminar.\", \"warning\");\n    return;\n  }\n  showModal(\"mdlDeleteBooking\");\n}}",
+      "placement": "START",
+      "variant": "filled",
+      "widgetId": "ipf7h3l1dx"
+    }
+  },
+  "isCanvas": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "ofjva39vim",
+  "leftColumn": 11,
+  "minWidth": 450,
+  "mobileBottomRow": 351,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 14,
+  "mobileTopRow": 347,
+  "needsErrorInfo": false,
+  "orientation": "horizontal",
+  "parentColumnSpace": 11.14361572265625,
+  "parentId": "bcf4uejgw8",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 63,
+  "topRow": 0,
+  "type": "BUTTON_GROUP_WIDGET",
+  "version": 1,
+  "widgetId": "8oszmi9jnc",
+  "widgetName": "bgBookingActions"
+}

@@ -1,0 +1,6 @@
+select
+  id as value,
+  upper(replace(nombre, '_', ' ')) as label
+from public.embalajes
+where activo = true
+order by sort_order nulls last, nombre;

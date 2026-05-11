@@ -1,0 +1,24 @@
+with ctx as (
+  select
+    nullif('{{ appsmith.store.booking_form?.pais_destino_id || "" }}', '')::uuid as pais_destino_id,
+    nullif('{{ appsmith.store.booking_form?.modalidad_transporte_id || "" }}', '')::uuid as transporte_id
+)
+
+select
+  p.id as value,
+  p.nombre as label
+from public.puertos p
+cross join ctx
+where p.activo = true
+  and ctx.pais_destino_id is not null
+  and ctx.transporte_id is not null
+  and p.pais_id = ctx.pais_destino_id
+  and p.tipo =
+    case
+      when ctx.transporte_id = '53ef926e-1c42-45b2-a978-081922df304d'::uuid then 'MARITIMO'
+      when ctx.transporte_id = '511eb94c-de6f-4fa6-b68e-7ed15bdcc4ec'::uuid then 'AEREO'
+      when ctx.transporte_id = '1c0ece93-9fff-4392-8338-e89dde6bd8cd'::uuid then 'TERRESTRE'
+      when ctx.transporte_id = 'b0f4f344-0a48-4a33-9e94-84a8bdd91c39'::uuid then 'AEREO'
+      else 'NA'
+    end
+order by p.nombre;

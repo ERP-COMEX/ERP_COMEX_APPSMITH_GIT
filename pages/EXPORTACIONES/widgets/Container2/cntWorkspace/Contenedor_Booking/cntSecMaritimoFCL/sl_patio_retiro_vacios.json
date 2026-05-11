@@ -1,0 +1,96 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 7,
+  "boxShadow": "none",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store.booking_form?.patio_retiro_vacios_id || \"\" ))(sl_patio_retiro_vacios.options, sl_patio_retiro_vacios.serverSideFiltering) }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "defaultOptionValue"
+    },
+    {
+      "key": "isVisible"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "sourceData"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "optionLabel"
+    },
+    {
+      "key": "optionValue"
+    },
+    {
+      "key": "isVisible"
+    },
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "isDisabled": "{{\n  appsmith.store.form_mode === \"VIEW\" ||\n  !(sl_transporte.selectedOptionLabel || \"\").toUpperCase().includes(\"MAR\") ||\n  !appsmith.store.booking_form?.tipo_carga_id ||\n  !appsmith.store.booking_form?.transportadora_internacional_id\n}}",
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": "{{\n  (sl_transporte.selectedOptionLabel || \"\").toUpperCase().includes(\"MAR\") &&\n  !!appsmith.store.booking_form?.tipo_carga_id\n}}",
+  "key": "rt33yba8tv",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelText": "PATIO RETIRO VACIOS",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 23,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 29,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 14,
+  "mobileTopRow": 22,
+  "needsErrorInfo": false,
+  "onOptionChange": "{{\n  (async () => {\n    await BookingForm_OLD_hastaFCL.setField(\n      \"patio_retiro_vacios_id\",\n      sl_patio_retiro_vacios.selectedOptionValue || \"\"\n    );\n\n    await BookingForm_OLD_hastaFCL.setField(\n      \"patio_retiro_vacios_label\",\n      sl_patio_retiro_vacios.selectedOptionLabel || \"\"\n    );\n  })()\n}}",
+  "optionLabel": "label",
+  "optionValue": "value",
+  "originalBottomRow": 7,
+  "originalTopRow": 0,
+  "parentColumnSpace": 12.492365837097168,
+  "parentId": "j3o0448hdi",
+  "parentRowSpace": 10,
+  "placeholderText": "Select option",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 48,
+  "serverSideFiltering": false,
+  "shouldScrollContents": true,
+  "sourceData": "{{\n  appsmith.store.booking_form?.transportadora_internacional_id\n    ? (q_patios_retiro_vacios.data || [])\n    : []\n}}",
+  "topRow": 0,
+  "type": "SELECT_WIDGET",
+  "version": 1,
+  "widgetId": "yfxx2o7eyn",
+  "widgetName": "sl_patio_retiro_vacios"
+}

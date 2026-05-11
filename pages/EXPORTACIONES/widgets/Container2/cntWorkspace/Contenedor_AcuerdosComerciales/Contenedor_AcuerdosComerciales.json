@@ -1,0 +1,114 @@
+{
+  "animateLoading": "true",
+  "backgroundColor": "{{ uiExportaciones.isActive(\"acuerdos_comerciales\") ? \"#dcfce7\" : \"#dcfce7\" }}\n",
+  "borderColor": "#dcfce7",
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "borderWidth": "1",
+  "bottomRow": 581,
+  "bottomRowBeforeCollapse": 467,
+  "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
+  "children": [
+    {
+      "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+      "bottomRow": 100,
+      "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
+      "canExtend": false,
+      "containerStyle": "none",
+      "detachFromLayout": true,
+      "dynamicBindingPathList": [
+        {
+          "key": "borderRadius"
+        },
+        {
+          "key": "boxShadow"
+        }
+      ],
+      "dynamicHeight": "AUTO_HEIGHT",
+      "flexLayers": [],
+      "isLoading": false,
+      "isVisible": true,
+      "key": "c8h82zn7pw",
+      "leftColumn": 0,
+      "maxDynamicHeight": 9000,
+      "minDynamicHeight": 4,
+      "minHeight": 100,
+      "minWidth": 450,
+      "mobileBottomRow": 100,
+      "mobileLeftColumn": 0,
+      "mobileRightColumn": 135.97265625,
+      "mobileTopRow": 0,
+      "needsErrorInfo": false,
+      "parentColumnSpace": 1,
+      "parentId": "272lf0ks0f",
+      "parentRowSpace": 1,
+      "renderMode": "CANVAS",
+      "responsiveBehavior": "fill",
+      "rightColumn": 135.97265625,
+      "topRow": 0,
+      "type": "CANVAS_WIDGET",
+      "version": 1,
+      "widgetId": "39cfqxifp8",
+      "widgetName": "Canvas12"
+    }
+  ],
+  "containerStyle": "card",
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "boxShadow"
+    },
+    {
+      "key": "backgroundColor"
+    },
+    {
+      "key": "isVisible"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "isVisible"
+    },
+    {
+      "key": "backgroundColor"
+    },
+    {
+      "key": "animateLoading"
+    },
+    {
+      "key": "boxShadow"
+    }
+  ],
+  "dynamicTriggerPathList": [],
+  "flexVerticalAlignment": "stretch",
+  "isCanvas": true,
+  "isLoading": false,
+  "isVisible": "{{ appsmith.store.active_section === \"ACUERDOS_COMERCIALES\" }}",
+  "key": "kjdhhfqk6w",
+  "leftColumn": 0,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 10,
+  "minWidth": 450,
+  "mobileBottomRow": 101,
+  "mobileLeftColumn": 38,
+  "mobileRightColumn": 62,
+  "mobileTopRow": 91,
+  "needsErrorInfo": false,
+  "originalBottomRow": 581,
+  "originalTopRow": 571,
+  "parentColumnSpace": 5.66552734375,
+  "parentId": "w67s8wem10",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 64,
+  "shouldScrollContents": true,
+  "topRow": 571,
+  "topRowBeforeCollapse": 457,
+  "type": "CONTAINER_WIDGET",
+  "version": 1,
+  "widgetId": "272lf0ks0f",
+  "widgetName": "Contenedor_AcuerdosComerciales"
+}

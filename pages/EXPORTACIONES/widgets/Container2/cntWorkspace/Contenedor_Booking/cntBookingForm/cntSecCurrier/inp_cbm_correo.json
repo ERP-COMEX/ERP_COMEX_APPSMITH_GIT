@@ -1,0 +1,88 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "autoFocus": false,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 16,
+  "boxShadow": "none",
+  "defaultText": "{{ appsmith.store.booking_form?.cbm_correo || \"\" }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "defaultText"
+    },
+    {
+      "key": "validation"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "isRequired"
+    },
+    {
+      "key": "onTextChanged"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onTextChanged"
+    }
+  ],
+  "iconAlign": "left",
+  "inputType": "NUMBER",
+  "isDisabled": "{{\n  appsmith.store.form_mode === \"VIEW\"\n  || !(\n    (appsmith.store.booking_form?.modalidad_transporte_label || sl_transporte.selectedOptionLabel || \"\")\n      .toUpperCase()\n      .includes(\"CORREO\")\n  )\n}}",
+  "isLoading": false,
+  "isRequired": "{{\n  sl_transporte.selectedOptionLabel === 'CORREO'\n}}",
+  "isVisible": true,
+  "key": "ft6ryaeagd",
+  "label": "CBM",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 58,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 27,
+  "mobileLeftColumn": 14,
+  "mobileRightColumn": 34,
+  "mobileTopRow": 20,
+  "needsErrorInfo": false,
+  "onTextChanged": "{{\n  (() => {\n    const raw = inp_cbm_correo.text;\n\n    if (raw === \"\" || raw === null || raw === undefined) {\n      return BookingForm.setFields({\n        cbm_correo: \"\"\n      });\n    }\n\n    let limpio = String(raw)\n      .replace(\",\", \".\")\n      .replace(/[^0-9.]/g, \"\");\n\n    const partes = limpio.split(\".\");\n    if (partes.length > 2) {\n      limpio = partes[0] + \".\" + partes.slice(1).join(\"\");\n    }\n\n    if (limpio.startsWith(\".\")) {\n      limpio = \"0\" + limpio;\n    }\n\n    let numero = Number(limpio);\n\n    if (isNaN(numero) || numero <= 0) {\n      numero = \"\";\n    } else {\n      numero = Number(numero.toFixed(3));\n    }\n\n    return BookingForm.setFields({\n      cbm_correo: numero === \"\" ? \"\" : String(numero)\n    });\n  })()\n}}",
+  "originalBottomRow": 16,
+  "originalTopRow": 9,
+  "parentColumnSpace": 16.375,
+  "parentId": "jdc5zt6jv5",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "resetOnSubmit": true,
+  "responsiveBehavior": "fill",
+  "rightColumn": 64,
+  "shouldAllowAutofill": false,
+  "shouldScrollContents": true,
+  "showStepArrows": false,
+  "topRow": 9,
+  "type": "INPUT_WIDGET_V2",
+  "validation": "{{\n  (appsmith.store.booking_form?.cbm_correo || \"\") === \"\"\n  ||\n  (\n    /^[0-9]+(\\.[0-9]{1,3})?$/.test(appsmith.store.booking_form?.cbm_correo || \"\")\n    &&\n    Number(appsmith.store.booking_form?.cbm_correo) > 0\n  )\n}}",
+  "version": 2,
+  "widgetId": "0iwb0x56b6",
+  "widgetName": "inp_cbm_correo"
+}

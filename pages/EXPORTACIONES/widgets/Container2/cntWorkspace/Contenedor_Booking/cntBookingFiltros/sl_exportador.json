@@ -1,0 +1,87 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 7,
+  "boxShadow": "none",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store.booking_form?.exportador_id || \"\" ))(sl_exportador.options, sl_exportador.serverSideFiltering) }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "defaultOptionValue"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "optionLabel"
+    },
+    {
+      "key": "optionValue"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "isDisabled": "{{ appsmith.store.form_mode === \"VIEW\" }}",
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "4m3xtdzv9h",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelText": "EXPORTADOR",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 0,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 7,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 3,
+  "mobileTopRow": 0,
+  "needsErrorInfo": false,
+  "onOptionChange": "{{\n  (async () => {\n    const selected = (q_exportadores_dropdown.data || []).find(\n      x => x.value === sl_exportador.selectedOptionValue\n    );\n\n    await storeValue(\"booking_form\", {\n      ...appsmith.store.booking_form,\n      exportador_id: sl_exportador.selectedOptionValue || \"\",\n      exportador_label: selected?.label || sl_exportador.selectedOptionLabel || \"\",\n      cliente_id: selected?.cliente_base_id || \"\"\n    });\n  })()\n}}",
+  "optionLabel": "label",
+  "optionValue": "value",
+  "parentColumnSpace": 16.6875,
+  "parentId": "7l2q097pz8",
+  "parentRowSpace": 10,
+  "placeholderText": "Seleccione Exportador",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 18,
+  "serverSideFiltering": false,
+  "sourceData": "{{ q_exportadores_dropdown.data || [] }}",
+  "topRow": 0,
+  "type": "SELECT_WIDGET",
+  "version": 1,
+  "widgetId": "4pwzpwqnet",
+  "widgetName": "sl_exportador"
+}

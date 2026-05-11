@@ -1,0 +1,90 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 25,
+  "boxShadow": "none",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( \n  appsmith.store.booking_form?.ciudad_incoterm_id ||\n  appsmith.store.booking_form?.ubicacion_internacional_id ||\n  \"\"\n))(sl_ciudad_incoterm.options, sl_ciudad_incoterm.serverSideFiltering) }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "placeholderText"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "defaultOptionValue"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "isVisible"
+    },
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "isDisabled": "{{\n  appsmith.store.form_mode === \"VIEW\" ||\n  !appsmith.store.booking_form?.incoterm_id ||\n  (\n    [\"EXW\",\"FCA\",\"FAS\"].includes((sl_incoterm.selectedOptionLabel || \"\").toUpperCase()) &&\n    !appsmith.store.booking_form?.pais_origen_id\n  ) ||\n  (\n    [\"FOB\"].includes((sl_incoterm.selectedOptionLabel || \"\").toUpperCase()) &&\n    !appsmith.store.booking_form?.pol_id\n  ) ||\n  (\n    [\"CFR\",\"CIF\"].includes((sl_incoterm.selectedOptionLabel || \"\").toUpperCase()) &&\n    !appsmith.store.booking_form?.pod_id\n  ) ||\n  (\n    [\"CPT\",\"CIP\",\"DAP\",\"DPU\",\"DDP\"].includes((sl_incoterm.selectedOptionLabel || \"\").toUpperCase()) &&\n    !appsmith.store.booking_form?.pais_destino_id\n  )\n}}",
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": "true",
+  "key": "o0yzctgwic",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelText": "CIUDAD INCOTERM",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 31,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 42,
+  "mobileLeftColumn": 3,
+  "mobileRightColumn": 23,
+  "mobileTopRow": 35,
+  "needsErrorInfo": false,
+  "onOptionChange": "{{\n  (async () => {\n    const selected = q_ciudad_incoterm_dropdown.data?.find(\n      x => String(x.value) === String(sl_ciudad_incoterm.selectedOptionValue)\n    );\n\n    if (selected?.source_type === \"DIVISION_TERRITORIAL\") {\n      await BookingForm_OLD_hastaFCL.setField(\n        \"ciudad_incoterm_id\",\n        sl_ciudad_incoterm.selectedOptionValue\n      );\n\n      await BookingForm_OLD_hastaFCL.setField(\n        \"ubicacion_internacional_id\",\n        \"\"\n      );\n    } else if (selected?.source_type === \"UBICACION_INTERNACIONAL\") {\n      await BookingForm_OLD_hastaFCL.setField(\n        \"ubicacion_internacional_id\",\n        sl_ciudad_incoterm.selectedOptionValue\n      );\n\n      await BookingForm_OLD_hastaFCL.setField(\n        \"ciudad_incoterm_id\",\n        \"\"\n      );\n    } else {\n      await BookingForm_OLD_hastaFCL.setField(\"ciudad_incoterm_id\", \"\");\n      await BookingForm_OLD_hastaFCL.setField(\"ubicacion_internacional_id\", \"\");\n    }\n  })()\n}}",
+  "optionLabel": "label",
+  "optionValue": "value",
+  "originalBottomRow": 25,
+  "originalTopRow": 18,
+  "parentColumnSpace": 3.796287439763546,
+  "parentId": "f81nhz5ukq",
+  "parentRowSpace": 10,
+  "placeholderText": "{{\n  [\"EXW\",\"FCA\",\"FAS\",\"FOB\"].includes((sl_incoterm.selectedOptionLabel || \"\").toUpperCase())\n    ? \"Seleccione ciudad/lugar de origen del INCOTERM\"\n    : [\"CFR\",\"CIF\",\"CPT\",\"CIP\",\"DAP\",\"DPU\",\"DDP\"].includes((sl_incoterm.selectedOptionLabel || \"\").toUpperCase())\n    ? \"Seleccione ciudad/lugar de destino del INCOTERM\"\n    : \"Seleccione primero el INCOTERM\"\n}}",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 48,
+  "serverSideFiltering": false,
+  "shouldScrollContents": true,
+  "sourceData": "{{ Array.isArray(q_ciudad_incoterm_dropdown.data) ? q_ciudad_incoterm_dropdown.data : [] }}",
+  "topRow": 18,
+  "type": "SELECT_WIDGET",
+  "version": 1,
+  "widgetId": "ls3wy5l8b8",
+  "widgetName": "sl_ciudad_incoterm"
+}
