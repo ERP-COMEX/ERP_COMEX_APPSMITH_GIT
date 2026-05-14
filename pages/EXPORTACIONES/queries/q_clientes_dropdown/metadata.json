@@ -5,7 +5,7 @@
   "pluginType": "DB",
   "unpublishedAction": {
     "actionConfiguration": {
-      "body": "select\n  c.id as value,\n  c.nombre as label\nfrom public.tenant_exportadores te\njoin public.clientes c\n  on c.id = te.exportador_id\nwhere te.tenant_id = '9aa932bd-c31d-4e6a-8df2-b57645f65dfa'\n  and te.activo = true\norder by c.nombre;",
+      "body": "select\n  c.id as value,\n  c.nombre as label\nfrom public.tenant_exportadores te\njoin public.clientes c\n  on c.id = te.exportador_id\nwhere te.tenant_id = nullif('{{ appsmith.store.tenant_id || \"\" }}', '')::uuid\n  and te.activo = true\norder by c.nombre;",
       "encodeParamsToggle": true,
       "paginationType": "NONE",
       "pluginSpecifiedTemplates": [
@@ -22,10 +22,14 @@
       "name": "supabase_comex",
       "pluginId": "postgres-plugin"
     },
-    "dynamicBindingPathList": [],
+    "dynamicBindingPathList": [
+      {
+        "key": "body"
+      }
+    ],
     "name": "q_clientes_dropdown",
     "pageId": "EXPORTACIONES",
-    "runBehaviour": "ON_PAGE_LOAD",
+    "runBehaviour": "MANUAL",
     "userSetOnLoad": true
   }
 }

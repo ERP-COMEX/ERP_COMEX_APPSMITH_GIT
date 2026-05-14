@@ -13,6 +13,7 @@ export default {
     await storeValue("user_name", ctx.user_name || "", false);
 
     await q_exportadores_dropdown.run();
+    await q_clientes_dropdown.run();
 
     return this.get();
   },
