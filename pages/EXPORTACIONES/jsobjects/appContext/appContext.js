@@ -1,5 +1,6 @@
 export default {
   async init() {
+    await q_bootstrap_context.run();
     const ctx = q_bootstrap_context.data?.[0];
 
     if (!ctx?.user_id || !ctx?.tenant_id) {
