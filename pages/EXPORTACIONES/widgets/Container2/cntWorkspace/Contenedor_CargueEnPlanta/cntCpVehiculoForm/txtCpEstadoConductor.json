@@ -1,0 +1,60 @@
+{
+  "animateLoading": true,
+  "backgroundColor": "#ffffff",
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 23,
+  "disableLink": "true",
+  "dynamicBindingPathList": [
+    {
+      "key": "truncateButtonColor"
+    },
+    {
+      "key": "fontFamily"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "text"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "disableLink"
+    }
+  ],
+  "dynamicTriggerPathList": [],
+  "fontFamily": "{{appsmith.theme.fontFamily.appFont}}",
+  "fontSize": "0.875rem",
+  "fontStyle": "BOLD",
+  "isLoading": false,
+  "isVisible": true,
+  "key": "ug3t3x5kyp",
+  "leftColumn": 51,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 26,
+  "mobileLeftColumn": 8,
+  "mobileRightColumn": 24,
+  "mobileTopRow": 22,
+  "needsErrorInfo": false,
+  "overflow": "NONE",
+  "parentColumnSpace": 17.34375,
+  "parentId": "iz3o91rknf",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 64,
+  "shouldTruncate": false,
+  "text": "{{\n  (() => {\n    const doc = (inpCpCedulaConductor.text || \"\").trim();\n\n    if (!doc) return \"Digite documento conductor.\";\n\n    return qCpBuscarConductorPorDocumento.data?.[0]?.conductor_id\n      ? qCpBuscarConductorPorDocumento.data?.[0]?.estado_conductor || \"Conductor Encontrado.\"\n      : \"Conductor nuevo. Se creará al guardar.\";\n  })()\n}}",
+  "textAlign": "CENTER",
+  "textColor": "#7f1d1d",
+  "topRow": 16,
+  "truncateButtonColor": "{{appsmith.theme.colors.primaryColor}}",
+  "type": "TEXT_WIDGET",
+  "version": 1,
+  "widgetId": "mx3flknnh4",
+  "widgetName": "txtCpEstadoConductor"
+}

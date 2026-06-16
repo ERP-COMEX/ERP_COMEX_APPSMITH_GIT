@@ -1,0 +1,117 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 7,
+  "boxShadow": "none",
+  "buttonVariant": "PRIMARY",
+  "childStylesheet": {
+    "button": {
+      "buttonColor": "{{appsmith.theme.colors.primaryColor}}"
+    }
+  },
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "groupButtons.groupButton1.isVisible"
+    },
+    {
+      "key": "groupButtons.groupButton1.isDisabled"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "groupButtons.groupButtonf1mwztqves.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton3.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton1.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton1.isVisible"
+    },
+    {
+      "key": "groupButtons.groupButton1.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButton2.isVisible"
+    },
+    {
+      "key": "groupButtons.groupButtonf1mwztqves.isVisible"
+    },
+    {
+      "key": "groupButtons.groupButton2eurxo2u9t.isVisible"
+    },
+    {
+      "key": "groupButtons.groupButton2.onClick"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "groupButtons.groupButton1.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton2.onClick"
+    }
+  ],
+  "groupButtons": {
+    "groupButton1": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "disabledWhenInvalid": false,
+      "iconName": "properties",
+      "id": "groupButton1",
+      "index": 0,
+      "isDisabled": "{{ false }}",
+      "isVisible": "{{ true }}",
+      "label": "MENU",
+      "menuItems": {},
+      "onClick": "{{\n(async () => {\n  await JS_CvForm.resetFullForm();\n  await storeValue(\"cv_has_pending_changes\", false);\n\n  if (qCvProformaCabecera?.run) {\n    await qCvProformaCabecera.run();\n  }\n\n  if (qCvProformaDetalle?.run) {\n    await qCvProformaDetalle.run();\n  }\n\n  if (qCvProformasResumen?.run) {\n    await qCvProformasResumen.run();\n  }\n\n  if (qCvOperacionTotales?.run) {\n    await qCvOperacionTotales.run();\n  }\n\n  resetWidget(\"tblCvProformasResumen\", true);\n  resetWidget(\"tblCvDetalle\", true);\n\n  showAlert(\"Formulario reiniciado correctamente.\", \"success\");\n})();\n}}",
+      "placement": "START",
+      "widgetId": ""
+    },
+    "groupButton2": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "disabledWhenInvalid": false,
+      "iconName": "search-template",
+      "id": "groupButton2",
+      "index": 1,
+      "isDisabled": false,
+      "isVisible": "true",
+      "label": "BUSCAR",
+      "menuItems": {},
+      "onClick": "{{\n  qCpOperacionDropdown.run()\n}}",
+      "placement": "START",
+      "widgetId": ""
+    }
+  },
+  "isCanvas": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "8meibkymex",
+  "leftColumn": 0,
+  "minWidth": 450,
+  "mobileBottomRow": 28,
+  "mobileLeftColumn": 4,
+  "mobileRightColumn": 28,
+  "mobileTopRow": 24,
+  "needsErrorInfo": false,
+  "orientation": "horizontal",
+  "originalBottomRow": 11,
+  "originalTopRow": 7,
+  "parentColumnSpace": 13.3564453125,
+  "parentId": "4trqa16qr3",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 20,
+  "topRow": 3,
+  "type": "BUTTON_GROUP_WIDGET",
+  "version": 1,
+  "widgetId": "0tj4rdvrhk",
+  "widgetName": "btnCpResumenOperacion"
+}

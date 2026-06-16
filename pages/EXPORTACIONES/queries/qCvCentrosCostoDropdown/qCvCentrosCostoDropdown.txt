@@ -1,0 +1,8 @@
+select
+  id::text as value,
+  upper(nombre) as label,
+  upper(codigo) as codigo,
+  upper(nombre) as nombre
+from public.centros_costo_venta
+where activo = true
+order by sort_order;

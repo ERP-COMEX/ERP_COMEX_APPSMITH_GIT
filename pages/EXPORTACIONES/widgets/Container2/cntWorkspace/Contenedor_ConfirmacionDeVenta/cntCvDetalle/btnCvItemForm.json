@@ -1,0 +1,221 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 5,
+  "boxShadow": "none",
+  "buttonVariant": "PRIMARY",
+  "childStylesheet": {
+    "button": {
+      "buttonColor": "{{appsmith.theme.colors.primaryColor}}"
+    }
+  },
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "groupButtons.groupButton1.label"
+    },
+    {
+      "key": "groupButtons.groupButton1.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButton3.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButton1awelw9rt4.isDisabled"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "groupButtons.groupButtonf1mwztqves.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton3.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton1.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtony8e8xe6j3c.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton2eurxo2u9t.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton1awelw9rt4.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton1.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButton3.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButton1awelw9rt4.isDisabled"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "groupButtons.groupButton3.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton1.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtony8e8xe6j3c.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton2eurxo2u9t.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton1awelw9rt4.onClick"
+    }
+  ],
+  "groupButtons": {
+    "groupButton1": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "disabledWhenInvalid": false,
+      "iconName": "numbered-list",
+      "id": "groupButton1",
+      "index": 0,
+      "isDisabled": "{{\n  !appsmith.store.cv_exportacion_id ||\n  !JS_CvForm.isProformaEditable() ||\n  !appsmith.store.cv_item_producto?.producto_id ||\n  !appsmith.store.cv_item_empaque?.empaque_id ||\n  Number(inpCvItemCantidad.text || 0) <= 0\n}}",
+      "isVisible": true,
+      "label": "{{\n  appsmith.store.cv_item_edit_index !== null &&\n  appsmith.store.cv_item_edit_index !== undefined\n    ? \"ACTUALIZAR ÍTEM\"\n    : \"AGREGAR ÍTEM\"\n}}",
+      "menuItems": {},
+      "onClick": "{{\n  (async () => {\n    const items = appsmith.store.cv_items_proforma || [];\n    const editIndex = appsmith.store.cv_item_edit_index;\n\n    if (!appsmith.store.cv_item_producto?.producto_id) {\n      showAlert(\"Selecciona un producto.\", \"warning\");\n      return;\n    }\n\n    if (!appsmith.store.cv_item_empaque?.empaque_id) {\n      showAlert(\"Selecciona un empaque.\", \"warning\");\n      return;\n    }\n\n    if (Number(inpCvItemCantidad.text || 0) <= 0) {\n      showAlert(\"Ingresa una cantidad válida.\", \"warning\");\n      return;\n    }\n\n    const itemBase = {\n      item_no:\n        editIndex !== null && editIndex !== undefined\n          ? items[editIndex].item_no\n          : items.length + 1,\n\n      producto_id: appsmith.store.cv_item_producto?.producto_id,\n      empaque_id: appsmith.store.cv_item_empaque?.empaque_id,\n\n      codigo_producto: appsmith.store.cv_item_producto?.codigo_producto,\n      subpartida: inpCvItemSubpartida.text,\n      descripcion: inpCvItemDescripcion.text,\n      marca: inpCvItemMarca.text,\n      presentacion_comercial: inpCvItemPresentacion.text,\n      tipo_empaque: appsmith.store.cv_item_empaque?.tipo_empaque,\n      unidad_comercial: inpCvItemUnidadMedida.text,\n      unidad_dian: inpCvItemUnidadDian.text,\n\n      cantidad: Number(inpCvItemCantidad.text || 0),\n      valor_unitario: Number(inpCvItemValorUnit.text || 0),\n      total_valor: Number(inpCvItemTotalValor.text || 0),\n      valor_flete: Number(inpCvItemValorFlete.text || 0),\n      valor_seguro: Number(inpCvItemValorSeguro.text || 0),\n      valor_gastos_destino: Number(inpCvItemValorGastDest.text || 0),\n      subtotal: Number(inpCvItemSubtotal.text || 0),\n\n      peso_neto_total: Number(inpCvItemPesoNetoTotal.text || 0),\n      peso_bruto_total: Number(inpCvItemPesoBrutoTotal.text || 0),\n      volumen_total: Number(inpCvItemVolumenTotal.text || 0)\n    };\n\n    let newItems;\n\n    if (editIndex !== null && editIndex !== undefined) {\n      newItems = items.map((x, i) => (i === editIndex ? itemBase : x));\n      showAlert(\"Ítem actualizado.\", \"success\");\n    } else {\n      newItems = [...items, itemBase];\n      showAlert(\"Ítem agregado.\", \"success\");\n    }\n\n    await storeValue(\"cv_items_proforma\", newItems);\n    await storeValue(\"cv_item_edit_index\", null);\n    await storeValue(\"cv_has_pending_changes\", true);\n\n    await JS_CvForm.clearItemForm();\n  })()\n}}",
+      "placement": "START",
+      "widgetId": ""
+    },
+    "groupButton1awelw9rt4": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "iconName": "trash",
+      "id": "groupButton1awelw9rt4",
+      "index": 3,
+      "isDisabled": "{{\n  !appsmith.store.cv_exportacion_id ||\n  !JS_CvForm.isProformaEditable() ||\n  !tblCvDetalle.selectedRow?.item_no\n}}",
+      "isSeparator": false,
+      "isVisible": true,
+      "itemType": "BUTTON",
+      "label": "ELIMINAR ITEM",
+      "menuItems": {},
+      "onClick": "{{\n(async () => {\n  const row = tblCvDetalle.selectedRow;\n\n  if (!row || !row.item_no) {\n    showAlert(\"Selecciona un ítem para eliminar.\", \"warning\");\n    return;\n  }\n\n  await storeValue(\"delete_context\", {\n    action: \"DELETE_CV_ITEM\",\n    item_no: row.item_no,\n    id: row.id || null,\n    label: row.descripcion || row.codigo_producto || (\"Ítem \" + row.item_no),\n    message: \"Vas a eliminar el ítem \" + row.item_no + \". Esta acción requiere contraseña.\"\n  });\n\n  resetWidget(\"inpDeletePassword\", true);\n  resetWidget(\"taDeleteReason\", true);\n  showModal(\"mdlConfirmDelete\");\n})();\n}}",
+      "placement": "CENTER",
+      "variant": "filled",
+      "widgetId": "gnl6lunjfg"
+    },
+    "groupButton2eurxo2u9t": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "iconName": "applications",
+      "id": "groupButton2eurxo2u9t",
+      "index": 1,
+      "isDisabled": false,
+      "isSeparator": false,
+      "isVisible": true,
+      "itemType": "BUTTON",
+      "label": "DUPLICAR ITEM",
+      "menuItems": {},
+      "onClick": "{{\n  (() => {\n    const selected = tblCvDetalle.selectedRow;\n    const items = appsmith.store.cv_items_proforma || [];\n\n    if (!selected) {\n      showAlert(\"Selecciona un ítem para duplicar.\", \"warning\");\n      return;\n    }\n\n    const duplicated = {\n      ...selected,\n      item_no: items.length + 1\n    };\n\n    storeValue(\"cv_items_proforma\", [...items, duplicated]);\n    showAlert(\"Ítem duplicado.\", \"success\");\n  })()\n}}",
+      "placement": "START",
+      "variant": "filled",
+      "widgetId": "5b3qqwi43i"
+    },
+    "groupButton3": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "disabledWhenInvalid": false,
+      "iconName": "edit",
+      "id": "groupButton3",
+      "index": 2,
+      "isDisabled": "{{\n  !appsmith.store.cv_exportacion_id ||\n  !JS_CvForm.isProformaEditable() ||\n  !tblCvDetalle.selectedRow?.item_no\n}}",
+      "isVisible": true,
+      "label": "EDITAR ITEM",
+      "menuItems": {
+        "menuItem1": {
+          "backgroundColor": "#FFFFFF",
+          "disabledWhenInvalid": false,
+          "id": "menuItem1",
+          "index": 0,
+          "isDisabled": false,
+          "isVisible": true,
+          "label": "First Option",
+          "onClick": "",
+          "widgetId": ""
+        },
+        "menuItem2": {
+          "backgroundColor": "#FFFFFF",
+          "disabledWhenInvalid": false,
+          "id": "menuItem2",
+          "index": 1,
+          "isDisabled": false,
+          "isVisible": true,
+          "label": "Second Option",
+          "onClick": "",
+          "widgetId": ""
+        },
+        "menuItem3": {
+          "backgroundColor": "#DD4B34",
+          "disabledWhenInvalid": false,
+          "iconAlign": "right",
+          "iconColor": "#FFFFFF",
+          "iconName": "trash",
+          "id": "menuItem3",
+          "index": 2,
+          "isDisabled": false,
+          "isVisible": true,
+          "label": "Delete",
+          "onClick": "",
+          "textColor": "#FFFFFF",
+          "widgetId": ""
+        }
+      },
+      "onClick": "{{\n(async () => {\n  const selected = tblCvDetalle.selectedRow;\n  const items = appsmith.store.cv_items_proforma || [];\n\n  if (!selected || !selected.item_no) {\n    showAlert(\"Selecciona un ítem para editar.\", \"warning\");\n    return;\n  }\n\n  const index = items.findIndex(\n    x => Number(x.item_no) === Number(selected.item_no)\n  );\n\n  if (index === -1) {\n    showAlert(\"No se encontró el ítem en memoria.\", \"warning\");\n    return;\n  }\n\n  const item = items[index];\n\n  await storeValue(\"cv_loading_item_edit\", true);\n  await storeValue(\"cv_item_edit_index\", index);\n\n  await storeValue(\"cv_item_producto\", {\n    producto_id: item.producto_id,\n    codigo_producto: item.codigo_producto,\n    descripcion: item.descripcion,\n    marca: item.marca,\n    partida_codigo: item.subpartida,\n    partida_descripcion: item.partida_descripcion\n  });\n\n  await storeValue(\"cv_item_empaque\", {\n    empaque_id: item.empaque_id,\n    presentacion_comercial: item.presentacion_comercial,\n    tipo_empaque: item.tipo_empaque,\n    unidad_comercial: item.unidad_comercial,\n    unidad_dian: item.unidad_dian,\n    peso_neto_unitario: item.cantidad ? Number(item.peso_neto_total || 0) / Number(item.cantidad || 1) : 0,\n    peso_bruto_unitario: item.cantidad ? Number(item.peso_bruto_total || 0) / Number(item.cantidad || 1) : 0,\n    volumen_unitario: item.cantidad ? Number(item.volumen_total || 0) / Number(item.cantidad || 1) : 0\n  });\n\n  await storeValue(\"cv_ui_item_tipo_producto\", item.tipo_producto || \"\");\n  await storeValue(\"cv_ui_item_categoria\", item.categoria || \"\");\n  await storeValue(\"cv_ui_item_producto\", item.subcategoria || \"\");\n  await storeValue(\"cv_ui_item_codigo\", item.producto_id || \"\");\n  await storeValue(\"cv_ui_item_empaque\", item.empaque_id || \"\");\n\n  await storeValue(\"cv_ui_item_cantidad\", item.cantidad || \"\");\n  await storeValue(\"cv_ui_item_valor_unit\", item.valor_unitario || \"\");\n  await storeValue(\"cv_ui_item_flete\", item.valor_flete || \"\");\n  await storeValue(\"cv_ui_item_seguro\", item.valor_seguro || \"\");\n  await storeValue(\"cv_ui_item_gastos_destino\", item.valor_gastos_destino || \"\");\n\n  await qCvItemCategoriaDropdown.run();\n  await qCvItemProductoDropdown.run();\n  await qCvItemCodigoDropdown.run();\n  await qCvItemEmpaqueDropdown.run();\n\n  resetWidget(\"slCvItemTipoProducto\", true);\n  resetWidget(\"slCvItemCategoria\", true);\n  resetWidget(\"slCvItemProducto\", true);\n  resetWidget(\"slCvItemCodigo\", true);\n  resetWidget(\"slCvItemEmpaque\", true);\n\n  resetWidget(\"inpCvItemCantidad\", true);\n  resetWidget(\"inpCvItemValorUnit\", true);\n  resetWidget(\"inpCvItemValorFlete\", true);\n  resetWidget(\"inpCvItemValorSeguro\", true);\n  resetWidget(\"inpCvItemValorGastDest\", true);\n\n  await storeValue(\"cv_loading_item_edit\", false);\n\n  showAlert(\"Ítem cargado para edición.\", \"success\");\n})();\n}}",
+      "placement": "START",
+      "widgetId": ""
+    },
+    "groupButtony8e8xe6j3c": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "iconName": "eraser",
+      "id": "groupButtony8e8xe6j3c",
+      "index": 4,
+      "isDisabled": false,
+      "isSeparator": false,
+      "isVisible": true,
+      "itemType": "BUTTON",
+      "label": "LIMPIAR FORMULARIO",
+      "menuItems": {},
+      "onClick": "{{\n  resetWidget(\"slCvItemTipoProducto\", true);\n  resetWidget(\"slCvItemCategoria\", true);\n  resetWidget(\"slCvItemProducto\", true);\n  resetWidget(\"slCvItemCodigo\", true);\n  resetWidget(\"slCvItemEmpaque\", true);\n\n  resetWidget(\"inpCvItemCantidad\", true);\n  resetWidget(\"inpCvItemValorUnit\", true);\n  resetWidget(\"inpCvItemValorFlete\", true);\n  resetWidget(\"inpCvItemValorSeguro\", true);\n  resetWidget(\"inpCvItemValorGastDest\", true);\n\n  storeValue(\"cv_item_producto\", null);\n  storeValue(\"cv_item_empaque\", null);\n  storeValue(\"cv_item_edit_index\", null);\n\n  showAlert(\"Formulario de ítem limpio.\", \"info\");\n}}",
+      "placement": "START",
+      "variant": "filled",
+      "widgetId": "0wcnep16pc"
+    }
+  },
+  "isCanvas": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "8meibkymex",
+  "leftColumn": 13,
+  "minWidth": 450,
+  "mobileBottomRow": 28,
+  "mobileLeftColumn": 4,
+  "mobileRightColumn": 28,
+  "mobileTopRow": 24,
+  "needsErrorInfo": false,
+  "orientation": "horizontal",
+  "originalBottomRow": 38,
+  "originalTopRow": 34,
+  "parentColumnSpace": 13.3564453125,
+  "parentId": "4wbojcp026",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 64,
+  "topRow": 1,
+  "type": "BUTTON_GROUP_WIDGET",
+  "version": 1,
+  "widgetId": "dj0513a90f",
+  "widgetName": "btnCvItemForm"
+}

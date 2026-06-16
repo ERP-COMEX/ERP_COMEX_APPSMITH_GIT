@@ -1,0 +1,31 @@
+select
+  p.id::text as value,
+  upper(coalesce(p.codigo_interno, '') || ' - ' || coalesce(p.descripcion_corta, '')) as label,
+
+  p.id::text as producto_id,
+  upper(coalesce(p.codigo_interno, '')) as codigo_interno,
+  upper(coalesce(p.codigo_sigo, '')) as codigo_sigo,
+  upper(coalesce(p.descripcion_corta, '')) as descripcion_corta,
+  upper(coalesce(p.descripcion_completa, '')) as descripcion_completa,
+  upper(coalesce(p.marca, '')) as marca,
+  upper(coalesce(p.presentacion, '')) as presentacion,
+  upper(coalesce(p.unidad_medida, '')) as unidad_medida,
+  upper(coalesce(p.subpartida, '')) as subpartida,
+
+  coalesce(p.peso_unitario_kg, 0) as peso_unitario_kg,
+  coalesce(p.peso_neto_caja_kg, 0) as peso_neto_caja_kg,
+  coalesce(p.peso_bruto_caja_kg, 0) as peso_bruto_caja_kg,
+  coalesce(p.volumen_caja_m3, 0) as volumen_caja_m3,
+  p.partida_id,
+
+  upper(coalesce(pa.codigo, '')) as partida_codigo,
+  upper(coalesce(pa.descripcion, '')) as partida_descripcion,
+  upper(coalesce(pa.unidad_medida, '')) as unidad_medida_arancel
+from public.productos p
+left join public.partidas_arancelarias pa
+  on pa.id = p.partida_id
+where p.activo = true
+  and upper(p.tipo_producto) = upper('{{ slCvItemTipoProducto.selectedOptionValue || "" }}')
+  and upper(p.categoria) = upper('{{ slCvItemCategoria.selectedOptionValue || "" }}')
+  and upper(p.subcategoria) = upper('{{ slCvItemProducto.selectedOptionValue || "" }}')
+order by p.codigo_interno;

@@ -1,0 +1,16 @@
+select
+  id as conductor_id,
+  nombre_completo,
+  numero_documento,
+  numero_licencia,
+  telefono,
+  habilitado_internacional,
+  case
+    when activo = false then 'INACTIVO'
+    when fecha_vencimiento_licencia < current_date then 'LICENCIA_VENCIDA'
+    when habilitado_internacional = true then 'HABILITADO'
+    else 'HABILITADO_NACIONAL'
+  end as estado_conductor
+from public.conductores
+where numero_documento = '{{ inpCpCedulaConductor.text }}'
+limit 1;

@@ -1,0 +1,59 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 76,
+  "boxShadow": "none",
+  "buttonColor": "#1e3a8a",
+  "buttonStyle": "PRIMARY_BUTTON",
+  "buttonVariant": "PRIMARY",
+  "disabledWhenInvalid": false,
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "onClick"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "isDefaultClickDisabled": true,
+  "isDisabled": "{{\n  !String(inpDirUpdateMotivo.text || \"\").trim()\n  ||\n  !String(inpDirUpdatePassword.text || \"\").trim()\n}}",
+  "isLoading": false,
+  "isVisible": true,
+  "key": "zwgb3s3eo6",
+  "leftColumn": 46,
+  "minWidth": 120,
+  "mobileBottomRow": 22,
+  "mobileLeftColumn": 47,
+  "mobileRightColumn": 63,
+  "mobileTopRow": 18,
+  "needsErrorInfo": false,
+  "onClick": "{{\n  (() => {\n    const motivo = String(inpDirUpdateMotivo.text || \"\").trim();\n    const password = String(inpDirUpdatePassword.text || \"\").trim();\n    const entity = appsmith.store.cp_update_context?.entity;\n    const mode = appsmith.store.cp_update_context?.mode || \"UPDATE\";\n\n    if (!motivo) {\n      showAlert(\"DEBE INGRESAR EL MOTIVO DE ACTUALIZACIÓN.\", \"warning\");\n      return;\n    }\n\n    if (!password) {\n      showAlert(\"DEBE INGRESAR LA CONTRASEÑA.\", \"warning\");\n      return;\n    }\n\n    if (!entity) {\n      showAlert(\"NO HAY CONTEXTO DE ACTUALIZACIÓN.\", \"error\");\n      return;\n    }\n\n    if (entity === \"CONDUCTOR\") {\n      if (!slDirCondTipoDocumento.selectedOptionValue) {\n        showAlert(\"EL TIPO DE DOCUMENTO ES OBLIGATORIO.\", \"warning\");\n        return;\n      }\n\n      if (!inpDirCondNombre.text?.trim()) {\n        showAlert(\"EL NOMBRE DEL CONDUCTOR ES OBLIGATORIO.\", \"warning\");\n        return;\n      }\n\n      if (!inpDirCondDocumento.text?.trim()) {\n        showAlert(\"EL DOCUMENTO DEL CONDUCTOR ES OBLIGATORIO.\", \"warning\");\n        return;\n      }\n\n      if (!inpDirCondLicencia.text?.trim()) {\n        showAlert(\"LA LICENCIA DEL CONDUCTOR ES OBLIGATORIA.\", \"warning\");\n        return;\n      }\n\n      if (!msDirCondCategoriaLicencia.selectedOptionValues?.length) {\n        showAlert(\"LA CATEGORÍA DE LICENCIA ES OBLIGATORIA.\", \"warning\");\n        return;\n      }\n\n      if (!dpDirCondVencimientoLicencia.selectedDate) {\n        showAlert(\"LA FECHA DE VENCIMIENTO DE LICENCIA ES OBLIGATORIA.\", \"warning\");\n        return;\n      }\n\n      if (!inpDirCondTelefono.text?.trim()) {\n        showAlert(\"EL TELÉFONO DEL CONDUCTOR ES OBLIGATORIO.\", \"warning\");\n        return;\n      }\n\n      if (!inpDirCondEmail.text?.trim()) {\n        showAlert(\"EL EMAIL DEL CONDUCTOR ES OBLIGATORIO.\", \"warning\");\n        return;\n      }\n    }\n\n    if (entity === \"VEHICULO\") {\n      if (!inpDirVehPlaca.text?.trim()) {\n        showAlert(\"LA PLACA DEL VEHÍCULO ES OBLIGATORIA.\", \"warning\");\n        return;\n      }\n\n      if (!slDirVehTipoVehiculo.selectedOptionValue) {\n        showAlert(\"EL TIPO DE VEHÍCULO ES OBLIGATORIO.\", \"warning\");\n        return;\n      }\n\n      if (!slDirVehMarca.selectedOptionValue) {\n        showAlert(\"LA MARCA DEL VEHÍCULO ES OBLIGATORIA.\", \"warning\");\n        return;\n      }\n\n      if (!inpDirVehModelo.text?.trim()) {\n        showAlert(\"EL MODELO DEL VEHÍCULO ES OBLIGATORIO.\", \"warning\");\n        return;\n      }\n\n      if (!slDirVehColor.selectedOptionValue) {\n        showAlert(\"EL COLOR DEL VEHÍCULO ES OBLIGATORIO.\", \"warning\");\n        return;\n      }\n\n      if (!inpDirVehCapacidadKg.text?.trim()) {\n        showAlert(\"LA CAPACIDAD DEL VEHÍCULO ES OBLIGATORIA.\", \"warning\");\n        return;\n      }\n\n      if (!inpDirVehSoatNo.text?.trim()) {\n        showAlert(\"EL SOAT DEL VEHÍCULO ES OBLIGATORIO.\", \"warning\");\n        return;\n      }\n\n      if (!dpDirVehSoatVencimiento.selectedDate) {\n        showAlert(\"LA FECHA DE VENCIMIENTO DEL SOAT ES OBLIGATORIA.\", \"warning\");\n        return;\n      }\n    }\n\n    qDirAuthUsuario.run(\n      () => {\n        if ((qDirAuthUsuario.data || []).length === 0) {\n          showAlert(\"CONTRASEÑA INCORRECTA O USUARIO SIN PERMISO.\", \"error\");\n          return;\n        }\n\n        if (entity === \"CONDUCTOR\") {\n          const queryConductor =\n            mode === \"CREATE\"\n              ? bkDirCrearConductor\n              : bkDirActualizarConductor;\n\n          queryConductor.run(\n            () => {\n              qCpBuscarConductorPorDocumento.run();\n\n              closeModal(\"mdlDirectorioUpdate\");\n              JS_CarguePlanta.clearDirectorioUpdateModal();\n\n              showAlert(\n                mode === \"CREATE\"\n                  ? \"CONDUCTOR CREADO CORRECTAMENTE.\"\n                  : \"CONDUCTOR ACTUALIZADO CORRECTAMENTE.\",\n                \"success\"\n              );\n            },\n            () => {\n              showAlert(\n                mode === \"CREATE\"\n                  ? \"NO SE PUDO CREAR EL CONDUCTOR.\"\n                  : \"NO SE PUDO ACTUALIZAR EL CONDUCTOR.\",\n                \"error\"\n              );\n            }\n          );\n          return;\n        }\n\n        if (entity === \"VEHICULO\") {\n          const queryVehiculo =\n            mode === \"CREATE\"\n              ? bkDirCrearVehiculo\n              : bkDirActualizarVehiculo;\n\n          queryVehiculo.run(\n            () => {\n              qCpBuscarVehiculoPorPlaca.run();\n              qCpVehiculosResumen.run();\n\n              closeModal(\"mdlDirectorioUpdate\");\n              JS_CarguePlanta.clearDirectorioUpdateModal();\n\n              showAlert(\n                mode === \"CREATE\"\n                  ? \"VEHÍCULO CREADO CORRECTAMENTE.\"\n                  : \"VEHÍCULO ACTUALIZADO CORRECTAMENTE.\",\n                \"success\"\n              );\n            },\n            () => {\n              showAlert(\n                mode === \"CREATE\"\n                  ? \"NO SE PUDO CREAR EL VEHÍCULO.\"\n                  : \"NO SE PUDO ACTUALIZAR EL VEHÍCULO.\",\n                \"error\"\n              );\n            }\n          );\n          return;\n        }\n\n        showAlert(\"NO HAY CONTEXTO DE ACTUALIZACIÓN.\", \"error\");\n      },\n      () => {\n        showAlert(\"NO SE PUDO VALIDAR LA CONTRASEÑA.\", \"error\");\n      }\n    );\n  })()\n}}",
+  "originalBottomRow": 76,
+  "originalTopRow": 72,
+  "parentId": "evuwu723eb",
+  "placement": "CENTER",
+  "recaptchaType": "V3",
+  "renderMode": "CANVAS",
+  "resetFormOnClick": false,
+  "responsiveBehavior": "hug",
+  "rightColumn": 63,
+  "text": "ACEPTAR",
+  "topRow": 72,
+  "type": "BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "rec5zozw7j",
+  "widgetName": "btnDirGuardar"
+}

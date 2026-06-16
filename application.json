@@ -7,7 +7,16 @@
     "appPositioning": {
       "type": "FIXED"
     },
-    "navigationSetting": {},
+    "navigationSetting": {
+      "colorStyle": "light",
+      "logoAssetId": "",
+      "logoConfiguration": "logoAndApplicationTitle",
+      "navStyle": "sidebar",
+      "orientation": "side",
+      "position": "static",
+      "showNavbar": true,
+      "showSignIn": true
+    },
     "themeSetting": {
       "appMaxWidth": "LARGE",
       "density": 1.0,
@@ -35,6 +44,50 @@
     {
       "id": "SEGUROS",
       "isDefault": false
+    },
+    {
+      "id": "OPERACION_360",
+      "isDefault": false
+    },
+    {
+      "id": "BOOKING",
+      "isDefault": false
+    },
+    {
+      "id": "CONFIRMACION_VENTA",
+      "isDefault": false
+    },
+    {
+      "id": "CARGUE_PLANTA",
+      "isDefault": false
+    },
+    {
+      "id": "FACTURACION",
+      "isDefault": false
+    },
+    {
+      "id": "ADUANERO",
+      "isDefault": false
+    },
+    {
+      "id": "PUERTO",
+      "isDefault": false
+    },
+    {
+      "id": "CAMBIARIO",
+      "isDefault": false
+    },
+    {
+      "id": "GIROS_CLIENTES",
+      "isDefault": false
+    },
+    {
+      "id": "COSTEO",
+      "isDefault": false
+    },
+    {
+      "id": "REPORTES",
+      "isDefault": false
     }
   ],
   "unpublishedAppLayout": {
@@ -44,7 +97,16 @@
     "appPositioning": {
       "type": "FIXED"
     },
-    "navigationSetting": {},
+    "navigationSetting": {
+      "colorStyle": "light",
+      "logoAssetId": "",
+      "logoConfiguration": "logoAndApplicationTitle",
+      "navStyle": "sidebar",
+      "orientation": "side",
+      "position": "static",
+      "showNavbar": true,
+      "showSignIn": true
+    },
     "themeSetting": {
       "appMaxWidth": "LARGE",
       "density": 1.0,

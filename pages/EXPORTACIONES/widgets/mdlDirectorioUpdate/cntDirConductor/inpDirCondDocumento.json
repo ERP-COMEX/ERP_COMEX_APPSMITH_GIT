@@ -1,0 +1,76 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "autoFocus": false,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 8,
+  "boxShadow": "none",
+  "defaultText": "{{\n  appsmith.store.cp_update_context?.entity === \"CONDUCTOR\"\n    ? (\n        appsmith.store.cp_update_context?.mode === \"UPDATE\"\n          ? qDirConductorById.data?.[0]?.numero_documento || \"\"\n          : inpCpCedulaConductor.text || \"\"\n      )\n    : \"\"\n}}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "defaultText"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "onTextChanged"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onTextChanged"
+    }
+  ],
+  "iconAlign": "left",
+  "inputType": "TEXT",
+  "isDisabled": "{{ !!qDirConductorById.data?.[0]?.id }}",
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "rm7qm9i02s",
+  "label": "DOCUMENTO CONDUCTOR",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 15,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 56,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 8,
+  "mobileTopRow": 49,
+  "needsErrorInfo": false,
+  "onTextChanged": "",
+  "originalBottomRow": 23,
+  "originalTopRow": 16,
+  "parentColumnSpace": 17.34375,
+  "parentId": "0plj1vzh3q",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "resetOnSubmit": true,
+  "responsiveBehavior": "fill",
+  "rightColumn": 27,
+  "showStepArrows": false,
+  "topRow": 1,
+  "type": "INPUT_WIDGET_V2",
+  "version": 2,
+  "widgetId": "hwumxje1fj",
+  "widgetName": "inpDirCondDocumento"
+}

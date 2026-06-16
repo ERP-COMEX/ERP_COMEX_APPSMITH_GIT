@@ -1,0 +1,35 @@
+{
+  "gitSyncId": "693476e8bab1731f64a493f4_c375efab-c963-4996-a54d-ba5ffeb62314",
+  "id": "EXPORTACIONES_bkCpVehiculoInsert",
+  "pluginId": "postgres-plugin",
+  "pluginType": "DB",
+  "unpublishedAction": {
+    "actionConfiguration": {
+      "body": "with estado_borrador as (\n  select id\n  from public.estados_cargue_planta\n  where codigo = 'BORRADOR'\n  limit 1\n),\n\ncargue_existente as (\n  select id\n  from public.cargues_planta_exportacion\n  where tenant_id = '{{ appsmith.store.cp_tenant_id }}'::uuid\n    and exportacion_id = '{{ appsmith.store.cp_exportacion_id }}'::uuid\n    and activo = true\n  limit 1\n),S\n\ncargue_creado as (\n  insert into public.cargues_planta_exportacion (\n    tenant_id,\n    exportacion_id,\n    booking_id,\n    proforma_id,\n    estado_cargue_id,\n    modalidad_transporte_id,\n    tipo_carga_id,\n    caracteristica_carga_id,\n    created_by,\n    updated_by\n  )\n  select\n    '{{ appsmith.store.cp_tenant_id }}'::uuid,\n    '{{ appsmith.store.cp_exportacion_id }}'::uuid,\n    nullif('{{ appsmith.store.cp_booking_id || \"\" }}', '')::uuid,\n    nullif('{{ appsmith.store.cp_proforma_id || \"\" }}', '')::uuid,\n    (select id from estado_borrador),\n    nullif('{{ appsmith.store.cp_modalidad_transporte_id || \"\" }}', '')::uuid,\n    nullif('{{ appsmith.store.cp_tipo_carga_id || \"\" }}', '')::uuid,\n    nullif('{{ appsmith.store.cp_caracteristica_carga_id || \"\" }}', '')::uuid,\n    nullif('{{ appsmith.store.user_id || \"\" }}', '')::uuid,\n    nullif('{{ appsmith.store.user_id || \"\" }}', '')::uuid\n  where not exists (select 1 from cargue_existente)\n  returning id\n),\n\ncargue_final as (\n  select id from cargue_existente\n  union all\n  select id from cargue_creado\n  limit 1\n),\n\nvehiculo_final as (\n  select\n    nullif('{{ qCpBuscarVehiculoPorPlaca.data?.[0]?.vehiculo_id || \"\" }}', '')::uuid as id\n),\n\nconductor_final as (\n  select\n    nullif('{{ qCpBuscarConductorPorDocumento.data?.[0]?.conductor_id || \"\" }}', '')::uuid as id\n),\n\nnext_viaje as (\n  select coalesce(max(viaje_no), 0) + 1 as viaje_no\n  from public.cargues_planta_vehiculos\n  where tenant_id = '{{ appsmith.store.cp_tenant_id }}'::uuid\n    and cargue_id = (select id from cargue_final)\n    and placa = upper(trim('{{ inpCpPlaca.text || \"\" }}'))\n    and activo = true\n),\n\nnext_item as (\n  select coalesce(max(item_no), 0) + 1 as item_no\n  from public.cargues_planta_vehiculos\n  where tenant_id = '{{ appsmith.store.cp_tenant_id }}'::uuid\n    and cargue_id = (select id from cargue_final)\n    and activo = true\n)\n\ninsert into public.cargues_planta_vehiculos (\n  tenant_id,\n  cargue_id,\n  exportacion_id,\n  vehiculo_id,\n  conductor_id,\n  item_no,\n  viaje_no,\n\n  tipo_vehiculo_terrestre_id,\n  placa,\n\n  tipo_remolque_catalogo_id,\n  placa_remolque,\n\n  marca_vehiculo,\n  modelo_vehiculo,\n  color_vehiculo,\n  capacidad_carga_kg,\n\n  soat_no,\n  soat_vencimiento,\n\n  conductor_documento,\n  conductor_nombre,\n  conductor_licencia,\n  conductor_telefono,\n  conductor_estado,\n\n  created_by,\n  updated_by\n)\nselect\n  '{{ appsmith.store.cp_tenant_id }}'::uuid,\n  (select id from cargue_final),\n  '{{ appsmith.store.cp_exportacion_id }}'::uuid,\n  (select id from vehiculo_final),\n  (select id from conductor_final),\n  (select item_no from next_item),\n  (select viaje_no from next_viaje),\n\n  nullif('{{ slCpTipoVehiculo.selectedOptionValue || \"\" }}', '')::uuid,\n  upper(trim('{{ inpCpPlaca.text || \"\" }}')),\n\n  nullif('{{ slCpTipoRemolque.selectedOptionValue || \"\" }}', '')::uuid,\n  upper(trim('{{ inpCpPlacaRemolque.text || \"\" }}')),\n\n  upper(trim('{{ slCpMarcaVehiculo.selectedOptionValue || \"\" }}')),\n  upper(trim('{{ inpCpModeloVehiculo.text || \"\" }}')),\n  upper(trim('{{ slCpColorVehiculo.selectedOptionValue || \"\" }}')),\n  nullif('{{ inpCpCapacidadCargaKg.text || \"\" }}', '')::numeric,\n\n  upper(trim('{{ inpCpSoatNo.text || \"\" }}')),\n  nullif('{{ dpCpSoatVencimiento.selectedDate || \"\" }}', '')::date,\n\n  upper(trim('{{ inpCpCedulaConductor.text || \"\" }}')),\n  upper(trim('{{ inpCpNombreConductor.text || \"\" }}')),\n  upper(trim('{{ inpCpLicenciaConductor.text || \"\" }}')),\n  upper(trim('{{ inpCpTelefonoConductor.text || \"\" }}')),\n  upper(trim('{{ txtCpEstadoConductor.text || \"\" }}')),\n\n  nullif('{{ appsmith.store.user_id || \"\" }}', '')::uuid,\n  nullif('{{ appsmith.store.user_id || \"\" }}', '')::uuid\nwhere (select id from vehiculo_final) is not null\n  and (select id from conductor_final) is not null\nreturning\n  id as cargue_vehiculo_id,\n  cargue_id,\n  vehiculo_id,\n  conductor_id,\n  placa,\n  viaje_no,\n  item_no;",
+      "encodeParamsToggle": true,
+      "paginationType": "NONE",
+      "pluginSpecifiedTemplates": [
+        {
+          "value": false
+        }
+      ],
+      "timeoutInMillisecond": 10000
+    },
+    "confirmBeforeExecute": false,
+    "datasource": {
+      "id": "supabase_comex",
+      "isAutoGenerated": false,
+      "name": "supabase_comex",
+      "pluginId": "postgres-plugin"
+    },
+    "dynamicBindingPathList": [
+      {
+        "key": "body"
+      }
+    ],
+    "name": "bkCpVehiculoInsert",
+    "pageId": "EXPORTACIONES",
+    "runBehaviour": "MANUAL",
+    "userSetOnLoad": false
+  }
+}

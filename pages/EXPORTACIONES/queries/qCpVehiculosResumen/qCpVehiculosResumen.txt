@@ -1,0 +1,41 @@
+select
+  cargue_vehiculo_id as id,
+  item_no,
+  viaje_no,
+  operacion_no,
+
+  tipo_vehiculo_terrestre,
+  placa,
+  tipo_remolque,
+  placa_remolque,
+
+  marca_vehiculo,
+  modelo_vehiculo,
+  color_vehiculo,
+  capacidad_carga_kg,
+
+  soat_no,
+  soat_vencimiento,
+
+  conductor_documento,
+  conductor_nombre,
+  conductor_licencia,
+  conductor_telefono,
+  conductor_estado,
+
+  peso_neto_cargado_kg,
+  peso_bruto_cargado_kg,
+  volumen_cargado_cbm,
+
+  cargue_vehiculo_id,
+  cargue_id,
+  exportacion_id,
+  vehiculo_id,
+  conductor_id,
+  tipo_vehiculo_terrestre_id,
+  tipo_remolque_catalogo_id
+
+from public.v_cp_vehiculos_resumen
+where tenant_id = '{{ appsmith.store.cp_tenant_id }}'::uuid
+  and exportacion_id = '{{ appsmith.store.cp_exportacion_id }}'::uuid
+order by item_no nulls last, viaje_no nulls last, created_at;

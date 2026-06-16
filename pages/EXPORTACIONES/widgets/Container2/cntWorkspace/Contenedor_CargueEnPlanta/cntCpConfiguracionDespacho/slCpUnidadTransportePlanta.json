@@ -1,0 +1,96 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 7,
+  "boxShadow": "none",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( \n  appsmith.store.booking_form?.tipo_operacion_exportacion_id || \"\"\n))(slCpUnidadTransportePlanta.options, slCpUnidadTransportePlanta.serverSideFiltering) }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "optionLabel"
+    },
+    {
+      "key": "optionValue"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "defaultOptionValue"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "onOptionChange"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "labelStyle"
+    },
+    {
+      "key": "optionLabel"
+    },
+    {
+      "key": "optionValue"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "isDisabled": "{{ appsmith.store.form_mode === \"VIEW\" }}",
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "huuyifl63x",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelText": "TIPO UNIDAD",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 10,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 7,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 20,
+  "mobileTopRow": 0,
+  "needsErrorInfo": false,
+  "onOptionChange": "{{\n  (async () => {\n    const operacionId = sl_operacion.selectedOptionValue || \"\";\n    const operacionLabel = sl_operacion.selectedOptionLabel || \"\";\n\n    if (!operacionId) {\n      await storeValue(\"booking_form\", {\n        ...appsmith.store.booking_form,\n        tipo_operacion_exportacion_id: \"\",\n        tipo_operacion_exportacion_label: \"\",\n        operacion_no: \"\"\n      });\n\n      await storeValue(\"current_operacion_tipo_id\", \"\");\n      await storeValue(\"current_operacion_no\", \"\");\n      return;\n    }\n\n    await storeValue(\"booking_form\", {\n      ...appsmith.store.booking_form,\n      tipo_operacion_exportacion_id: operacionId,\n      tipo_operacion_exportacion_label: operacionLabel\n    });\n\n    await storeValue(\"current_operacion_tipo_id\", operacionId);\n\n    const preview = await q_operacion_no_preview.run();\n    const operacionNo = preview?.[0]?.preview_operacion_no || \"\";\n\n    await storeValue(\"booking_form\", {\n      ...appsmith.store.booking_form,\n      tipo_operacion_exportacion_id: operacionId,\n      tipo_operacion_exportacion_label: operacionLabel,\n      operacion_no: operacionNo\n    });\n\n    await storeValue(\"current_operacion_no\", operacionNo);\n\n    showAlert(\"Consecutivo actualizado: \" + operacionNo, \"success\");\n  })()\n}}",
+  "optionLabel": "{{sl_operacion.sourceData.map((item) => ( \"label\" ))}}",
+  "optionValue": "{{sl_operacion.sourceData.map((item) => ( \"value\" ))}}",
+  "parentColumnSpace": 4.456989765167236,
+  "parentId": "to5jtem6el",
+  "parentRowSpace": 10,
+  "placeholderText": "Seleccione",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 20,
+  "serverSideFiltering": false,
+  "sourceData": "{{ q_operaciones_exportacion_drop.data || [] }}",
+  "topRow": 0,
+  "type": "SELECT_WIDGET",
+  "version": 1,
+  "widgetId": "qpwg7kj8e0",
+  "widgetName": "slCpUnidadTransportePlanta"
+}

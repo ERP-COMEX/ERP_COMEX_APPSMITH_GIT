@@ -1,0 +1,59 @@
+with datos_anteriores as (
+  select to_jsonb(c) as data
+  from public.conductores c
+  where c.id = '{{ appsmith.store.cp_update_context?.entity_id }}'::uuid
+),
+
+actualizar as (
+  update public.conductores
+  set
+    nombre_completo = upper(trim('{{ inpDirCondNombre.text || "" }}')),
+    numero_licencia = upper(trim('{{ inpDirCondLicencia.text || "" }}')),
+    categoria_licencia = upper(trim('{{ (msDirCondCategoriaLicencia.selectedOptionValues || []).join(",") }}')),
+    fecha_vencimiento_licencia = nullif('{{ dpDirCondVencimientoLicencia.selectedDate || "" }}', '')::date,
+    telefono = upper(trim('{{ inpDirCondTelefono.text || "" }}')),
+    email = lower(trim('{{ inpDirCondEmail.text || "" }}')),
+    fecha_ultima_actualizacion = now()
+  where id = '{{ appsmith.store.cp_update_context?.entity_id }}'::uuid
+  returning *
+),
+
+auditoria as (
+  insert into public.auditoria_entidades (
+    tenant_id,
+    modulo,
+    entidad,
+    entidad_id,
+    operacion,
+    motivo,
+    datos_anteriores,
+    datos_nuevos,
+    usuario_id,
+    autorizado_por
+  )
+  select
+    '{{ appsmith.store.cp_tenant_id }}'::uuid,
+    'CARGUE_PLANTA',
+    'CONDUCTORES',
+    '{{ appsmith.store.cp_update_context?.entity_id }}'::uuid,
+    'DIRECTORIO_UPDATE',
+    upper(trim('{{ inpDirUpdateMotivo.text || "" }}')),
+    da.data,
+    to_jsonb(a),
+    '{{ appsmith.store.user_id }}'::uuid,
+    '{{ appsmith.store.user_id }}'::uuid
+  from actualizar a
+  cross join datos_anteriores da
+  returning id
+)
+
+select
+  a.id,
+  a.nombre_completo,
+  a.numero_documento,
+  a.numero_licencia,
+  a.categoria_licencia,
+  a.fecha_vencimiento_licencia,
+  a.telefono,
+  a.email
+from actualizar a;

@@ -1,0 +1,90 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 7,
+  "boxShadow": "none",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  appsmith.store.cv_ui_item_empaque || \"\" ))(slCvItemEmpaque.options, slCvItemEmpaque.serverSideFiltering) }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "defaultOptionValue"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "optionLabel"
+    },
+    {
+      "key": "optionValue"
+    },
+    {
+      "key": "onOptionChange"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "isDisabled": "{{\n  !appsmith.store.cv_exportacion_id ||\n  !JS_CvForm.isProformaEditable()\n}}",
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "57eb9z6pf7",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelText": "EMPAQUE",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 53,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 7,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 4,
+  "mobileTopRow": 0,
+  "needsErrorInfo": false,
+  "onOptionChange": "{{\n\nappsmith.store.cv_loading_item_edit\n    ? null:\n  (() => {\n    const e = (qCvItemEmpaqueDropdown.data || []).find(\n      x => x.value === slCvItemEmpaque.selectedOptionValue\n    );\n\n    if (!e) {\n      showAlert(\"No se encontró el empaque seleccionado.\", \"warning\");\n      return;\n    }\n\n    storeValue(\"cv_item_empaque\", {\n      empaque_id: e.empaque_id,\n      codigo_empaque: e.codigo_empaque,\n      nombre_empaque: e.nombre_empaque,\n      presentacion_comercial: e.presentacion_comercial,\n      tipo_empaque: e.tipo_empaque,\n      unidad_comercial: e.unidad_comercial,\n      unidad_dian: e.unidad_dian,\n      cantidad_por_empaque: Number(e.cantidad_por_empaque || 1),\n      peso_neto_unitario: Number(e.peso_neto_empaque_kg || 0),\n      peso_bruto_unitario: Number(e.peso_bruto_empaque_kg || 0),\n      volumen_unitario: Number(e.volumen_empaque_m3 || 0)\n    });\n  })()\n}}",
+  "optionLabel": "label",
+  "optionValue": "value",
+  "originalBottomRow": 7,
+  "originalTopRow": 0,
+  "parentColumnSpace": 16.6875,
+  "parentId": "pf9436s1dz",
+  "parentRowSpace": 10,
+  "placeholderText": "Select option",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 64,
+  "serverSideFiltering": false,
+  "shouldScrollContents": true,
+  "sourceData": "{{ qCvItemEmpaqueDropdown.data || [] }}",
+  "topRow": 0,
+  "type": "SELECT_WIDGET",
+  "version": 1,
+  "widgetId": "g5dhhxmkug",
+  "widgetName": "slCvItemEmpaque"
+}

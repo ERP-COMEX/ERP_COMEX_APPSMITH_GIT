@@ -1,0 +1,6 @@
+select
+  nombre as value,
+  upper(nombre) as label
+from public.marcas_tractocamion
+where activo = true
+order by nombre;

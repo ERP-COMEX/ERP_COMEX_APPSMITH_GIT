@@ -1,0 +1,70 @@
+with insertar as (
+  insert into public.conductores (
+    nombre_completo,
+    tipo_documento,
+    numero_documento,
+    numero_licencia,
+    categoria_licencia,
+    fecha_vencimiento_licencia,
+    telefono,
+    email,
+    habilitado_internacional,
+    activo
+  )
+  values (
+    upper(trim('{{ inpDirCondNombre.text || "" }}')),
+    upper(trim('{{ slDirCondTipoDocumento.selectedOptionValue || "CC" }}')),
+    upper(trim('{{ inpDirCondDocumento.text || "" }}')),
+    upper(trim('{{ inpDirCondLicencia.text || "" }}')),
+    upper(trim('{{ (msDirCondCategoriaLicencia.selectedOptionValues || []).join(",") }}')),
+    nullif('{{ dpDirCondVencimientoLicencia.selectedDate || "" }}', '')::date,
+    upper(trim('{{ inpDirCondTelefono.text || "" }}')),
+    lower(trim('{{ inpDirCondEmail.text || "" }}')),
+    false,
+    true
+  )
+  on conflict (tipo_documento, numero_documento)
+  do update set
+    fecha_ultima_actualizacion = now()
+  returning *
+),
+
+auditoria as (
+  insert into public.auditoria_entidades (
+    tenant_id,
+    modulo,
+    entidad,
+    entidad_id,
+    operacion,
+    motivo,
+    datos_anteriores,
+    datos_nuevos,
+    usuario_id,
+    autorizado_por
+  )
+  select
+    '{{ appsmith.store.cp_tenant_id }}'::uuid,
+    'CARGUE_PLANTA',
+    'CONDUCTORES',
+    insertar.id,
+    'INSERT',
+    upper(trim('{{ inpDirUpdateMotivo.text || "CREACIÓN DE CONDUCTOR DESDE CARGUE PLANTA" }}')),
+    null,
+    to_jsonb(insertar),
+    '{{ appsmith.store.user_id }}'::uuid,
+    '{{ appsmith.store.user_id }}'::uuid
+  from insertar
+  returning id
+)
+
+select
+  insertar.id,
+  insertar.nombre_completo,
+  insertar.tipo_documento,
+  insertar.numero_documento,
+  insertar.numero_licencia,
+  insertar.categoria_licencia,
+  insertar.fecha_vencimiento_licencia,
+  insertar.telefono,
+  insertar.email
+from insertar;

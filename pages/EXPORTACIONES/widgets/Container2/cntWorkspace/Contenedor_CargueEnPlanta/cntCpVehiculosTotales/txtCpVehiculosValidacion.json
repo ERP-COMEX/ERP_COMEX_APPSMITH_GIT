@@ -1,0 +1,56 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 7,
+  "dynamicBindingPathList": [
+    {
+      "key": "truncateButtonColor"
+    },
+    {
+      "key": "fontFamily"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "text"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicTriggerPathList": [],
+  "fontFamily": "{{appsmith.theme.fontFamily.appFont}}",
+  "fontSize": "0.875rem",
+  "fontStyle": "BOLD",
+  "isLoading": false,
+  "isVisible": true,
+  "key": "ug3t3x5kyp",
+  "leftColumn": 52,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 6,
+  "mobileLeftColumn": 40,
+  "mobileRightColumn": 56,
+  "mobileTopRow": 2,
+  "needsErrorInfo": false,
+  "originalBottomRow": 6,
+  "originalTopRow": 2,
+  "overflow": "NONE",
+  "parentColumnSpace": 17.34375,
+  "parentId": "341wpqxzpq",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 64,
+  "shouldScrollContents": true,
+  "shouldTruncate": false,
+  "text": "{{\n  (() => {\n    const totalVehiculos = (qCpVehiculosResumen.data || []).length;\n    const planVehiculos = Number(appsmith.store.cp_total_vehiculos_booking || 0);\n\n    if (!appsmith.store.cp_exportacion_id) return \"SELECCIONE UNA OPERACIÓN.\";\n    if (totalVehiculos === 0) return \"SIN VEHÍCULOS REGISTRADOS.\";\n    if (planVehiculos > 0 && totalVehiculos > planVehiculos) return \"ALERTA: VEHÍCULOS REGISTRADOS SUPERAN LO PLANIFICADO.\";\n    if (planVehiculos > 0 && totalVehiculos < planVehiculos) return \"VEHÍCULOS PENDIENTES POR REGISTRAR.\";\n    return \"VEHÍCULOS COMPLETOS.\";\n  })()\n}}",
+  "textAlign": "CENTER",
+  "textColor": "#fde047",
+  "topRow": 2,
+  "truncateButtonColor": "{{appsmith.theme.colors.primaryColor}}",
+  "type": "TEXT_WIDGET",
+  "version": 1,
+  "widgetId": "x66j4383vu",
+  "widgetName": "txtCpVehiculosValidacion"
+}

@@ -1,0 +1,14 @@
+select distinct
+  upper(tipo_producto) as value,
+  upper(
+    case 
+      when tipo_producto = 'TERMINADO' then 'PRODUCTO TERMINADO'
+      when tipo_producto = 'MATERIA_PRIMA' then 'MATERIA PRIMA'
+      when tipo_producto = 'REPUESTO' then 'REPUESTO'
+      else tipo_producto
+    end
+  ) as label
+from public.productos
+where activo = true
+  and tipo_producto is not null
+order by label;

@@ -1,0 +1,53 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 23,
+  "boxShadow": "none",
+  "buttonColor": "#1e3a8a",
+  "buttonStyle": "PRIMARY_BUTTON",
+  "buttonVariant": "PRIMARY",
+  "disabledWhenInvalid": false,
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "isDefaultClickDisabled": true,
+  "isDisabled": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "pm7bivhmtm",
+  "leftColumn": 34,
+  "minWidth": 120,
+  "mobileBottomRow": 22,
+  "mobileLeftColumn": 47,
+  "mobileRightColumn": 63,
+  "mobileTopRow": 18,
+  "needsErrorInfo": false,
+  "onClick": "{{\n(async () => {\n  const ctx = appsmith.store.delete_context;\n\n  if (!ctx || !ctx.action) {\n    showAlert(\"No hay una acción de eliminación activa.\", \"warning\");\n    return;\n  }\n\n  if (!inpDeletePassword.text) {\n    showAlert(\"Ingresa la contraseña de eliminación.\", \"warning\");\n    return;\n  }\n\n  if (!taDeleteReason.text) {\n    showAlert(\"Ingresa el motivo de eliminación.\", \"warning\");\n    return;\n  }\n\n  await qValidateDeletePassword.run();\n\n  const ok = qValidateDeletePassword.data?.[0]?.ok === true;\n\n  if (!ok) {\n    showAlert(\"Contraseña incorrecta.\", \"error\");\n    return;\n  }\n\n  if (ctx.action === \"DELETE_CV_ITEM\") {\n    if (!ctx.item_no) {\n      showAlert(\"No se identificó el ítem a eliminar.\", \"warning\");\n      return;\n    }\n\n    let items = appsmith.store.cv_items_proforma || [];\n    const beforeCount = items.length;\n\n    items = items\n      .filter((x) => Number(x.item_no) !== Number(ctx.item_no))\n      .map((x, i) => ({\n        ...x,\n        item_no: i + 1\n      }));\n\n    if (items.length === beforeCount) {\n      showAlert(\"No se encontró el ítem en memoria.\", \"warning\");\n      return;\n    }\n\n    await storeValue(\"cv_items_proforma\", items);\n    await storeValue(\"cv_has_pending_changes\", true);\n\n    await JS_CvForm.clearItemForm();\n\n    closeModal(\"mdlConfirmDelete\");\n\n    resetWidget(\"inpDeletePassword\", true);\n    resetWidget(\"taDeleteReason\", true);\n    resetWidget(\"tblCvDetalle\", true);\n\n    removeValue(\"delete_context\");\n\n    showAlert(\n      \"Ítem eliminado de la proforma temporal. Recuerda actualizar la proforma para persistir el cambio.\",\n      \"success\"\n    );\n\n    return;\n  }\n\n  if (ctx.action === \"DELETE_CV_PROFORMA\") {\n    if (!ctx.id) {\n      showAlert(\"No se identificó la proforma a eliminar.\", \"warning\");\n      return;\n    }\n\n    await bkCvDeleteProformaSoft.run();\n\n    const result = bkCvDeleteProformaSoft.data?.[0] || {};\n\n    await JS_CvForm.resetProformaForm();\n    await storeValue(\"cv_has_pending_changes\", false);\n\n    await qCvProformasResumen.run();\n    await qCvOperacionTotales.run();\n    await qCvProformaCabecera.run();\n    await qCvProformaDetalle.run();\n\n    resetWidget(\"tblCvProformasResumen\", true);\n    resetWidget(\"tblCvDetalle\", true);\n    resetWidget(\"inpDeletePassword\", true);\n    resetWidget(\"taDeleteReason\", true);\n\n    closeModal(\"mdlConfirmDelete\");\n    removeValue(\"delete_context\");\n\n    showAlert(\n      \"Proforma eliminada correctamente. Cabecera: \" +\n        (result.proformas_eliminadas || 0) +\n        \" / Ítems: \" +\n        (result.items_eliminados || 0),\n      \"success\"\n    );\n\n    return;\n  }\n\n  showAlert(\"Acción de eliminación no reconocida.\", \"error\");\n})();\n}}",
+  "originalBottomRow": 23,
+  "originalTopRow": 19,
+  "parentId": "v0b4febfad",
+  "placement": "CENTER",
+  "recaptchaType": "V3",
+  "renderMode": "CANVAS",
+  "resetFormOnClick": false,
+  "responsiveBehavior": "hug",
+  "rightColumn": 55,
+  "text": "CONFIRMAR",
+  "topRow": 19,
+  "type": "BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "vuqz1i3xli",
+  "widgetName": "btnDeleteConfirm"
+}

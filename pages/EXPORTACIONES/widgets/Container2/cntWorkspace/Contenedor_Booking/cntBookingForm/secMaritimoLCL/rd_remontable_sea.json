@@ -60,7 +60,7 @@
   "needsErrorInfo": false,
   "onSelectionChange": "{{\n  (() => {\n    const value = rd_remontable_sea.selectedOptionValue || \"\";\n\n    return storeValue(\"booking_form\", {\n      ...appsmith.store.booking_form,\n      remontable_sea: value\n    });\n  })()\n}}",
   "options": "[\n  {\n    \"label\": \"SI\",\n    \"value\": \"SI\"\n  },\n  {\n    \"label\": \"NO\",\n    \"value\": \"NO\"\n  }\n]",
-  "originalBottomRow": 17,
+  "originalBottomRow": 18,
   "originalTopRow": 9,
   "parentColumnSpace": 13.32421875,
   "parentId": "n9op8t9yi4",

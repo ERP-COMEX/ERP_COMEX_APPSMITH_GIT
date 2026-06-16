@@ -1,0 +1,37 @@
+select distinct on (v.exportacion_id)
+  v.exportacion_id as value,
+  v.operacion_no || ' - ' || coalesce(v.referencia_cliente, 'SIN REF') as label,
+
+  v.exportacion_id,
+  v.tenant_id,
+  v.booking_id,
+  v.proforma_id,
+  v.operacion_no,
+  v.referencia_cliente,
+
+  v.modalidad_transporte_id,
+  v.tipo_carga_id,
+  v.caracteristica_carga_id,
+
+  v.booking_no,
+  v.total_contenedores,
+  v.total_contenedores_confirmados,
+  v.total_vehiculos_ter,
+
+  v.proforma_no,
+  v.proforma_cantidad_total,
+  v.proforma_peso_neto_total,
+  v.proforma_peso_bruto_total,
+  v.proforma_volumen_total,
+
+  v.cargue_id,
+  v.estado_cargue_id
+
+from public.v_cp_operaciones_disponibles v
+where v.tenant_id = '9aa932bd-c31d-4e6a-8df2-b57645f65dfa'::uuid
+  and (
+    '{{ inpCpOperacionSearch.text || "" }}' = ''
+    or v.operacion_no ilike '%' || '{{ inpCpOperacionSearch.text || "" }}' || '%'
+  )
+order by v.exportacion_id, v.operacion_no desc
+limit 50;

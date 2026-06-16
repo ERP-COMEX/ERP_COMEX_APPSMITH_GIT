@@ -1,0 +1,15 @@
+select
+  id,
+  tenant_id,
+  placa,
+  tipo_vehiculo_terrestre_id,
+  marca,
+  modelo,
+  color,
+  capacidad_carga_kg,
+  soat_no,
+  soat_vencimiento,
+  activo
+from public.vehiculos
+where id = '{{ appsmith.store.cp_update_context?.entity_id }}'::uuid
+limit 1;

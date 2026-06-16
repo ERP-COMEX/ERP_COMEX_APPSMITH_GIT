@@ -1,0 +1,36 @@
+select
+  e.operacion_no,
+  c.nombre as cliente,
+  be.booking_no,
+  mt.nombre as transporte,
+  tc.nombre as tipo_carga,
+  d.nombre as destinatario,
+  bc.nombre as bodega_cargue,
+  pol.nombre as pol,
+  pod.nombre as pod,
+  i.codigo as incoterm,
+  ciu.nombre as ciudad_incoterm,
+  be.total_contenedores
+from public.exportaciones e
+left join public.booking_exportacion be
+  on be.exportacion_id = e.id
+left join public.clientes c
+  on c.id = e.cliente_id
+left join public.modalidades_transporte mt
+  on mt.id = be.modalidad_transporte_id
+left join public.tipos_carga tc
+  on tc.id = be.tipo_carga_id
+left join public.destinatarios d
+  on d.id = be.destinatario_id
+left join public.bodegas_cargue bc
+  on bc.id = be.bodega_cargue_id
+left join public.puertos pol
+  on pol.id = be.pol_id
+left join public.puertos pod
+  on pod.id = be.pod_id
+left join public.incoterms i
+  on i.id = be.incoterm_id
+left join public.divisiones_territoriales ciu
+  on ciu.id = be.ciudad_incoterm_id
+where e.id = '{{ appsmith.store.cv_exportacion_id }}'::uuid
+limit 1;

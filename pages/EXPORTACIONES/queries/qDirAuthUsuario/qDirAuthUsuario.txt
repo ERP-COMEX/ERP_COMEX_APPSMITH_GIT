@@ -1,0 +1,20 @@
+select
+  u.id,
+  u.nombre,
+  u.email,
+  u.rol,
+  u.activo
+from public.usuarios_app u
+join public.tenant_usuarios tu
+  on tu.usuario_id = u.id
+where u.id = '{{ appsmith.store.user_id }}'::uuid
+  and tu.tenant_id = coalesce(
+    nullif('{{ appsmith.store.cp_tenant_id || "" }}', '')::uuid,
+    nullif('{{ appsmith.store.tenant_id || "" }}', '')::uuid,
+    '9aa932bd-c31d-4e6a-8df2-b57645f65dfa'::uuid
+  )
+  and u.activo = true
+  and tu.activo = true
+  and u.password_hash = crypt('{{ inpDirUpdatePassword.text || "" }}', u.password_hash)
+  and u.rol in ('ADMINISTRADOR', 'SUPERVISOR', 'SUPER_ADMIN')
+limit 1;

@@ -4,22 +4,41 @@
   "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
   "bottomRow": 7,
   "boxShadow": "none",
-  "defaultOptionValue": "GREEN",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => (  \"\" ))(slCvOperacion.options, slCvOperacion.serverSideFiltering) }}",
   "dynamicBindingPathList": [
     {
       "key": "accentColor"
     },
     {
       "key": "borderRadius"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "defaultOptionValue"
     }
   ],
-  "dynamicHeight": "FIXED",
+  "dynamicHeight": "AUTO_HEIGHT",
   "dynamicPropertyPathList": [
     {
       "key": "sourceData"
+    },
+    {
+      "key": "optionLabel"
+    },
+    {
+      "key": "optionValue"
+    },
+    {
+      "key": "onOptionChange"
     }
   ],
-  "dynamicTriggerPathList": [],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onOptionChange"
+    }
+  ],
   "isDisabled": false,
   "isFilterable": true,
   "isLoading": false,
@@ -29,11 +48,11 @@
   "labelAlignment": "left",
   "labelPosition": "Top",
   "labelStyle": "BOLD",
-  "labelText": "PROFORMA EXISTENTE",
+  "labelText": "EXPORTACION EXISTENTE",
   "labelTextColor": "#1e3a8a",
   "labelTextSize": "0.875rem",
   "labelWidth": 5,
-  "leftColumn": 22,
+  "leftColumn": 35,
   "maxDynamicHeight": 9000,
   "minDynamicHeight": 4,
   "minWidth": 450,
@@ -42,17 +61,21 @@
   "mobileRightColumn": 27,
   "mobileTopRow": 0,
   "needsErrorInfo": false,
-  "optionLabel": "name",
-  "optionValue": "code",
+  "onOptionChange": "{{\n  (() => {\n    const op = (qCvOperacionDropdown.data || []).find(\n      x => x.value === slCvOperacion.selectedOptionValue\n    );\n\n    if (!op) {\n      showAlert(\"No se encontró la operación seleccionada en la query.\", \"warning\");\n      return;\n    }\n\n    storeValue(\"cv_exportacion_id\", op.value);\n    storeValue(\"cv_operacion_no\", op.operacion_no);\n    storeValue(\"cv_tenant_id\", op.tenant_id);\n    storeValue(\"cv_cliente_id\", op.cliente_id);\n    storeValue(\"cv_cliente\", op.cliente);\n    storeValue(\"cv_confirmacion_venta_status\", op.confirmacion_venta_status);\n  })()\nqCvOperacionResumen.run();\nqCvProformasResumen.run();\nqCvOperacionTotales.run();\n}}",
+  "optionLabel": "label",
+  "optionValue": "value",
+  "originalBottomRow": 7,
+  "originalTopRow": 0,
   "parentColumnSpace": 16.6875,
   "parentId": "vjdozbwfqs",
   "parentRowSpace": 10,
   "placeholderText": "Select option",
   "renderMode": "CANVAS",
   "responsiveBehavior": "fill",
-  "rightColumn": 35,
+  "rightColumn": 64,
   "serverSideFiltering": false,
-  "sourceData": "[\n  {\n    \"name\": \"Blue\",\n    \"code\": \"BLUE\"\n  },\n  {\n    \"name\": \"Green\",\n    \"code\": \"GREEN\"\n  },\n  {\n    \"name\": \"Red\",\n    \"code\": \"RED\"\n  }\n]",
+  "shouldScrollContents": true,
+  "sourceData": "{{ qCvOperacionDropdown.data || [] }}",
   "topRow": 0,
   "type": "SELECT_WIDGET",
   "version": 1,

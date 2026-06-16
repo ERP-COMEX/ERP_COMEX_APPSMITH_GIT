@@ -1,0 +1,26 @@
+select
+  p.id,
+  p.exportacion_id,
+  p.proforma_no,
+  p.fecha_proforma,
+  upper(coalesce(est.nombre, '')) as estado,
+  p.cantidad_items,
+  p.cantidad_total,
+  p.peso_neto_total,
+  p.peso_bruto_total,
+  p.volumen_total,
+  p.fob_total,
+  p.flete_total,
+  p.seguro_total,
+  p.gastos_destino_total,
+  p.venta_total,
+  upper(coalesce(m.codigo_iso, '')) as moneda,
+  upper(coalesce(v.nombre_completo, '')) as vendedor,
+  p.created_at
+from public.proformas_exportacion p
+left join public.estados_operacion est on est.id = p.estado_id
+left join public.monedas m on m.id = p.moneda_id
+left join public.vendedores v on v.id = p.vendedor_id
+where p.exportacion_id = nullif('{{ appsmith.store.cv_exportacion_id || "" }}', '')::uuid
+  and p.activo = true
+order by p.created_at desc;

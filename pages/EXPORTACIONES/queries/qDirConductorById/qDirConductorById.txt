@@ -1,0 +1,18 @@
+select
+  id,
+  nombre_completo,
+  tipo_documento,
+  numero_documento,
+  pais_documento,
+  numero_licencia,
+  categoria_licencia,
+  pais_licencia,
+  fecha_vencimiento_licencia,
+  telefono,
+  email,
+  habilitado_internacional,
+  observaciones,
+  activo
+from public.conductores
+where id = '{{ appsmith.store.cp_update_context?.entity_id }}'::uuid
+limit 1;

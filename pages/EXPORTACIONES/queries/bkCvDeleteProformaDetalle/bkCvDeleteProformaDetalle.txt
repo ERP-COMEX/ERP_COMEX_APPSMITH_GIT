@@ -1,0 +1,2 @@
+delete from public.proforma_exportacion_detalle
+where proforma_id = '{{ appsmith.store.cv_proforma_id }}'::uuid;

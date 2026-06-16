@@ -60,7 +60,7 @@
   "needsErrorInfo": false,
   "onSelectionChange": "{{\n  (() => {\n    const value = rd_remontable_air.selectedOptionValue || \"\";\n\n    return storeValue(\"booking_form\", {\n      ...appsmith.store.booking_form,\n      remontable_air: value\n    });\n  })()\n}}",
   "options": "[\n  {\n    \"label\": \"SI\",\n    \"value\": \"SI\"\n  },\n  {\n    \"label\": \"NO\",\n    \"value\": \"NO\"\n  }\n]",
-  "originalBottomRow": 16,
+  "originalBottomRow": 17,
   "originalTopRow": 8,
   "parentColumnSpace": 13.32421875,
   "parentId": "gp8o5426pr",

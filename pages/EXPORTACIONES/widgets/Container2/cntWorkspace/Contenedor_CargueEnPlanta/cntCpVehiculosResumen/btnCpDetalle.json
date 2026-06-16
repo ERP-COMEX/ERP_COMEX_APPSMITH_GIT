@@ -1,0 +1,297 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 5,
+  "boxShadow": "none",
+  "buttonVariant": "PRIMARY",
+  "childStylesheet": {
+    "button": {
+      "buttonColor": "{{appsmith.theme.colors.primaryColor}}"
+    }
+  },
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "groupButtons.groupButtony6s6995jgm.isVisible"
+    },
+    {
+      "key": "groupButtons.groupButtony6s6995jgm.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButton1.isVisible"
+    },
+    {
+      "key": "groupButtons.groupButton2eurxo2u9t.isVisible"
+    },
+    {
+      "key": "groupButtons.groupButton2eurxo2u9t.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButton1.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButtonn15izot6di.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButton2.isVisible"
+    },
+    {
+      "key": "groupButtons.groupButton2.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButtonf1mwztqves.isVisible"
+    },
+    {
+      "key": "groupButtons.groupButtonf1mwztqves.isDisabled"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "groupButtons.groupButtonf1mwztqves.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton3.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtony6s6995jgm.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton1.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton2eurxo2u9t.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton2.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton2.isVisible"
+    },
+    {
+      "key": "groupButtons.groupButton2.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButtonf1mwztqves.isVisible"
+    },
+    {
+      "key": "groupButtons.groupButtonf1mwztqves.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButtony6s6995jgm.isVisible"
+    },
+    {
+      "key": "groupButtons.groupButtony6s6995jgm.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButton1.isVisible"
+    },
+    {
+      "key": "groupButtons.groupButton1.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButton2eurxo2u9t.isVisible"
+    },
+    {
+      "key": "groupButtons.groupButton2eurxo2u9t.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButtonn15izot6di.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonn15izot6di.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButtonrimifg6zp1.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonf3v1xockm5.onClick"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "groupButtons.groupButtonf1mwztqves.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtony6s6995jgm.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton1.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton2eurxo2u9t.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton2.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonn15izot6di.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonrimifg6zp1.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonf3v1xockm5.onClick"
+    }
+  ],
+  "groupButtons": {
+    "groupButton1": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "disabledWhenInvalid": false,
+      "iconName": "edit",
+      "id": "groupButton1",
+      "index": 3,
+      "isDisabled": "{{\n  !appsmith.store.cv_proforma_id ||\n  !JS_CvForm.isProformaEditable() ||\n  !inpCvProformaNo.text ||\n  !(appsmith.store.cv_items_proforma || []).length ||\n  appsmith.store.cv_item_edit_index !== null\n}}",
+      "isVisible": "{{ appsmith.store.cv_form_mode === \"VIEW\" }}",
+      "label": "ACTUALIZAR VEHICULO",
+      "menuItems": {},
+      "onClick": "{{\n(async () => {\n  if (!appsmith.store.cv_proforma_id) {\n    showAlert(\"Selecciona una proforma para actualizar.\", \"warning\");\n    return;\n  }\n\n  if (!inpCvProformaNo.text) {\n    showAlert(\"Ingresa el número de proforma.\", \"warning\");\n    return;\n  }\n\n  if (!(appsmith.store.cv_items_proforma || []).length) {\n    showAlert(\"La proforma debe tener al menos un ítem.\", \"warning\");\n    return;\n  }\n\n  try {\n    await bkCvUpdateProforma.run();\n    await bkCvDeleteProformaDetalle.run();\n    await bkCvInsertProformaDetalleUpdat.run();\n\n    await qCvProformasResumen.run();\n    await qCvOperacionTotales.run();\n    await qCvProformaCabecera.run();\n    await qCvProformaDetalle.run();\n\n    await storeValue(\"cv_has_pending_changes\", false);\n\n    showAlert(\"Proforma actualizada correctamente.\", \"success\");\n  } catch (err) {\n    showAlert(\"Error al actualizar proforma: \" + (err.message || err), \"error\");\n  }\n})();\n}}",
+      "placement": "START",
+      "widgetId": ""
+    },
+    "groupButton2": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "disabledWhenInvalid": false,
+      "iconName": "new-layer",
+      "id": "groupButton2",
+      "index": 0,
+      "isDisabled": "{{\n  !appsmith.store.cp_exportacion_id\n  || appsmith.store.cp_form_mode === \"VIEW\"\n}}",
+      "isVisible": "{{\n  !!appsmith.store.cp_exportacion_id\n}}",
+      "label": "NUEVO VEHICULO",
+      "menuItems": {},
+      "onClick": "{{\n  (() => {\n    if (!appsmith.store.cp_exportacion_id) {\n      showAlert(\"SELECCIONE UNA OPERACIÓN.\", \"warning\");\n      return;\n    }\n\n    if (!inpCpPlaca.text || !inpCpPlaca.text.trim()) {\n      showAlert(\"DEBE DIGITAR LA PLACA DEL VEHÍCULO.\", \"warning\");\n      return;\n    }\n\n    bkCpVehiculoInsert.run(\n      () => {\n        qCpVehiculosResumen.run();\n        qCpOperacionResumen.run();\n        showAlert(\"VEHÍCULO AGREGADO CORRECTAMENTE.\", \"success\");\n      },\n      () => {\n        showAlert(\"NO SE PUDO AGREGAR EL VEHÍCULO.\", \"error\");\n      }\n    );\n  })()\n}}",
+      "placement": "START",
+      "widgetId": ""
+    },
+    "groupButton2eurxo2u9t": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "iconName": "remove",
+      "id": "groupButton2eurxo2u9t",
+      "index": 4,
+      "isDisabled": "{{ false }}",
+      "isSeparator": false,
+      "isVisible": "{{ appsmith.store.cv_form_mode === \"NEW\" || appsmith.store.cv_form_mode === \"DUPLICATE\" }}",
+      "itemType": "BUTTON",
+      "label": "CANCELAR CREACION",
+      "menuItems": {},
+      "onClick": "{{\n  JS_CvForm.resetProformaForm()\n    .then(() => showAlert(\"Creación cancelada. Formulario de proforma limpio.\", \"success\"))\n    .catch((err) => showAlert(\"Error al cancelar: \" + (err.message || err), \"error\"))\n}}",
+      "placement": "START",
+      "variant": "filled",
+      "widgetId": "5b3qqwi43i"
+    },
+    "groupButtonf1mwztqves": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "iconName": "floppy-disk",
+      "id": "groupButtonf1mwztqves",
+      "index": 1,
+      "isDisabled": "{{\n  !appsmith.store.cp_exportacion_id\n  || !inpCpPlaca.text?.trim()\n  || !slCpTipoVehiculo.selectedOptionValue\n  || !slCpMarcaVehiculo.selectedOptionValue\n  || !inpCpModeloVehiculo.text?.trim()\n  || !slCpColorVehiculo.selectedOptionValue\n  || !inpCpCapacidadCargaKg.text?.trim()\n  || !inpCpCedulaConductor.text?.trim()\n  || !inpCpNombreConductor.text?.trim()\n  || !inpCpLicenciaConductor.text?.trim()\n  || !inpCpTelefonoConductor.text?.trim()\n}}",
+      "isSeparator": false,
+      "isVisible": "{{\n  !!appsmith.store.cp_exportacion_id\n  &&\n  appsmith.store.cp_form_mode !== \"VIEW\"\n}}",
+      "itemType": "BUTTON",
+      "label": "GUARDAR VEHICULO",
+      "menuItems": {},
+      "onClick": "{{\n  (() => {\n    if (!appsmith.store.cp_exportacion_id) {\n      showAlert(\"SELECCIONE UNA OPERACIÓN.\", \"warning\");\n      return;\n    }\n\n    if (!inpCpPlaca.text?.trim()) {\n      showAlert(\"DEBE DIGITAR LA PLACA DEL VEHÍCULO.\", \"warning\");\n      return;\n    }\n\n    if (!slCpTipoVehiculo.selectedOptionValue) {\n      showAlert(\"DEBE SELECCIONAR EL TIPO DE VEHÍCULO.\", \"warning\");\n      return;\n    }\n\n    if (!slCpMarcaVehiculo.selectedOptionValue) {\n      showAlert(\"DEBE SELECCIONAR LA MARCA DEL VEHÍCULO.\", \"warning\");\n      return;\n    }\n\n    if (!inpCpModeloVehiculo.text?.trim()) {\n      showAlert(\"DEBE DIGITAR EL MODELO DEL VEHÍCULO.\", \"warning\");\n      return;\n    }\n\n    if (!slCpColorVehiculo.selectedOptionValue) {\n      showAlert(\"DEBE SELECCIONAR EL COLOR DEL VEHÍCULO.\", \"warning\");\n      return;\n    }\n\n    if (!inpCpCapacidadCargaKg.text?.trim()) {\n      showAlert(\"DEBE DIGITAR LA CAPACIDAD DE CARGA.\", \"warning\");\n      return;\n    }\n\n    if (!inpCpCedulaConductor.text?.trim()) {\n      showAlert(\"DEBE DIGITAR EL DOCUMENTO DEL CONDUCTOR.\", \"warning\");\n      return;\n    }\n\n    if (!inpCpNombreConductor.text?.trim()) {\n      showAlert(\"DEBE DIGITAR EL NOMBRE DEL CONDUCTOR.\", \"warning\");\n      return;\n    }\n\n    if (!inpCpLicenciaConductor.text?.trim()) {\n      showAlert(\"DEBE DIGITAR LA LICENCIA DEL CONDUCTOR.\", \"warning\");\n      return;\n    }\n\n    if (!inpCpTelefonoConductor.text?.trim()) {\n      showAlert(\"DEBE DIGITAR EL TELÉFONO DEL CONDUCTOR.\", \"warning\");\n      return;\n    }\n\n    bkCpVehiculoInsert.run(\n      () => {\n        qCpVehiculosResumen.run();\n        qCpOperacionResumen.run();\n        qCpBuscarVehiculoPorPlaca.run();\n        qCpBuscarConductorPorDocumento.run();\n\n        showAlert(\"VEHÍCULO / VIAJE REGISTRADO CORRECTAMENTE.\", \"success\");\n      },\n      () => {\n        showAlert(\"NO SE PUDO REGISTRAR EL VEHÍCULO / VIAJE.\", \"error\");\n      }\n    );\n  })()\n}}",
+      "placement": "START",
+      "variant": "filled",
+      "widgetId": "ox17mlyqv6"
+    },
+    "groupButtonf3v1xockm5": {
+      "buttonColor": "#581c87",
+      "buttonType": "SIMPLE",
+      "iconName": "database",
+      "id": "groupButtonf3v1xockm5",
+      "index": 7,
+      "isDisabled": false,
+      "isSeparator": false,
+      "isVisible": true,
+      "itemType": "BUTTON",
+      "label": "ACTUALIZAR CONDUCTOR",
+      "menuItems": {},
+      "onClick": "{{ JS_CarguePlanta.openDirectorioConductorUpdate() }}",
+      "placement": "CENTER",
+      "variant": "filled",
+      "widgetId": "i7ekd6df4p"
+    },
+    "groupButtonn15izot6di": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "iconName": "trash",
+      "id": "groupButtonn15izot6di",
+      "index": 5,
+      "isDisabled": "{{\n  !appsmith.store.cv_proforma_id ||\n  !JS_CvForm.isProformaEditable()\n}}",
+      "isSeparator": false,
+      "isVisible": true,
+      "itemType": "BUTTON",
+      "label": "ELIMINAR VEHICULO",
+      "menuItems": {},
+      "onClick": "{{\n(async () => {\n  const row = tblCvProformasResumen.selectedRow;\n\n  if (!row || !row.id) {\n    showAlert(\"Selecciona una proforma para eliminar.\", \"warning\");\n    return;\n  }\n\n  await storeValue(\"delete_context\", {\n    action: \"DELETE_CV_PROFORMA\",\n    id: row.id,\n    label: row.proforma_no || row.id,\n    message: \"Vas a eliminar la proforma \" + (row.proforma_no || row.id) + \". Esta acción requiere contraseña.\"\n  });\n\n  resetWidget(\"inpDeletePassword\", true);\n  showModal(\"mdlConfirmDelete\");\n})();\n}}",
+      "placement": "CENTER",
+      "variant": "filled",
+      "widgetId": "bj4r726hps"
+    },
+    "groupButtonrimifg6zp1": {
+      "buttonColor": "#581c87",
+      "buttonType": "SIMPLE",
+      "iconName": "database",
+      "id": "groupButtonrimifg6zp1",
+      "index": 6,
+      "isDisabled": false,
+      "isSeparator": false,
+      "isVisible": true,
+      "itemType": "BUTTON",
+      "label": "ACTUALIZAR VEHICULO",
+      "menuItems": {},
+      "onClick": "{{ JS_CarguePlanta.openDirectorioVehiculoUpdate() }}",
+      "placement": "CENTER",
+      "variant": "filled",
+      "widgetId": "1mjmdcsk3v"
+    },
+    "groupButtony6s6995jgm": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "iconName": "applications",
+      "id": "groupButtony6s6995jgm",
+      "index": 2,
+      "isDisabled": "{{ !tblCvProformasResumen.selectedRow?.id }}",
+      "isSeparator": false,
+      "isVisible": "{{ appsmith.store.cv_form_mode === \"VIEW\" }}",
+      "itemType": "BUTTON",
+      "label": "DUPLICAR VEHICULO",
+      "menuItems": {},
+      "onClick": "{{\n  (() => {\n    const row = tblCvProformasResumen.selectedRow;\n\n    if (!row || !row.id) {\n      showAlert(\"Selecciona una proforma para duplicar.\", \"warning\");\n      return;\n    }\n\n    storeValue(\"cv_proforma_id\", row.id);\n\n    qCvProformaCabecera.run()\n      .then(() => qCvProformaDetalle.run())\n      .then(() => {\n        const cab = qCvProformaCabecera.data?.[0];\n\n        if (!cab) {\n          showAlert(\"No se encontró la cabecera de la proforma.\", \"warning\");\n          return;\n        }\n\n        const cabDuplicada = {\n          ...cab,\n          id: null,\n          proforma_no: \"\",\n          created_at: null,\n          updated_at: null,\n          created_by: null,\n          updated_by: null\n        };\n\n        const itemsDuplicados = (qCvProformaDetalle.data || []).map((item, index) => ({\n          ...item,\n          id: null,\n          proforma_id: null,\n          item_no: index + 1,\n          created_at: null,\n          updated_at: null,\n          created_by: null,\n          updated_by: null\n        }));\n\n        storeValue(\"cv_form_mode\", \"DUPLICATE\");\n        storeValue(\"cv_proforma_id\", null);\n        storeValue(\"cv_proforma_loaded\", cabDuplicada);\n        storeValue(\"cv_items_proforma\", itemsDuplicados);\n\n        return \nJS_CvForm.loadProforma()\n  .then(() => JS_CvForm.clearItemForm())\n  .then(() => storeValue(\"cv_items_proforma\", itemsDuplicados));\n      })\n      .then(() => {\n        showAlert(\"Proforma duplicada en memoria. Ingresa un nuevo número y guarda.\", \"success\");\n      })\n      .catch((err) => {\n        showAlert(\"Error al duplicar proforma: \" + (err.message || err), \"error\");\n      });\n  })()\n}}",
+      "placement": "CENTER",
+      "variant": "filled",
+      "widgetId": "41r86q4fq4"
+    }
+  },
+  "isCanvas": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "8meibkymex",
+  "leftColumn": 18,
+  "minWidth": 450,
+  "mobileBottomRow": 28,
+  "mobileLeftColumn": 4,
+  "mobileRightColumn": 28,
+  "mobileTopRow": 24,
+  "needsErrorInfo": false,
+  "orientation": "horizontal",
+  "originalBottomRow": 56,
+  "originalTopRow": 52,
+  "parentColumnSpace": 13.3564453125,
+  "parentId": "dt3sagndac",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 64,
+  "topRow": 0,
+  "type": "BUTTON_GROUP_WIDGET",
+  "version": 1,
+  "widgetId": "ykix239f8a",
+  "widgetName": "btnCpDetalle"
+}

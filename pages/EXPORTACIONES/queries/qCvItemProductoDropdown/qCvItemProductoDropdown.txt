@@ -1,0 +1,9 @@
+select distinct
+  upper(subcategoria) as value,
+  upper(subcategoria) as label
+from public.productos
+where activo = true
+  and subcategoria is not null
+  and upper(tipo_producto) = upper('{{ slCvItemTipoProducto.selectedOptionValue || "" }}')
+  and upper(categoria) = upper('{{ slCvItemCategoria.selectedOptionValue || "" }}')
+order by upper(subcategoria);

@@ -1,0 +1,66 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "allowDialCodeChange": false,
+  "allowFormatting": true,
+  "animateLoading": true,
+  "autoFocus": false,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 24,
+  "boxShadow": "none",
+  "defaultDialCode": "+57",
+  "defaultText": "{{\n  appsmith.store.cp_update_context?.entity === \"CONDUCTOR\"\n    ? (\n        appsmith.store.cp_update_context?.mode === \"UPDATE\"\n          ? qDirConductorById.data?.[0]?.telefono || \"\"\n          : inpCpTelefonoConductor.text || \"\"\n      )\n    : \"\"\n}}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "defaultText"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicTriggerPathList": [],
+  "iconAlign": "left",
+  "isDisabled": "false",
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "b48tkkxk63",
+  "label": "TELEFONO CONDUCTOR",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 14,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 67,
+  "mobileLeftColumn": 17,
+  "mobileRightColumn": 37,
+  "mobileTopRow": 60,
+  "needsErrorInfo": false,
+  "originalBottomRow": 24,
+  "originalTopRow": 17,
+  "parentColumnSpace": 17.34375,
+  "parentId": "0plj1vzh3q",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "resetOnSubmit": true,
+  "responsiveBehavior": "fill",
+  "rightColumn": 31,
+  "topRow": 17,
+  "type": "PHONE_INPUT_WIDGET",
+  "version": 1,
+  "widgetId": "77j2020ky3",
+  "widgetName": "inpDirCondTelefono"
+}

@@ -1,0 +1,151 @@
+with estado_borrador as (
+  select id
+  from public.estados_cargue_planta
+  where codigo = 'BORRADOR'
+  limit 1
+),
+
+cargue_existente as (
+  select id
+  from public.cargues_planta_exportacion
+  where tenant_id = '{{ appsmith.store.cp_tenant_id }}'::uuid
+    and exportacion_id = '{{ appsmith.store.cp_exportacion_id }}'::uuid
+    and activo = true
+  limit 1
+),S
+
+cargue_creado as (
+  insert into public.cargues_planta_exportacion (
+    tenant_id,
+    exportacion_id,
+    booking_id,
+    proforma_id,
+    estado_cargue_id,
+    modalidad_transporte_id,
+    tipo_carga_id,
+    caracteristica_carga_id,
+    created_by,
+    updated_by
+  )
+  select
+    '{{ appsmith.store.cp_tenant_id }}'::uuid,
+    '{{ appsmith.store.cp_exportacion_id }}'::uuid,
+    nullif('{{ appsmith.store.cp_booking_id || "" }}', '')::uuid,
+    nullif('{{ appsmith.store.cp_proforma_id || "" }}', '')::uuid,
+    (select id from estado_borrador),
+    nullif('{{ appsmith.store.cp_modalidad_transporte_id || "" }}', '')::uuid,
+    nullif('{{ appsmith.store.cp_tipo_carga_id || "" }}', '')::uuid,
+    nullif('{{ appsmith.store.cp_caracteristica_carga_id || "" }}', '')::uuid,
+    nullif('{{ appsmith.store.user_id || "" }}', '')::uuid,
+    nullif('{{ appsmith.store.user_id || "" }}', '')::uuid
+  where not exists (select 1 from cargue_existente)
+  returning id
+),
+
+cargue_final as (
+  select id from cargue_existente
+  union all
+  select id from cargue_creado
+  limit 1
+),
+
+vehiculo_final as (
+  select
+    nullif('{{ qCpBuscarVehiculoPorPlaca.data?.[0]?.vehiculo_id || "" }}', '')::uuid as id
+),
+
+conductor_final as (
+  select
+    nullif('{{ qCpBuscarConductorPorDocumento.data?.[0]?.conductor_id || "" }}', '')::uuid as id
+),
+
+next_viaje as (
+  select coalesce(max(viaje_no), 0) + 1 as viaje_no
+  from public.cargues_planta_vehiculos
+  where tenant_id = '{{ appsmith.store.cp_tenant_id }}'::uuid
+    and cargue_id = (select id from cargue_final)
+    and placa = upper(trim('{{ inpCpPlaca.text || "" }}'))
+    and activo = true
+),
+
+next_item as (
+  select coalesce(max(item_no), 0) + 1 as item_no
+  from public.cargues_planta_vehiculos
+  where tenant_id = '{{ appsmith.store.cp_tenant_id }}'::uuid
+    and cargue_id = (select id from cargue_final)
+    and activo = true
+)
+
+insert into public.cargues_planta_vehiculos (
+  tenant_id,
+  cargue_id,
+  exportacion_id,
+  vehiculo_id,
+  conductor_id,
+  item_no,
+  viaje_no,
+
+  tipo_vehiculo_terrestre_id,
+  placa,
+
+  tipo_remolque_catalogo_id,
+  placa_remolque,
+
+  marca_vehiculo,
+  modelo_vehiculo,
+  color_vehiculo,
+  capacidad_carga_kg,
+
+  soat_no,
+  soat_vencimiento,
+
+  conductor_documento,
+  conductor_nombre,
+  conductor_licencia,
+  conductor_telefono,
+  conductor_estado,
+
+  created_by,
+  updated_by
+)
+select
+  '{{ appsmith.store.cp_tenant_id }}'::uuid,
+  (select id from cargue_final),
+  '{{ appsmith.store.cp_exportacion_id }}'::uuid,
+  (select id from vehiculo_final),
+  (select id from conductor_final),
+  (select item_no from next_item),
+  (select viaje_no from next_viaje),
+
+  nullif('{{ slCpTipoVehiculo.selectedOptionValue || "" }}', '')::uuid,
+  upper(trim('{{ inpCpPlaca.text || "" }}')),
+
+  nullif('{{ slCpTipoRemolque.selectedOptionValue || "" }}', '')::uuid,
+  upper(trim('{{ inpCpPlacaRemolque.text || "" }}')),
+
+  upper(trim('{{ slCpMarcaVehiculo.selectedOptionValue || "" }}')),
+  upper(trim('{{ inpCpModeloVehiculo.text || "" }}')),
+  upper(trim('{{ slCpColorVehiculo.selectedOptionValue || "" }}')),
+  nullif('{{ inpCpCapacidadCargaKg.text || "" }}', '')::numeric,
+
+  upper(trim('{{ inpCpSoatNo.text || "" }}')),
+  nullif('{{ dpCpSoatVencimiento.selectedDate || "" }}', '')::date,
+
+  upper(trim('{{ inpCpCedulaConductor.text || "" }}')),
+  upper(trim('{{ inpCpNombreConductor.text || "" }}')),
+  upper(trim('{{ inpCpLicenciaConductor.text || "" }}')),
+  upper(trim('{{ inpCpTelefonoConductor.text || "" }}')),
+  upper(trim('{{ txtCpEstadoConductor.text || "" }}')),
+
+  nullif('{{ appsmith.store.user_id || "" }}', '')::uuid,
+  nullif('{{ appsmith.store.user_id || "" }}', '')::uuid
+where (select id from vehiculo_final) is not null
+  and (select id from conductor_final) is not null
+returning
+  id as cargue_vehiculo_id,
+  cargue_id,
+  vehiculo_id,
+  conductor_id,
+  placa,
+  viaje_no,
+  item_no;

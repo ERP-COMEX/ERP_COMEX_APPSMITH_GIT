@@ -1,0 +1,93 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 8,
+  "boxShadow": "none",
+  "defaultOptionValue": "{{ ((options, serverSideFiltering) => ( \n  appsmith.store.cp_update_context?.entity === \"CONDUCTOR\"\n    ? (\n        appsmith.store.cp_update_context?.mode === \"UPDATE\"\n          ? qDirConductorById.data?.[0]?.tipo_documento || \"CC\"\n          : \"CC\"\n      )\n    : \"CC\"\n))(slDirCondTipoDocumento.options, slDirCondTipoDocumento.serverSideFiltering) }}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "defaultOptionValue"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "isVisible"
+    },
+    {
+      "key": "isRequired"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "optionValue"
+    },
+    {
+      "key": "optionLabel"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "isVisible"
+    },
+    {
+      "key": "isRequired"
+    }
+  ],
+  "dynamicTriggerPathList": [],
+  "isDisabled": "{{\n  appsmith.store.cp_update_context?.entity === \"CONDUCTOR\"\n  &&\n  appsmith.store.cp_update_context?.mode === \"UPDATE\"\n}}",
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": "{{ true }}",
+  "isVisible": "{{ appsmith.store.cp_update_context?.entity === \"CONDUCTOR\" }}",
+  "key": "28pvxk17ie",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelText": "TIPO DOCUMENTO",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 0,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 35,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 6,
+  "mobileTopRow": 28,
+  "needsErrorInfo": false,
+  "optionLabel": "label",
+  "optionValue": "value",
+  "originalBottomRow": 15,
+  "originalTopRow": 8,
+  "parentColumnSpace": 17.34375,
+  "parentId": "0plj1vzh3q",
+  "parentRowSpace": 10,
+  "placeholderText": "Select option",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 15,
+  "serverSideFiltering": false,
+  "sourceData": "{{ qDirTiposDocumentoDropdown.data || [] }}",
+  "topRow": 1,
+  "type": "SELECT_WIDGET",
+  "version": 1,
+  "widgetId": "yla41ckoz7",
+  "widgetName": "slDirCondTipoDocumento"
+}

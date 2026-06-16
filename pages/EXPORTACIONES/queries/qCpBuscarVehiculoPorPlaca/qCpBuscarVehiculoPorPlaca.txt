@@ -1,0 +1,26 @@
+select
+  v.id as vehiculo_id,
+  v.placa,
+  v.tipo_vehiculo_terrestre_id,
+  tvt.codigo_rndc as tipo_vehiculo_codigo,
+  tvt.nombre as tipo_vehiculo,
+
+  v.marca,
+  v.modelo,
+  v.color,
+  v.capacidad_carga_kg,
+  v.soat_no,
+  v.soat_vencimiento,
+  v.activo,
+
+  case
+    when v.activo = true then 'VEHICULO_ACTIVO'
+    else 'VEHICULO_INACTIVO'
+  end as estado_vehiculo
+
+from public.vehiculos v
+left join public.tipos_vehiculo_terrestre tvt
+  on tvt.id = v.tipo_vehiculo_terrestre_id
+where upper(trim(v.placa)) = upper(trim('{{ inpCpPlaca.text || "" }}'))
+  and v.activo = true
+limit 1;

@@ -1,0 +1,7 @@
+select
+  codigo as value,
+  codigo || ' - ' || nombre as label
+from public.tipos_documento_identidad
+where activo = true
+  and aplica_persona_natural = true
+order by sort_order;

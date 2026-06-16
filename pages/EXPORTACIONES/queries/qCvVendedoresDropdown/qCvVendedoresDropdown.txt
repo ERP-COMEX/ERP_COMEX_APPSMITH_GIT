@@ -1,0 +1,9 @@
+select
+  id::text as value,
+  upper(nombre_completo) as label,
+  upper(coalesce(codigo_interno, '')) as codigo_interno,
+  upper(coalesce(email, '')) as email,
+  upper(coalesce(region_comercial, '')) as region_comercial
+from public.vendedores
+where activo = true
+order by nombre_completo;

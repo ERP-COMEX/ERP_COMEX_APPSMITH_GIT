@@ -1,0 +1,74 @@
+with insertar as (
+  insert into public.vehiculos (
+    tenant_id,
+    placa,
+    tipo_vehiculo_terrestre_id,
+    marca,
+    modelo,
+    color,
+    capacidad_carga_kg,
+    soat_no,
+    soat_vencimiento,
+    activo,
+    created_by,
+    updated_by
+  )
+  values (
+    '{{ appsmith.store.cp_tenant_id }}'::uuid,
+    upper(trim('{{ inpDirVehPlaca.text || "" }}')),
+    nullif('{{ slDirVehTipoVehiculo.selectedOptionValue || "" }}', '')::uuid,
+    upper(trim('{{ slDirVehMarca.selectedOptionValue || "" }}')),
+    upper(trim('{{ inpDirVehModelo.text || "" }}')),
+    upper(trim('{{ slDirVehColor.selectedOptionValue || "" }}')),
+    nullif('{{ inpDirVehCapacidadKg.text || "" }}', '')::numeric,
+    upper(trim('{{ inpDirVehSoatNo.text || "" }}')),
+    nullif('{{ dpDirVehSoatVencimiento.selectedDate || "" }}', '')::date,
+    true,
+    nullif('{{ appsmith.store.user_id || "" }}', '')::uuid,
+    nullif('{{ appsmith.store.user_id || "" }}', '')::uuid
+  )
+  on conflict (tenant_id, placa)
+  do update set
+    updated_at = now(),
+    updated_by = nullif('{{ appsmith.store.user_id || "" }}', '')::uuid
+  returning *
+),
+
+auditoria as (
+  insert into public.auditoria_entidades (
+    tenant_id,
+    modulo,
+    entidad,
+    entidad_id,
+    operacion,
+    motivo,
+    datos_anteriores,
+    datos_nuevos,
+    usuario_id,
+    autorizado_por
+  )
+  select
+    '{{ appsmith.store.cp_tenant_id }}'::uuid,
+    'CARGUE_PLANTA',
+    'VEHICULOS',
+    insertar.id,
+    'INSERT',
+    upper(trim('{{ inpDirUpdateMotivo.text || "CREACIÓN DE VEHÍCULO DESDE CARGUE PLANTA" }}')),
+    null,
+    to_jsonb(insertar),
+    '{{ appsmith.store.user_id }}'::uuid,
+    '{{ appsmith.store.user_id }}'::uuid
+  from insertar
+  returning id
+)
+
+select
+  insertar.id,
+  insertar.placa,
+  insertar.marca,
+  insertar.modelo,
+  insertar.color,
+  insertar.capacidad_carga_kg,
+  insertar.soat_no,
+  insertar.soat_vencimiento
+from insertar;

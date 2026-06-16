@@ -1,0 +1,10 @@
+select
+  id::text as value,
+  upper(codigo_iso || ' - ' || nombre) as label,
+  upper(codigo_iso) as codigo_iso,
+  upper(nombre) as nombre,
+  simbolo,
+  decimales
+from public.monedas
+where activo = true
+order by codigo_iso;
