@@ -1,0 +1,336 @@
+with contexto as (
+  select
+    coalesce(
+      nullif(
+        '{{ appsmith.store.cp_tenant_id || "" }}',
+        ''
+      )::uuid,
+
+      nullif(
+        '{{ appsmith.store.tenant_id || "" }}',
+        ''
+      )::uuid
+    ) as tenant_id,
+
+    nullif(
+      '{{ appsmith.store.cp_exportacion_id || "" }}',
+      ''
+    )::uuid as exportacion_id,
+
+    nullif(
+      '{{ appsmith.store.cp_vehiculo_edit_id || "" }}',
+      ''
+    )::uuid as cargue_vehiculo_id,
+
+    coalesce(
+      nullif(
+        '{{ appsmith.store.user_id || "" }}',
+        ''
+      )::uuid,
+
+      nullif(
+        '{{ appsmith.store.current_user?.id || "" }}',
+        ''
+      )::uuid
+    ) as usuario_id
+),
+
+vehiculo_directorio as (
+  select
+    v.id as vehiculo_id,
+    tv.id as tenant_vehiculo_id
+
+  from public.vehiculos v
+
+  join public.tenant_vehiculos tv
+    on tv.vehiculo_id = v.id
+
+  cross join contexto cx
+
+  where tv.tenant_id = cx.tenant_id
+
+    and upper(trim(v.placa)) =
+        upper(trim('{{ inpCpPlaca.text || "" }}'))
+
+    and v.activo = true
+    and tv.activo = true
+    and tv.deleted_at is null
+
+  limit 1
+),
+
+conductor_directorio as (
+  select
+    cnd.id as conductor_id,
+    tc.id as tenant_conductor_id,
+
+    case
+      when cnd.activo = false
+        or tc.activo = false
+        then 'INACTIVO'
+
+      when tc.fecha_vencimiento_licencia
+           is not null
+
+       and tc.fecha_vencimiento_licencia
+           < current_date
+
+        then 'LICENCIA_VENCIDA'
+
+      else 'HABILITADO_NACIONAL'
+    end as conductor_estado
+
+  from public.conductores cnd
+
+  join public.tenant_conductores tc
+    on tc.conductor_id = cnd.id
+
+  cross join contexto cx
+
+  where tc.tenant_id = cx.tenant_id
+
+    and upper(trim(cnd.numero_documento)) =
+        upper(
+          trim(
+            '{{ inpCpCedulaConductor.text || "" }}'
+          )
+        )
+
+    and cnd.activo = true
+    and tc.activo = true
+    and tc.deleted_at is null
+
+  limit 1
+),
+
+datos_anteriores as (
+  select cpv.*
+
+  from public.cargues_planta_vehiculos cpv
+
+  cross join contexto cx
+
+  where cpv.id =
+        cx.cargue_vehiculo_id
+
+    and cpv.tenant_id =
+        cx.tenant_id
+
+    and cpv.exportacion_id =
+        cx.exportacion_id
+
+    and cpv.activo = true
+
+  limit 1
+),
+
+actualizar as (
+  update public.cargues_planta_vehiculos cpv
+
+  set
+    vehiculo_id =
+      vd.vehiculo_id,
+
+    tenant_vehiculo_id =
+      vd.tenant_vehiculo_id,
+
+    conductor_id =
+      cd.conductor_id,
+
+    tenant_conductor_id =
+      cd.tenant_conductor_id,
+
+    tipo_vehiculo_terrestre_id =
+      nullif(
+        '{{ slCpTipoVehiculo.selectedOptionValue || "" }}',
+        ''
+      )::uuid,
+
+    placa =
+      upper(
+        trim('{{ inpCpPlaca.text || "" }}')
+      ),
+
+    tipo_remolque_catalogo_id =
+      nullif(
+        '{{ slCpTipoRemolque.selectedOptionValue || "" }}',
+        ''
+      )::uuid,
+
+    placa_remolque =
+      nullif(
+        upper(
+          trim(
+            '{{ inpCpPlacaRemolque.text || "" }}'
+          )
+        ),
+        ''
+      ),
+
+    marca_vehiculo =
+      upper(
+        trim(
+          '{{ slCpMarcaVehiculo.selectedOptionValue || "" }}'
+        )
+      ),
+
+    modelo_vehiculo =
+      upper(
+        trim(
+          '{{ inpCpModeloVehiculo.text || "" }}'
+        )
+      ),
+
+    color_vehiculo =
+      upper(
+        trim(
+          '{{ slCpColorVehiculo.selectedOptionValue || "" }}'
+        )
+      ),
+
+    capacidad_carga_kg =
+      nullif(
+        '{{ inpCpCapacidadCargaKg.text || "" }}',
+        ''
+      )::numeric,
+
+    soat_no =
+      upper(
+        trim('{{ inpCpSoatNo.text || "" }}')
+      ),
+
+    soat_vencimiento =
+      nullif(
+        '{{ dpCpSoatVencimiento.selectedDate || "" }}',
+        ''
+      )::date,
+
+    conductor_documento =
+      upper(
+        trim(
+          '{{ inpCpCedulaConductor.text || "" }}'
+        )
+      ),
+
+    conductor_nombre =
+      upper(
+        trim(
+          '{{ inpCpNombreConductor.text || "" }}'
+        )
+      ),
+
+    conductor_licencia =
+      upper(
+        trim(
+          '{{ inpCpLicenciaConductor.text || "" }}'
+        )
+      ),
+
+    conductor_telefono =
+      trim(
+        '{{ inpCpTelefonoConductor.text || "" }}'
+      ),
+
+    conductor_estado =
+      coalesce(
+        cd.conductor_estado,
+
+        nullif(
+          upper(
+            trim(
+              '{{ txtCpEstadoConductor.text || "" }}'
+            )
+          ),
+          ''
+        )
+      ),
+
+    updated_at = now(),
+    updated_by = cx.usuario_id
+
+  from contexto cx
+
+  cross join vehiculo_directorio vd
+
+  cross join conductor_directorio cd
+
+  where cpv.id =
+        cx.cargue_vehiculo_id
+
+    and cpv.tenant_id =
+        cx.tenant_id
+
+    and cpv.exportacion_id =
+        cx.exportacion_id
+
+    and cpv.activo = true
+
+    and cx.usuario_id is not null
+
+    and vd.vehiculo_id is not null
+
+    and vd.tenant_vehiculo_id is not null
+
+    and cd.conductor_id is not null
+
+    and cd.tenant_conductor_id is not null
+
+  returning cpv.*
+),
+
+auditoria as (
+  insert into public.auditoria_entidades (
+    tenant_id,
+    modulo,
+    entidad,
+    entidad_id,
+    operacion,
+    motivo,
+    datos_anteriores,
+    datos_nuevos,
+    usuario_id,
+    autorizado_por
+  )
+
+  select
+    a.tenant_id,
+    'CARGUE_PLANTA',
+    'CARGUES_PLANTA_VEHICULOS',
+    a.id,
+    'UPDATE',
+    'ACTUALIZACIÓN DE VIAJE / VEHÍCULO',
+    to_jsonb(da),
+    to_jsonb(a),
+    cx.usuario_id,
+    cx.usuario_id
+
+  from actualizar a
+
+  cross join datos_anteriores da
+
+  cross join contexto cx
+
+  returning id
+)
+
+select
+  a.id as cargue_vehiculo_id,
+  a.cargue_id,
+  a.exportacion_id,
+
+  a.vehiculo_id,
+  a.tenant_vehiculo_id,
+
+  a.conductor_id,
+  a.tenant_conductor_id,
+
+  a.item_no,
+  a.viaje_no,
+  a.placa,
+  a.placa_remolque,
+  a.conductor_documento,
+  a.conductor_nombre,
+  a.updated_at,
+  a.updated_by
+
+from actualizar a;

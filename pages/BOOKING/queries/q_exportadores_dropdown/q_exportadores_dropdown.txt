@@ -1,0 +1,11 @@
+select
+  te.id as value,
+  upper(c.nombre) as label,
+  te.exportador_id as cliente_base_id,
+  te.es_principal
+from public.tenant_exportadores te
+join public.clientes c
+  on c.id = te.exportador_id
+where te.activo = true
+  and te.tenant_id = nullif('{{ appsmith.store.tenant_id || "" }}', '')::uuid
+order by te.es_principal desc, c.nombre;

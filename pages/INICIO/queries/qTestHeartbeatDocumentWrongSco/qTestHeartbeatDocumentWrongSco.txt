@@ -1,0 +1,6 @@
+{
+  "p_tenant_id": "ba9871b9-f0f5-4b96-8801-dde466a3f8fd",
+  "p_company_id": "6887482c-2175-428d-a9a0-a7d921202a1c",
+  "p_job_id": "656462e8-82fe-4c05-9802-64172b8d4845",
+  "p_lease_token": "5935aadc-5154-47d1-a2d3-c58a044c7701"
+}

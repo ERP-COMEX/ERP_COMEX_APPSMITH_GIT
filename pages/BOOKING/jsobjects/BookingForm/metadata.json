@@ -1,0 +1,11 @@
+{
+  "gitSyncId": "693476e8bab1731f64a493f4_f4f18ac4-463b-480a-aae0-f70d7c138e72",
+  "id": "BOOKING_BookingForm",
+  "unpublishedCollection": {
+    "name": "BookingForm",
+    "pageId": "BOOKING",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": []
+  }
+}

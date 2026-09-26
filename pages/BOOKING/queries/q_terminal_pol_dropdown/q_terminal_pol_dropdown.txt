@@ -1,0 +1,14 @@
+with ctx as (
+  select
+    nullif('{{ appsmith.store.booking_form?.pol_id || "" }}', '')::uuid as pol_id
+)
+
+select
+  t.id as value,
+  t.nombre as label
+from public.terminales t
+cross join ctx
+where t.activo = true
+  and ctx.pol_id is not null
+  and t.puerto_id = ctx.pol_id
+order by t.nombre;

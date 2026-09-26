@@ -1,0 +1,9 @@
+select
+  id::text as value,
+  upper(nombre) as label,
+  upper(codigo) as codigo,
+  upper(nombre) as nombre
+from public.estados_operacion
+where activo = true
+  and aplica_modulo = 'CONFIRMACION_VENTA'
+order by sort_order;

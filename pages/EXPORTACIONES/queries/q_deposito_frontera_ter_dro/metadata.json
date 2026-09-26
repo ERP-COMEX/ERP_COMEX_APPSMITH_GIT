@@ -25,7 +25,7 @@
     "dynamicBindingPathList": [],
     "name": "q_deposito_frontera_ter_dro",
     "pageId": "EXPORTACIONES",
-    "runBehaviour": "ON_PAGE_LOAD",
+    "runBehaviour": "MANUAL",
     "userSetOnLoad": true
   }
 }

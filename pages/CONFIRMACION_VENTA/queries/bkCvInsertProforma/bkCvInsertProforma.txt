@@ -1,0 +1,86 @@
+insert into public.proformas_exportacion (
+  tenant_id,
+  exportacion_id,
+  cliente_id,
+  exportador_id,
+
+  tipo_documento_id,
+  tipo_documento,
+
+  proforma_no,
+
+  centro_costo_venta_id,
+  centro_costo_venta,
+
+  vendedor_id,
+  observaciones_comerciales,
+  observaciones_logisticas,
+  fecha_proforma,
+  fecha_vencimiento,
+  fecha_entrega,
+
+  forma_pago_id,
+  forma_pago,
+
+  moneda_id,
+  fecha_envio,
+  estado_id,
+
+  cantidad_items,
+  cantidad_total,
+  peso_neto_total,
+  peso_bruto_total,
+  volumen_total,
+  fob_total,
+  flete_total,
+  seguro_total,
+  gastos_destino_total,
+  venta_total,
+
+  created_by,
+  updated_by
+)
+values (
+  '{{ appsmith.store.cv_tenant_id }}'::uuid,
+  '{{ appsmith.store.cv_exportacion_id }}'::uuid,
+  '{{ appsmith.store.cv_cliente_id }}'::uuid,
+  null,
+
+  nullif('{{ slCvTipoDocumento.selectedOptionValue || "" }}', '')::uuid,
+  nullif('{{ slCvTipoDocumento.selectedOptionLabel || "" }}', ''),
+
+  '{{ inpCvProformaNo.text }}',
+
+  nullif('{{ slCvCentroCostoVenta.selectedOptionValue || "" }}', '')::uuid,
+  nullif('{{ slCvCentroCostoVenta.selectedOptionLabel || "" }}', ''),
+
+  nullif('{{ slCvVendedor.selectedOptionValue || "" }}', '')::uuid,
+  nullif('{{ taCvObsComerciales.text || "" }}', ''),
+  nullif('{{ taCvObsLogisticas.text || "" }}', ''),
+
+  nullif('{{ dpCvFechaProforma.selectedDate || "" }}', '')::timestamptz,
+  nullif('{{ dpCvFechaVencimiento.selectedDate || "" }}', '')::timestamptz,
+  nullif('{{ dpCvFechaEntrega.selectedDate || "" }}', '')::timestamptz,
+
+  nullif('{{ slCvFormaPago.selectedOptionValue || "" }}', '')::uuid,
+  nullif('{{ slCvFormaPago.selectedOptionLabel || "" }}', ''),
+
+  nullif('{{ slCvMoneda.selectedOptionValue || "" }}', '')::uuid,
+  nullif('{{ dpCvFechaEnvio.selectedDate || "" }}', '')::timestamptz,
+  nullif('{{ slCvEstado.selectedOptionValue || "" }}', '')::uuid,
+
+  {{ (appsmith.store.cv_items_proforma || []).length }},
+  {{ (appsmith.store.cv_items_proforma || []).reduce((a, x) => a + Number(x.cantidad || 0), 0) }},
+  {{ (appsmith.store.cv_items_proforma || []).reduce((a, x) => a + Number(x.peso_neto_total || 0), 0) }},
+  {{ (appsmith.store.cv_items_proforma || []).reduce((a, x) => a + Number(x.peso_bruto_total || 0), 0) }},
+  {{ (appsmith.store.cv_items_proforma || []).reduce((a, x) => a + Number(x.volumen_total || 0), 0) }},
+  {{ (appsmith.store.cv_items_proforma || []).reduce((a, x) => a + Number(x.total_valor || 0), 0) }},
+  {{ (appsmith.store.cv_items_proforma || []).reduce((a, x) => a + Number(x.valor_flete || 0), 0) }},
+  {{ (appsmith.store.cv_items_proforma || []).reduce((a, x) => a + Number(x.valor_seguro || 0), 0) }},
+  {{ (appsmith.store.cv_items_proforma || []).reduce((a, x) => a + Number(x.valor_gastos_destino || 0), 0) }},
+  {{ (appsmith.store.cv_items_proforma || []).reduce((a, x) => a + Number(x.subtotal || 0), 0) }},
+
+  null,
+  null
+)
+returning id;

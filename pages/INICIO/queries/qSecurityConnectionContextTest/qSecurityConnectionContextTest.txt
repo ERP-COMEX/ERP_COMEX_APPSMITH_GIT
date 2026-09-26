@@ -1,0 +1,30 @@
+select
+    current_user as current_database_user,
+    session_user as session_database_user,
+
+    auth.uid() as supabase_auth_user_id,
+
+    nullif(
+        current_setting(
+            'request.jwt.claim.sub',
+            true
+        ),
+        ''
+    ) as jwt_subject,
+
+    nullif(
+        current_setting(
+            'request.jwt.claim.role',
+            true
+        ),
+        ''
+    ) as jwt_role,
+
+    current_setting(
+        'role',
+        true
+    ) as active_database_role,
+
+    current_database() as database_name,
+
+    now() as checked_at;

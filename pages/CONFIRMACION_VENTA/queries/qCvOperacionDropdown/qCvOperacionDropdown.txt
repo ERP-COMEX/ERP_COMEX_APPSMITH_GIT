@@ -1,0 +1,18 @@
+select
+  e.id as value,
+  e.operacion_no || ' - ' || coalesce(c.nombre, '') as label,
+  e.operacion_no,
+  e.tenant_id,
+  e.cliente_id,
+  c.nombre as cliente,
+  e.confirmacion_venta_status
+from public.exportaciones e
+left join public.clientes c
+  on c.id = e.cliente_id
+where e.activo = true
+  and (
+    '{{ inpCvOperacionSearch.text || "" }}' = ''
+    or e.operacion_no ilike '%' || '{{ inpCvOperacionSearch.text || "" }}' || '%'
+  )
+order by e.created_at desc
+limit 50;

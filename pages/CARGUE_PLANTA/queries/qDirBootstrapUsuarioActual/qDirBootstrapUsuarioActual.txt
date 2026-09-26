@@ -1,0 +1,14 @@
+select
+  u.id as user_id,
+  u.email,
+  u.nombre,
+  u.rol,
+  u.activo,
+  tu.tenant_id
+from public.usuarios_app u
+join public.tenant_usuarios tu
+  on tu.usuario_id = u.id
+where u.email = 'comex-nco@hotmail.com'
+  and u.activo = true
+  and tu.activo = true
+limit 1;

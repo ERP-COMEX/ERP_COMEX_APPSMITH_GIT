@@ -1,0 +1,7 @@
+select *
+from platform.fn_get_user_permissions(
+    nullif(
+        trim('{{ appsmith.user.email || "" }}'),
+        ''
+    )
+);

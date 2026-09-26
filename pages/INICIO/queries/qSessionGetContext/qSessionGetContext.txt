@@ -1,0 +1,7 @@
+select *
+from platform.fn_get_user_session_context(
+    nullif(
+        trim('{{ appsmith.user.email || "" }}'),
+        ''
+    )
+);

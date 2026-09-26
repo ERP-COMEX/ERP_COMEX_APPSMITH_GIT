@@ -1,0 +1,126 @@
+with contexto as (
+  select
+    coalesce(
+      nullif(
+        nullif('{{ appsmith.store.cp_tenant_id || "" }}', ''),
+        'null'
+      )::uuid,
+
+      nullif(
+        nullif('{{ appsmith.store.tenant_id || "" }}', ''),
+        'null'
+      )::uuid,
+
+      nullif(
+        nullif(
+          '{{ appsmith.store.current_user?.tenant_id || "" }}',
+          ''
+        ),
+        'null'
+      )::uuid
+    ) as tenant_id,
+
+    upper(
+      trim('{{ inpCpPlaca.text || "" }}')
+    ) as placa
+)
+
+select
+  v.id as vehiculo_id,
+  tv.id as tenant_vehiculo_id,
+
+  tv.tenant_id,
+
+  v.codigo_interno,
+  v.pais_placa,
+  v.placa,
+
+  v.tipo_vehiculo_terrestre_id,
+
+  tvt.codigo_rndc as tipo_vehiculo_codigo,
+  tvt.nombre as tipo_vehiculo,
+
+  v.marca,
+  v.modelo,
+  v.color,
+  v.capacidad_carga_kg,
+
+  tv.transportadora_id,
+  tv.tipo_vehiculo_id,
+
+  tv.soat_no,
+  tv.soat_vencimiento,
+
+  tv.habilitado_nacional,
+  tv.habilitado_internacional,
+  tv.estado_administrativo,
+
+  v.activo as identidad_activa,
+  tv.activo as relacion_activa,
+
+  case
+    when v.activo = false
+      then 'IDENTIDAD_INACTIVA'
+
+    when tv.activo = false
+      or tv.deleted_at is not null
+      or tv.estado_administrativo <> 'ACTIVO'
+      then 'VEHICULO_INACTIVO'
+
+    when tv.soat_no is null
+      or trim(tv.soat_no) = ''
+      or tv.soat_vencimiento is null
+      then 'SIN_SOAT'
+
+    when tv.soat_vencimiento < current_date
+      then 'SOAT_VENCIDO'
+
+    when tv.soat_vencimiento <= current_date + 30
+      then 'SOAT_POR_VENCER'
+
+    else 'SOAT_VIGENTE'
+  end as estado_vehiculo,
+
+  case
+    when tv.soat_vencimiento is null
+      then null
+    else tv.soat_vencimiento - current_date
+  end as dias_vigencia_soat,
+
+  (
+    v.activo = true
+    and tv.activo = true
+    and tv.deleted_at is null
+    and tv.estado_administrativo = 'ACTIVO'
+    and tv.habilitado_nacional = true
+    and tv.soat_no is not null
+    and trim(tv.soat_no) <> ''
+    and tv.soat_vencimiento is not null
+    and tv.soat_vencimiento >= current_date
+  ) as disponible_para_viaje,
+
+  v.created_at as identidad_fecha_creacion,
+  v.updated_at as identidad_fecha_actualizacion,
+
+  tv.created_at as relacion_fecha_creacion,
+  tv.updated_at as relacion_fecha_actualizacion
+
+from contexto c
+
+join public.vehiculos v
+  on upper(trim(v.placa)) = c.placa
+
+join public.tenant_vehiculos tv
+  on tv.vehiculo_id = v.id
+ and tv.tenant_id = c.tenant_id
+
+left join public.tipos_vehiculo_terrestre tvt
+  on tvt.id = v.tipo_vehiculo_terrestre_id
+
+where c.tenant_id is not null
+  and c.placa <> ''
+  and v.activo = true
+  and tv.activo = true
+  and tv.deleted_at is null
+
+limit 1;

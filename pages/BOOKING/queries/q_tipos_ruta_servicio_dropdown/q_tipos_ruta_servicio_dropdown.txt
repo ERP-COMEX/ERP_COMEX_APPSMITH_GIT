@@ -1,0 +1,29 @@
+select
+  id as value,
+  upper(nombre) as label
+from public.tipos_ruta_servicio
+where activo = true
+  and (
+    modalidad_aplicable is null
+    or (
+      upper(modalidad_aplicable) = 'MARITIMO'
+      and nullif('{{ appsmith.store.booking_form?.modalidad_transporte_id || "" }}', '')::uuid =
+        '53ef926e-1c42-45b2-a978-081922df304d'::uuid
+    )
+    or (
+      upper(modalidad_aplicable) = 'AEREO'
+      and nullif('{{ appsmith.store.booking_form?.modalidad_transporte_id || "" }}', '')::uuid =
+        '511eb94c-de6f-4fa6-b68e-7ed15bdcc4ec'::uuid
+    )
+    or (
+      upper(modalidad_aplicable) = 'TERRESTRE'
+      and nullif('{{ appsmith.store.booking_form?.modalidad_transporte_id || "" }}', '')::uuid =
+        '1c0ece93-9fff-4392-8338-e89dde6bd8cd'::uuid
+    )
+    or (
+      upper(modalidad_aplicable) = 'COURIER'
+      and nullif('{{ appsmith.store.booking_form?.modalidad_transporte_id || "" }}', '')::uuid =
+        'b0f4f344-0a48-4a33-9e94-84a8bdd91c39'::uuid
+    )
+  )
+order by sort_order nulls last, nombre;

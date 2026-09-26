@@ -1,0 +1,35 @@
+{
+  "animateLoading": true,
+  "bottomRow": 57,
+  "docUrl": "{{\n  appsmith.store.adminDocumentoSeleccionado?.view_url || \"\"\n}}",
+  "dynamicBindingPathList": [
+    {
+      "key": "docUrl"
+    }
+  ],
+  "dynamicTriggerPathList": [],
+  "flexVerticalAlignment": "start",
+  "isCanvas": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "geo0four6o",
+  "leftColumn": 8,
+  "mobileBottomRow": 148,
+  "mobileLeftColumn": 2,
+  "mobileRightColumn": 26,
+  "mobileTopRow": 108,
+  "needsErrorInfo": false,
+  "originalBottomRow": 135,
+  "originalTopRow": 126,
+  "parentColumnSpace": 19.8125,
+  "parentId": "q7fydy26ng",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 54,
+  "topRow": 11,
+  "type": "DOCUMENT_VIEWER_WIDGET",
+  "version": 1,
+  "widgetId": "tv4ggl9cfg",
+  "widgetName": "docAdminVisorDocumento"
+}

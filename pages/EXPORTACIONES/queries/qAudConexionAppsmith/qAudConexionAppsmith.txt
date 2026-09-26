@@ -1,0 +1,9 @@
+select
+    current_user as usuario_conexion,
+    session_user as usuario_sesion,
+    current_database() as base_datos,
+    current_schema() as esquema_actual,
+    inet_server_addr() as servidor_ip,
+    inet_server_port() as servidor_puerto,
+    current_setting('role', true) as rol_configurado,
+    current_setting('request.jwt.claims', true) as jwt_claims;

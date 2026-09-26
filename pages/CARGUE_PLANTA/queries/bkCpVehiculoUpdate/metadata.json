@@ -1,0 +1,35 @@
+{
+  "gitSyncId": "693476e8bab1731f64a493f4_b60d1906-1f2c-4f12-82f7-3c3e0734c88a",
+  "id": "CARGUE_PLANTA_bkCpVehiculoUpdate",
+  "pluginId": "postgres-plugin",
+  "pluginType": "DB",
+  "unpublishedAction": {
+    "actionConfiguration": {
+      "body": "with contexto as (\n  select\n    coalesce(\n      nullif(\n        '{{ appsmith.store.cp_tenant_id || \"\" }}',\n        ''\n      )::uuid,\n\n      nullif(\n        '{{ appsmith.store.tenant_id || \"\" }}',\n        ''\n      )::uuid\n    ) as tenant_id,\n\n    nullif(\n      '{{ appsmith.store.cp_exportacion_id || \"\" }}',\n      ''\n    )::uuid as exportacion_id,\n\n    nullif(\n      '{{ appsmith.store.cp_vehiculo_edit_id || \"\" }}',\n      ''\n    )::uuid as cargue_vehiculo_id,\n\n    coalesce(\n      nullif(\n        '{{ appsmith.store.user_id || \"\" }}',\n        ''\n      )::uuid,\n\n      nullif(\n        '{{ appsmith.store.current_user?.id || \"\" }}',\n        ''\n      )::uuid\n    ) as usuario_id\n),\n\nvehiculo_directorio as (\n  select\n    v.id as vehiculo_id,\n    tv.id as tenant_vehiculo_id\n\n  from public.vehiculos v\n\n  join public.tenant_vehiculos tv\n    on tv.vehiculo_id = v.id\n\n  cross join contexto cx\n\n  where tv.tenant_id = cx.tenant_id\n\n    and upper(trim(v.placa)) =\n        upper(trim('{{ inpCpPlaca.text || \"\" }}'))\n\n    and v.activo = true\n    and tv.activo = true\n    and tv.deleted_at is null\n\n  limit 1\n),\n\nconductor_directorio as (\n  select\n    cnd.id as conductor_id,\n    tc.id as tenant_conductor_id,\n\n    case\n      when cnd.activo = false\n        or tc.activo = false\n        then 'INACTIVO'\n\n      when tc.fecha_vencimiento_licencia\n           is not null\n\n       and tc.fecha_vencimiento_licencia\n           < current_date\n\n        then 'LICENCIA_VENCIDA'\n\n      else 'HABILITADO_NACIONAL'\n    end as conductor_estado\n\n  from public.conductores cnd\n\n  join public.tenant_conductores tc\n    on tc.conductor_id = cnd.id\n\n  cross join contexto cx\n\n  where tc.tenant_id = cx.tenant_id\n\n    and upper(trim(cnd.numero_documento)) =\n        upper(\n          trim(\n            '{{ inpCpCedulaConductor.text || \"\" }}'\n          )\n        )\n\n    and cnd.activo = true\n    and tc.activo = true\n    and tc.deleted_at is null\n\n  limit 1\n),\n\ndatos_anteriores as (\n  select cpv.*\n\n  from public.cargues_planta_vehiculos cpv\n\n  cross join contexto cx\n\n  where cpv.id =\n        cx.cargue_vehiculo_id\n\n    and cpv.tenant_id =\n        cx.tenant_id\n\n    and cpv.exportacion_id =\n        cx.exportacion_id\n\n    and cpv.activo = true\n\n  limit 1\n),\n\nactualizar as (\n  update public.cargues_planta_vehiculos cpv\n\n  set\n    vehiculo_id =\n      vd.vehiculo_id,\n\n    tenant_vehiculo_id =\n      vd.tenant_vehiculo_id,\n\n    conductor_id =\n      cd.conductor_id,\n\n    tenant_conductor_id =\n      cd.tenant_conductor_id,\n\n    tipo_vehiculo_terrestre_id =\n      nullif(\n        '{{ slCpTipoVehiculo.selectedOptionValue || \"\" }}',\n        ''\n      )::uuid,\n\n    placa =\n      upper(\n        trim('{{ inpCpPlaca.text || \"\" }}')\n      ),\n\n    tipo_remolque_catalogo_id =\n      nullif(\n        '{{ slCpTipoRemolque.selectedOptionValue || \"\" }}',\n        ''\n      )::uuid,\n\n    placa_remolque =\n      nullif(\n        upper(\n          trim(\n            '{{ inpCpPlacaRemolque.text || \"\" }}'\n          )\n        ),\n        ''\n      ),\n\n    marca_vehiculo =\n      upper(\n        trim(\n          '{{ slCpMarcaVehiculo.selectedOptionValue || \"\" }}'\n        )\n      ),\n\n    modelo_vehiculo =\n      upper(\n        trim(\n          '{{ inpCpModeloVehiculo.text || \"\" }}'\n        )\n      ),\n\n    color_vehiculo =\n      upper(\n        trim(\n          '{{ slCpColorVehiculo.selectedOptionValue || \"\" }}'\n        )\n      ),\n\n    capacidad_carga_kg =\n      nullif(\n        '{{ inpCpCapacidadCargaKg.text || \"\" }}',\n        ''\n      )::numeric,\n\n    soat_no =\n      upper(\n        trim('{{ inpCpSoatNo.text || \"\" }}')\n      ),\n\n    soat_vencimiento =\n      nullif(\n        '{{ dpCpSoatVencimiento.selectedDate || \"\" }}',\n        ''\n      )::date,\n\n    conductor_documento =\n      upper(\n        trim(\n          '{{ inpCpCedulaConductor.text || \"\" }}'\n        )\n      ),\n\n    conductor_nombre =\n      upper(\n        trim(\n          '{{ inpCpNombreConductor.text || \"\" }}'\n        )\n      ),\n\n    conductor_licencia =\n      upper(\n        trim(\n          '{{ inpCpLicenciaConductor.text || \"\" }}'\n        )\n      ),\n\n    conductor_telefono =\n      trim(\n        '{{ inpCpTelefonoConductor.text || \"\" }}'\n      ),\n\n    conductor_estado =\n      coalesce(\n        cd.conductor_estado,\n\n        nullif(\n          upper(\n            trim(\n              '{{ txtCpEstadoConductor.text || \"\" }}'\n            )\n          ),\n          ''\n        )\n      ),\n\n    updated_at = now(),\n    updated_by = cx.usuario_id\n\n  from contexto cx\n\n  cross join vehiculo_directorio vd\n\n  cross join conductor_directorio cd\n\n  where cpv.id =\n        cx.cargue_vehiculo_id\n\n    and cpv.tenant_id =\n        cx.tenant_id\n\n    and cpv.exportacion_id =\n        cx.exportacion_id\n\n    and cpv.activo = true\n\n    and cx.usuario_id is not null\n\n    and vd.vehiculo_id is not null\n\n    and vd.tenant_vehiculo_id is not null\n\n    and cd.conductor_id is not null\n\n    and cd.tenant_conductor_id is not null\n\n  returning cpv.*\n),\n\nauditoria as (\n  insert into public.auditoria_entidades (\n    tenant_id,\n    modulo,\n    entidad,\n    entidad_id,\n    operacion,\n    motivo,\n    datos_anteriores,\n    datos_nuevos,\n    usuario_id,\n    autorizado_por\n  )\n\n  select\n    a.tenant_id,\n    'CARGUE_PLANTA',\n    'CARGUES_PLANTA_VEHICULOS',\n    a.id,\n    'UPDATE',\n    'ACTUALIZACIÓN DE VIAJE / VEHÍCULO',\n    to_jsonb(da),\n    to_jsonb(a),\n    cx.usuario_id,\n    cx.usuario_id\n\n  from actualizar a\n\n  cross join datos_anteriores da\n\n  cross join contexto cx\n\n  returning id\n)\n\nselect\n  a.id as cargue_vehiculo_id,\n  a.cargue_id,\n  a.exportacion_id,\n\n  a.vehiculo_id,\n  a.tenant_vehiculo_id,\n\n  a.conductor_id,\n  a.tenant_conductor_id,\n\n  a.item_no,\n  a.viaje_no,\n  a.placa,\n  a.placa_remolque,\n  a.conductor_documento,\n  a.conductor_nombre,\n  a.updated_at,\n  a.updated_by\n\nfrom actualizar a;",
+      "encodeParamsToggle": true,
+      "paginationType": "NONE",
+      "pluginSpecifiedTemplates": [
+        {
+          "value": false
+        }
+      ],
+      "timeoutInMillisecond": 10000
+    },
+    "confirmBeforeExecute": false,
+    "datasource": {
+      "id": "supabase_comex",
+      "isAutoGenerated": false,
+      "name": "supabase_comex",
+      "pluginId": "postgres-plugin"
+    },
+    "dynamicBindingPathList": [
+      {
+        "key": "body"
+      }
+    ],
+    "name": "bkCpVehiculoUpdate",
+    "pageId": "CARGUE_PLANTA",
+    "runBehaviour": "MANUAL",
+    "userSetOnLoad": false
+  }
+}

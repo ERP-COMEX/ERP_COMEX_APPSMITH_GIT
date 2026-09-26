@@ -1,0 +1,5 @@
+select *
+from public.proformas_exportacion
+where id = nullif('{{ appsmith.store.cv_proforma_id || "" }}', '')::uuid
+  and activo = true
+limit 1;

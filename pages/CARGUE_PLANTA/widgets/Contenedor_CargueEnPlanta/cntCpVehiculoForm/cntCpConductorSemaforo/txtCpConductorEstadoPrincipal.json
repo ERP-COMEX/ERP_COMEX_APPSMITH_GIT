@@ -1,0 +1,69 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 4,
+  "bottomRowBeforeCollapse": 4,
+  "dynamicBindingPathList": [
+    {
+      "key": "truncateButtonColor"
+    },
+    {
+      "key": "fontFamily"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "text"
+    },
+    {
+      "key": "textColor"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "isVisible"
+    },
+    {
+      "key": "textColor"
+    }
+  ],
+  "dynamicTriggerPathList": [],
+  "fontFamily": "{{appsmith.theme.fontFamily.appFont}}",
+  "fontSize": "1rem",
+  "fontStyle": "BOLD",
+  "isLoading": false,
+  "isVisible": "true",
+  "key": "qyfg8h72t2",
+  "leftColumn": 0,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 6,
+  "mobileLeftColumn": 40,
+  "mobileRightColumn": 56,
+  "mobileTopRow": 2,
+  "needsErrorInfo": false,
+  "originalBottomRow": 4,
+  "originalTopRow": 0,
+  "overflow": "NONE",
+  "parentColumnSpace": 14.03125,
+  "parentId": "61xxr70dn4",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 32,
+  "shouldScrollContents": true,
+  "shouldTruncate": false,
+  "text": "{{\n  (() => {\n    const documento = String(inpCpCedulaConductor.text || \"\").trim();\n    const conductor = appsmith.store.cp_ui_conductor_estado_operativo;\n\n    if (!documento) return \"\";\n\n    if (!conductor?.conductor_id) {\n      return \"⚪ CONDUCTOR NUEVO\";\n    }\n\n    const dias = Number(conductor.dias_vigencia_licencia);\n\n    if (\n      conductor.activo === false ||\n      conductor.estado_administrativo !== \"ACTIVO\"\n    ) {\n      return \"🔴 CONDUCTOR INACTIVO\";\n    }\n\n    if (conductor.disponible_para_viaje === false) {\n      return \"🔴 CONDUCTOR NO APTO PARA VIAJE\";\n    }\n\n    if (Number.isFinite(dias) && dias < 0) {\n      return `🔴 LICENCIA VENCIDA HACE ${Math.abs(dias)} ${\n        Math.abs(dias) === 1 ? \"DÍA\" : \"DÍAS\"\n      }`;\n    }\n\n    if (dias === 0) {\n      return \"🟠 LICENCIA VENCE HOY\";\n    }\n\n    if (dias === 1) {\n      return \"🟠 LICENCIA VENCE MAÑANA\";\n    }\n\n    if (Number.isFinite(dias) && dias <= 30) {\n      return `🟠 LICENCIA VENCE EN ${dias} DÍAS`;\n    }\n\n    if (Number.isFinite(dias) && dias <= 90) {\n      return `🟡 LICENCIA VENCE EN ${dias} DÍAS`;\n    }\n\n    return \"🟢 CONDUCTOR APTO PARA VIAJE\";\n  })()\n}}",
+  "textAlign": "LEFT",
+  "textColor": "{{\n  (() => {\n    const documento = String(inpCpCedulaConductor.text || \"\").trim();\n    const conductor = qCpBuscarConductorPorDocumento.data?.[0];\n\n    if (!documento || !conductor?.conductor_id) {\n      return \"#5F6368\";\n    }\n\n    const dias = Number(conductor.dias_vigencia_licencia);\n\n    if (\n      conductor.activo === false ||\n      conductor.estado_administrativo !== \"ACTIVO\" ||\n      conductor.disponible_para_viaje === false ||\n      (Number.isFinite(dias) && dias < 0)\n    ) {\n      return \"#C62828\";\n    }\n\n    if (Number.isFinite(dias) && dias <= 30) {\n      return \"#E65100\";\n    }\n\n    if (Number.isFinite(dias) && dias <= 90) {\n      return \"#9A6700\";\n    }\n\n    return \"#2E7D32\";\n  })()\n}}",
+  "topRow": 0,
+  "topRowBeforeCollapse": 0,
+  "truncateButtonColor": "{{appsmith.theme.colors.primaryColor}}",
+  "type": "TEXT_WIDGET",
+  "version": 1,
+  "widgetId": "54clyyri2o",
+  "widgetName": "txtCpConductorEstadoPrincipal"
+}

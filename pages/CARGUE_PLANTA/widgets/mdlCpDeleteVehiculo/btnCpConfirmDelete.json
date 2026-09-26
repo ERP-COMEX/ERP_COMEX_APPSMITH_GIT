@@ -1,0 +1,62 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 23,
+  "boxShadow": "none",
+  "buttonColor": "{{appsmith.theme.colors.primaryColor}}",
+  "buttonStyle": "PRIMARY_BUTTON",
+  "buttonVariant": "PRIMARY",
+  "disabledWhenInvalid": false,
+  "dynamicBindingPathList": [
+    {
+      "key": "buttonColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "onClick"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "isDefaultClickDisabled": true,
+  "isDisabled": "{{\n  !appsmith.store.cp_delete_context?.id\n  || !inpCpDeleteReason.text?.trim()\n}}",
+  "isLoading": false,
+  "isVisible": true,
+  "key": "n7ic2qc4vy",
+  "leftColumn": 48,
+  "minWidth": 120,
+  "mobileBottomRow": 22,
+  "mobileLeftColumn": 47,
+  "mobileRightColumn": 63,
+  "mobileTopRow": 18,
+  "needsErrorInfo": false,
+  "onClick": "{{\n  bkCpVehiculoDelete.run(\n    async () => {\n      await qCpVehiculosResumen.run();\n      await qCpOperacionResumen.run();\n\n      await storeValue(\"cp_vehiculo_selected\", null);\n      await storeValue(\"cp_vehiculo_selected_id\", null);\n      await storeValue(\"cp_delete_context\", null);\n\n      resetWidget(\"tblCpVehiculos\", true);\n      resetWidget(\"inpCpDeleteReason\", true);\n\n      closeModal(\"mdlCpDeleteVehiculo\");\n\n      showAlert(\"VIAJE ELIMINADO CORRECTAMENTE.\", \"success\");\n    },\n    () => {\n      showAlert(\"NO SE PUDO ELIMINAR EL VIAJE.\", \"error\");\n    }\n  )\n}}",
+  "originalBottomRow": 23,
+  "originalTopRow": 19,
+  "parentId": "q3cph6a595",
+  "placement": "CENTER",
+  "recaptchaType": "V3",
+  "renderMode": "CANVAS",
+  "resetFormOnClick": false,
+  "responsiveBehavior": "hug",
+  "rightColumn": 63,
+  "text": "ACEPTAR",
+  "topRow": 19,
+  "type": "BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "zuywfe5qmv",
+  "widgetName": "btnCpConfirmDelete"
+}

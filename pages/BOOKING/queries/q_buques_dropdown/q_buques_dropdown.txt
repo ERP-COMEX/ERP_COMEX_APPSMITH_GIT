@@ -1,0 +1,14 @@
+select
+  b.id as value,
+  upper(
+    b.nombre ||
+    case
+      when b.imo is not null and b.imo <> '' then ' - IMO ' || b.imo
+      else ''
+    end
+  ) as label
+from public.buques b
+where b.activo = true
+  and b.transportadora_id =
+    nullif('{{ appsmith.store.booking_form?.transportadora_internacional_id || "" }}', '')::uuid
+order by coalesce(b.sort_order, 999999), b.nombre;

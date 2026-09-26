@@ -1,0 +1,70 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "autoFocus": false,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 23,
+  "boxShadow": "none",
+  "defaultText": "{{\n  [\"NEW\", \"EDIT\", \"DUPLICATE\"].includes(appsmith.store.cp_form_mode)\n    ? appsmith.store.cp_ui_cond_documento || \"\"\n    : \"\"\n}}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "defaultText"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "onTextChanged"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onTextChanged"
+    }
+  ],
+  "iconAlign": "left",
+  "inputType": "TEXT",
+  "isDisabled": false,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "rm7qm9i02s",
+  "label": "DOCUMENTO CONDUCTOR",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 0,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 56,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 8,
+  "mobileTopRow": 49,
+  "needsErrorInfo": false,
+  "onTextChanged": "{{\n  (async () => {\n    const documento = String(\n      inpCpCedulaConductor.text || \"\"\n    ).trim();\n\n    if (documento.length < 5) {\n      await storeValue(\n        \"cp_ui_conductor_estado_operativo\",\n        null\n      );\n\n      return;\n    }\n\n    /*\n     * Limpia el resultado anterior para evitar mostrar\n     * información de otro conductor mientras consulta.\n     */\n    await storeValue(\n      \"cp_ui_conductor_estado_operativo\",\n      null\n    );\n\n    const resultado =\n      await qCpBuscarConductorPorDocumento.run();\n\n    /*\n     * Evita que una consulta anterior sobrescriba el resultado\n     * si el usuario continuó escribiendo.\n     */\n    const documentoActual = String(\n      inpCpCedulaConductor.text || \"\"\n    ).trim();\n\n    if (documentoActual !== documento) {\n      return;\n    }\n\n    await storeValue(\n      \"cp_ui_conductor_estado_operativo\",\n      resultado?.[0] || null\n    );\n  })()\n}}",
+  "originalBottomRow": 23,
+  "originalTopRow": 16,
+  "parentColumnSpace": 17.34375,
+  "parentId": "504sacewws",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "resetOnSubmit": true,
+  "responsiveBehavior": "fill",
+  "rightColumn": 12,
+  "showStepArrows": false,
+  "topRow": 16,
+  "type": "INPUT_WIDGET_V2",
+  "version": 2,
+  "widgetId": "v4dr6ia8hj",
+  "widgetName": "inpCpCedulaConductor"
+}

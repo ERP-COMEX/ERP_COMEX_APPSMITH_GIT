@@ -70,7 +70,7 @@
       "isDefault": false
     },
     {
-      "id": "PUERTO",
+      "id": "MANEJO_LOGISTICO",
       "isDefault": false
     },
     {
@@ -87,6 +87,22 @@
     },
     {
       "id": "REPORTES",
+      "isDefault": false
+    },
+    {
+      "id": "_CORE",
+      "isDefault": false
+    },
+    {
+      "id": "pgAccesoERP",
+      "isDefault": false
+    },
+    {
+      "id": "pgAdministracionUsuarios",
+      "isDefault": false
+    },
+    {
+      "id": "pgAdminPlanFact",
       "isDefault": false
     }
   ],

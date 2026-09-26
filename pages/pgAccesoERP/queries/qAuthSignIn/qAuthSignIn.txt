@@ -1,0 +1,4 @@
+{
+  "email": "{{ inpLoginCorreo.text.trim().toLowerCase() }}",
+  "password": "{{ inpLoginPassword.text }}"
+}

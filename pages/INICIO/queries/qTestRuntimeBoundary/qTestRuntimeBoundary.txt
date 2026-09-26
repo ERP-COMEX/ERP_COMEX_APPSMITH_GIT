@@ -1,0 +1,16 @@
+SELECT
+    current_user AS current_user,
+    session_user AS session_user,
+    current_database() AS database_name,
+
+    has_schema_privilege(
+        current_user,
+        'erp_api',
+        'USAGE'
+    ) AS erp_api_usage,
+
+    has_schema_privilege(
+        current_user,
+        'integration',
+        'USAGE'
+    ) AS integration_usage;	

@@ -1,0 +1,5 @@
+{
+  "p_tenant_id": "{{ appsmith.store.erp_tenant_id }}",
+  "p_company_id": "{{ appsmith.store.erp_company_id }}",
+  "p_notification_delivery_id": "{{ appsmith.store.erp_admin_selected_notification_delivery_id }}"
+}

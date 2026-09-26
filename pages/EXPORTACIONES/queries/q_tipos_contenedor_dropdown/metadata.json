@@ -25,7 +25,7 @@
     "dynamicBindingPathList": [],
     "name": "q_tipos_contenedor_dropdown",
     "pageId": "EXPORTACIONES",
-    "runBehaviour": "ON_PAGE_LOAD",
+    "runBehaviour": "MANUAL",
     "userSetOnLoad": true
   }
 }

@@ -1,0 +1,36 @@
+{
+  "p_tenant_id": "ba9871b9-f0f5-4b96-8801-dde466a3f8fd",
+  "p_company_id": "6887482c-2175-428d-a9a0-a7d921202a1c",
+  "p_environment_id": "ff1e841c-47fa-452a-8b53-230e2c8ea02b",
+
+  "p_scope_type": "COMPANY",
+
+  "p_route_code": "TEST_DOCUMENT_OCR",
+  "p_route_name": "Prueba DOCUMENT_PROCESSING_STARTED a LOCAL_OCR",
+
+  "p_source_event_type_id": "0fea3cb5-8c83-4f26-b63e-8b551c760b2d",
+
+  "p_provider_capability_id": "7f935ff2-d513-4f71-85f4-a8a9d588d7b4",
+
+  "p_account_id": null,
+
+  "p_priority": 5,
+  "p_route_order": 100,
+
+  "p_allow_integration_events": false,
+  "p_stop_on_match": true,
+
+  "p_match_filters": {},
+  "p_configuration": {},
+
+  "p_max_attempts": 3,
+  "p_retry_strategy": "FIXED",
+  "p_retry_delay_seconds": 30,
+  "p_timeout_seconds": 300,
+
+  "p_enabled": true,
+  "p_status": "ACTIVE",
+
+  "p_description": "Ruta controlada para validar el pipeline 005 integration",
+  "p_notes": "Creada desde Appsmith mediante RPC autenticada"
+}

@@ -1,0 +1,15 @@
+{
+  "p_tenant_id": "ba9871b9-f0f5-4b96-8801-dde466a3f8fd",
+  "p_company_id": "6887482c-2175-428d-a9a0-a7d921202a1c",
+  "p_job_id": "3bbacf36-a080-4ce4-8a96-acb2a087de3f",
+  "p_lease_token": "{{qDocClaimE2E.data.lease_token}}",
+  "p_error_code": "E2E_NOTIFICATION_TEST_FAILURE",
+  "p_error_message": "Prueba controlada E2E 006-09: fallo definitivo para validar la notificación documental.",
+  "p_result": {
+    "test": true,
+    "test_reference": "006-09-DOCUMENT-FAILURE",
+    "iteration": 3,
+    "no_external_delivery": true
+  },
+  "p_retry_after_seconds": null
+}

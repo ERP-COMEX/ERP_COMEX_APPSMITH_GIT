@@ -1,0 +1,40 @@
+update public.proformas_exportacion
+set
+  tipo_documento_id = nullif('{{ slCvTipoDocumento.selectedOptionValue || "" }}', '')::uuid,
+  tipo_documento = nullif('{{ slCvTipoDocumento.selectedOptionLabel || "" }}', ''),
+
+  proforma_no = '{{ inpCvProformaNo.text }}',
+
+  centro_costo_venta_id = nullif('{{ slCvCentroCostoVenta.selectedOptionValue || "" }}', '')::uuid,
+  centro_costo_venta = nullif('{{ slCvCentroCostoVenta.selectedOptionLabel || "" }}', ''),
+
+  vendedor_id = nullif('{{ slCvVendedor.selectedOptionValue || "" }}', '')::uuid,
+
+  observaciones_comerciales = nullif('{{ taCvObsComerciales.text || "" }}', ''),
+  observaciones_logisticas = nullif('{{ taCvObsLogisticas.text || "" }}', ''),
+
+  fecha_proforma = nullif('{{ dpCvFechaProforma.selectedDate || "" }}', '')::timestamptz,
+  fecha_vencimiento = nullif('{{ dpCvFechaVencimiento.selectedDate || "" }}', '')::timestamptz,
+  fecha_entrega = nullif('{{ dpCvFechaEntrega.selectedDate || "" }}', '')::timestamptz,
+
+  forma_pago_id = nullif('{{ slCvFormaPago.selectedOptionValue || "" }}', '')::uuid,
+  forma_pago = nullif('{{ slCvFormaPago.selectedOptionLabel || "" }}', ''),
+
+  moneda_id = nullif('{{ slCvMoneda.selectedOptionValue || "" }}', '')::uuid,
+  fecha_envio = nullif('{{ dpCvFechaEnvio.selectedDate || "" }}', '')::timestamptz,
+  estado_id = nullif('{{ slCvEstado.selectedOptionValue || "" }}', '')::uuid,
+
+  cantidad_items = {{ (appsmith.store.cv_items_proforma || []).length }},
+  cantidad_total = {{ (appsmith.store.cv_items_proforma || []).reduce((a, x) => a + Number(x.cantidad || 0), 0) }},
+  peso_neto_total = {{ (appsmith.store.cv_items_proforma || []).reduce((a, x) => a + Number(x.peso_neto_total || 0), 0) }},
+  peso_bruto_total = {{ (appsmith.store.cv_items_proforma || []).reduce((a, x) => a + Number(x.peso_bruto_total || 0), 0) }},
+  volumen_total = {{ (appsmith.store.cv_items_proforma || []).reduce((a, x) => a + Number(x.volumen_total || 0), 0) }},
+  fob_total = {{ (appsmith.store.cv_items_proforma || []).reduce((a, x) => a + Number(x.total_valor || 0), 0) }},
+  flete_total = {{ (appsmith.store.cv_items_proforma || []).reduce((a, x) => a + Number(x.valor_flete || 0), 0) }},
+  seguro_total = {{ (appsmith.store.cv_items_proforma || []).reduce((a, x) => a + Number(x.valor_seguro || 0), 0) }},
+  gastos_destino_total = {{ (appsmith.store.cv_items_proforma || []).reduce((a, x) => a + Number(x.valor_gastos_destino || 0), 0) }},
+  venta_total = {{ (appsmith.store.cv_items_proforma || []).reduce((a, x) => a + Number(x.subtotal || 0), 0) }},
+
+  updated_at = now()
+where id = '{{ appsmith.store.cv_proforma_id }}'::uuid
+returning id;

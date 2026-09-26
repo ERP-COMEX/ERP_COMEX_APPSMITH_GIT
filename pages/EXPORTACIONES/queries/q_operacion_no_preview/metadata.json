@@ -29,7 +29,7 @@
     ],
     "name": "q_operacion_no_preview",
     "pageId": "EXPORTACIONES",
-    "runBehaviour": "ON_PAGE_LOAD",
+    "runBehaviour": "MANUAL",
     "userSetOnLoad": true
   }
 }

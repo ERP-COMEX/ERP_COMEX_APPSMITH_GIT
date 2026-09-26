@@ -1,0 +1,7 @@
+{
+  "p_tenant_id": "ba9871b9-f0f5-4b96-8801-dde466a3f8fd",
+  "p_company_id": "6887482c-2175-428d-a9a0-a7d921202a1c",
+  "p_message_id": "5d1d5ea3-b844-4d10-ae8f-bcf329e5ae47",
+  "p_retry_reason": "Reintento administrativo controlado para validar fn_retry_outbox_message.",
+  "p_request_idempotency_key": "TEST_005_03_03_06A_07_RETRY_001"
+}

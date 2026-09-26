@@ -1,0 +1,11 @@
+{
+  "gitSyncId": "693476e8bab1731f64a493f4_9a584456-a00e-4c42-98ad-588495aed57b",
+  "id": "BOOKING_uiBooking",
+  "unpublishedCollection": {
+    "name": "uiBooking",
+    "pageId": "BOOKING",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": []
+  }
+}

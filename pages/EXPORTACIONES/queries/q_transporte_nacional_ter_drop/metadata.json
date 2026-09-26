@@ -25,7 +25,7 @@
     "dynamicBindingPathList": [],
     "name": "q_transporte_nacional_ter_drop",
     "pageId": "EXPORTACIONES",
-    "runBehaviour": "ON_PAGE_LOAD",
+    "runBehaviour": "MANUAL",
     "userSetOnLoad": true
   }
 }

@@ -1,0 +1,123 @@
+with contexto as (
+  select
+    nullif(
+      nullif(
+        '{{ appsmith.store.cp_update_context?.entity_id || "" }}',
+        ''
+      ),
+      'null'
+    )::uuid as conductor_id,
+
+    nullif(
+      nullif(
+        '{{ appsmith.store.cp_update_context?.tenant_conductor_id || "" }}',
+        ''
+      ),
+      'null'
+    )::uuid as tenant_conductor_id,
+
+    coalesce(
+      nullif(
+        nullif(
+          '{{ appsmith.store.cp_tenant_id || "" }}',
+          ''
+        ),
+        'null'
+      )::uuid,
+
+      nullif(
+        nullif(
+          '{{ appsmith.store.tenant_id || "" }}',
+          ''
+        ),
+        'null'
+      )::uuid,
+
+      nullif(
+        nullif(
+          '{{ appsmith.store.current_user?.tenant_id || "" }}',
+          ''
+        ),
+        'null'
+      )::uuid
+    ) as tenant_id
+)
+
+select
+  c.id as conductor_id,
+  tc.id as tenant_conductor_id,
+  tc.tenant_id,
+
+  c.nombre_completo,
+  c.tipo_documento,
+  c.numero_documento,
+  c.pais_documento,
+
+  tc.numero_licencia,
+  tc.categoria_licencia,
+  tc.pais_licencia,
+  tc.fecha_vencimiento_licencia,
+
+  tc.telefono,
+  tc.email,
+
+  tc.habilitado_nacional,
+  tc.habilitado_internacional,
+
+  tc.estado_administrativo,
+  tc.observaciones,
+  tc.activo,
+
+  case
+    when tc.estado_administrativo <> 'ACTIVO'
+      then tc.estado_administrativo
+
+    when tc.activo = false
+      then 'INACTIVO'
+
+    when tc.fecha_vencimiento_licencia is null
+      then 'SIN_FECHA_VENCIMIENTO'
+
+    when tc.fecha_vencimiento_licencia < current_date
+      then 'LICENCIA_VENCIDA'
+
+    when tc.fecha_vencimiento_licencia = current_date
+      then 'LICENCIA_VENCE_HOY'
+
+    when tc.fecha_vencimiento_licencia
+         <= current_date + 30
+      then 'LICENCIA_POR_VENCER'
+
+    else
+      'LICENCIA_VIGENTE'
+  end as estado_documental,
+
+  case
+    when tc.fecha_vencimiento_licencia is null
+      then null
+
+    else
+      tc.fecha_vencimiento_licencia - current_date
+  end as dias_vigencia_licencia
+
+from public.conductores c
+
+join public.tenant_conductores tc
+  on tc.conductor_id = c.id
+
+cross join contexto ctx
+
+where c.id = ctx.conductor_id
+  and tc.tenant_id = ctx.tenant_id
+  and tc.deleted_at is null
+
+  and (
+    ctx.tenant_conductor_id is null
+    or tc.id = ctx.tenant_conductor_id
+  )
+
+order by
+  tc.activo desc,
+  tc.fecha_ultima_actualizacion desc
+
+limit 1;

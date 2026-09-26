@@ -1,0 +1,31 @@
+select
+  p.id::text as value,
+  upper(
+    coalesce(p.codigo_interno, '') || ' - ' ||
+    coalesce(p.descripcion_corta, p.descripcion_completa, '')
+  ) as label,
+
+  p.id,
+  upper(coalesce(p.codigo_interno, '')) as codigo_interno,
+  upper(coalesce(p.codigo_sigo, '')) as codigo_sigo,
+  upper(coalesce(p.descripcion_corta, '')) as descripcion_corta,
+  upper(coalesce(p.descripcion_completa, '')) as descripcion_completa,
+  upper(coalesce(p.marca, '')) as marca,
+  upper(coalesce(p.presentacion, '')) as presentacion,
+  upper(coalesce(p.unidad_medida, '')) as unidad_medida,
+  upper(coalesce(p.subpartida, '')) as subpartida,
+
+  p.peso_unitario_kg,
+  p.peso_neto_caja_kg,
+  p.peso_bruto_caja_kg,
+  p.volumen_caja_m3,
+  p.partida_id,
+
+  upper(coalesce(pa.codigo, '')) as partida_codigo,
+  upper(coalesce(pa.descripcion, '')) as partida_descripcion,
+  upper(coalesce(pa.unidad_medida, '')) as unidad_medida_arancel
+from public.productos p
+left join public.partidas_arancelarias pa
+  on pa.id = p.partida_id
+where p.activo = true
+order by p.codigo_interno;

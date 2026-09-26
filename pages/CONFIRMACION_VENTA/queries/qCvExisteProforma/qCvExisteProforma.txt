@@ -1,0 +1,9 @@
+select
+  id,
+  proforma_no
+from public.proformas_exportacion
+where tenant_id = '{{ appsmith.store.cv_tenant_id }}'::uuid
+  and exportacion_id = '{{ appsmith.store.cv_exportacion_id }}'::uuid
+  and proforma_no = '{{ inpCvProformaNo.text }}'
+  and activo = true
+limit 1;

@@ -1,0 +1,18 @@
+select
+  d.*,
+
+  upper(coalesce(p.tipo_producto, '')) as tipo_producto,
+  upper(coalesce(p.categoria, '')) as categoria,
+  upper(coalesce(p.subcategoria, '')) as subcategoria
+
+from public.proforma_exportacion_detalle d
+
+left join public.productos p
+  on p.id = d.producto_id
+
+where d.proforma_id =
+  nullif('{{ appsmith.store.cv_proforma_id || "" }}', '')::uuid
+
+  and d.activo = true
+
+order by d.item_no;

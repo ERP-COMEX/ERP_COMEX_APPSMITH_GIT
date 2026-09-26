@@ -1,0 +1,11 @@
+{
+  "gitSyncId": "693476e8bab1731f64a493f4_193ca6ad-9e17-4844-be33-c537c60f5ecf",
+  "id": "CONFIRMACION_VENTA_appContext",
+  "unpublishedCollection": {
+    "name": "appContext",
+    "pageId": "CONFIRMACION_VENTA",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": []
+  }
+}

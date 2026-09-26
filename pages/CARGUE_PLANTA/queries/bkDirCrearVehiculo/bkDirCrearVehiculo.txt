@@ -1,0 +1,433 @@
+with contexto as (
+  select
+    coalesce(
+      nullif(
+        nullif('{{ appsmith.store.cp_tenant_id || "" }}', ''),
+        'null'
+      )::uuid,
+
+      nullif(
+        nullif('{{ appsmith.store.tenant_id || "" }}', ''),
+        'null'
+      )::uuid,
+
+      nullif(
+        nullif(
+          '{{ appsmith.store.current_user?.tenant_id || "" }}',
+          ''
+        ),
+        'null'
+      )::uuid
+    ) as tenant_id,
+
+    coalesce(
+      nullif(
+        nullif('{{ appsmith.store.user_id || "" }}', ''),
+        'null'
+      )::uuid,
+
+      nullif(
+        nullif('{{ appsmith.store.current_user?.id || "" }}', ''),
+        'null'
+      )::uuid
+    ) as usuario_id
+),
+
+datos as (
+  select
+    c.tenant_id,
+    c.usuario_id,
+
+    'CO'::text as pais_placa,
+
+    upper(
+      trim('{{ inpDirVehPlaca.text || "" }}')
+    ) as placa,
+
+    nullif(
+      nullif(
+        '{{ slDirVehTipoVehiculo.selectedOptionValue || "" }}',
+        ''
+      ),
+      'null'
+    )::uuid as tipo_vehiculo_terrestre_id,
+
+    upper(
+      trim('{{ slDirVehMarca.selectedOptionValue || "" }}')
+    ) as marca,
+
+    upper(
+      trim('{{ inpDirVehModelo.text || "" }}')
+    ) as modelo,
+
+    upper(
+      trim('{{ slDirVehColor.selectedOptionValue || "" }}')
+    ) as color,
+
+    nullif(
+      nullif(
+        '{{ inpDirVehCapacidadKg.text || "" }}',
+        ''
+      ),
+      'null'
+    )::numeric as capacidad_carga_kg,
+
+    upper(
+      trim('{{ inpDirVehSoatNo.text || "" }}')
+    ) as soat_no,
+
+    nullif(
+      nullif(
+        '{{ dpDirVehSoatVencimiento.selectedDate || "" }}',
+        ''
+      ),
+      'null'
+    )::date as soat_vencimiento,
+
+    upper(
+      trim(
+        coalesce(
+          nullif(
+            '{{ inpDirUpdateMotivo.text || "" }}',
+            ''
+          ),
+          'CREACIÓN DE VEHÍCULO DESDE CARGUE PLANTA'
+        )
+      )
+    ) as motivo
+
+  from contexto c
+),
+
+validacion as (
+  select d.*
+  from datos d
+  where d.tenant_id is not null
+    and d.usuario_id is not null
+    and d.pais_placa <> ''
+    and char_length(d.pais_placa) = 2
+    and d.placa <> ''
+    and d.tipo_vehiculo_terrestre_id is not null
+    and d.marca <> ''
+    and d.modelo <> ''
+    and d.color <> ''
+    and d.capacidad_carga_kg is not null
+    and d.capacidad_carga_kg > 0
+    and d.soat_no <> ''
+    and d.soat_vencimiento is not null
+),
+
+bloqueo as (
+  select
+    pg_advisory_xact_lock(
+      hashtextextended(
+        v.pais_placa || '|' || v.placa,
+        0
+      )
+    ) as bloqueado
+  from validacion v
+),
+
+identidad_existente as (
+  select
+    vh.*
+  from public.vehiculos vh
+  cross join validacion v
+  cross join bloqueo b
+  where upper(trim(vh.pais_placa)) = v.pais_placa
+    and upper(trim(vh.placa)) = v.placa
+  limit 1
+),
+
+identidad_creada as (
+  insert into public.vehiculos (
+    placa,
+    pais_placa,
+    tipo_vehiculo_terrestre_id,
+    marca,
+    modelo,
+    color,
+    capacidad_carga_kg,
+    activo,
+    created_by,
+    updated_by
+  )
+  select
+    v.placa,
+    v.pais_placa,
+    v.tipo_vehiculo_terrestre_id,
+    v.marca,
+    v.modelo,
+    v.color,
+    v.capacidad_carga_kg,
+    true,
+    v.usuario_id,
+    v.usuario_id
+  from validacion v
+  cross join bloqueo b
+  where not exists (
+    select 1
+    from identidad_existente
+  )
+  returning *
+),
+
+identidad_final as (
+  select
+    ie.*,
+    'REUTILIZADA'::text as accion_identidad
+  from identidad_existente ie
+
+  union all
+
+  select
+    ic.*,
+    'CREADA'::text as accion_identidad
+  from identidad_creada ic
+),
+
+relacion_existente as (
+  select
+    tv.*
+  from public.tenant_vehiculos tv
+  cross join validacion v
+  cross join identidad_final i
+  where tv.tenant_id = v.tenant_id
+    and tv.vehiculo_id = i.id
+  limit 1
+),
+
+relacion_reactivada as (
+  update public.tenant_vehiculos tv
+  set
+    soat_no = v.soat_no,
+    soat_vencimiento = v.soat_vencimiento,
+    estado_administrativo = 'ACTIVO',
+    habilitado_nacional = true,
+    activo = true,
+    deleted_at = null,
+    deleted_by = null,
+    delete_reason = null,
+    updated_at = now(),
+    updated_by = v.usuario_id
+  from validacion v
+  cross join identidad_final i
+  where tv.tenant_id = v.tenant_id
+    and tv.vehiculo_id = i.id
+    and (
+      tv.activo = false
+      or tv.deleted_at is not null
+      or tv.estado_administrativo <> 'ACTIVO'
+    )
+  returning tv.*
+),
+
+relacion_creada as (
+  insert into public.tenant_vehiculos (
+    tenant_id,
+    vehiculo_id,
+    transportadora_id,
+    tipo_vehiculo_id,
+    soat_no,
+    soat_vencimiento,
+    habilitado_nacional,
+    habilitado_internacional,
+    estado_administrativo,
+    observaciones,
+    activo,
+    created_by,
+    updated_by
+  )
+  select
+    v.tenant_id,
+    i.id,
+    null,
+    null,
+    v.soat_no,
+    v.soat_vencimiento,
+    true,
+    false,
+    'ACTIVO',
+    null,
+    true,
+    v.usuario_id,
+    v.usuario_id
+  from validacion v
+  cross join identidad_final i
+  where not exists (
+    select 1
+    from relacion_existente
+  )
+  returning *
+),
+
+relacion_final as (
+  select
+    re.*,
+    case
+      when exists (
+        select 1
+        from relacion_reactivada rr
+        where rr.id = re.id
+      )
+        then 'REACTIVADA'
+      else 'REUTILIZADA'
+    end as accion_tenant
+  from relacion_existente re
+  where not exists (
+    select 1
+    from relacion_reactivada rr
+    where rr.id = re.id
+  )
+
+  union all
+
+  select
+    rr.*,
+    'REACTIVADA'::text as accion_tenant
+  from relacion_reactivada rr
+
+  union all
+
+  select
+    rc.*,
+    'CREADA'::text as accion_tenant
+  from relacion_creada rc
+),
+
+auditoria_identidad as (
+  insert into public.auditoria_entidades (
+    tenant_id,
+    modulo,
+    entidad,
+    entidad_id,
+    operacion,
+    motivo,
+    datos_anteriores,
+    datos_nuevos,
+    usuario_id,
+    autorizado_por
+  )
+  select
+    v.tenant_id,
+    'CARGUE_PLANTA',
+    'VEHICULOS',
+    i.id,
+    'INSERT',
+    v.motivo,
+    null,
+    to_jsonb(i) - 'accion_identidad',
+    v.usuario_id,
+    v.usuario_id
+  from identidad_final i
+  cross join validacion v
+  where i.accion_identidad = 'CREADA'
+  returning id
+),
+
+auditoria_relacion as (
+  insert into public.auditoria_entidades (
+    tenant_id,
+    modulo,
+    entidad,
+    entidad_id,
+    operacion,
+    motivo,
+    datos_anteriores,
+    datos_nuevos,
+    usuario_id,
+    autorizado_por
+  )
+  select
+    r.tenant_id,
+    'CARGUE_PLANTA',
+    'TENANT_VEHICULOS',
+    r.id,
+    case
+      when r.accion_tenant = 'CREADA'
+        then 'INSERT'
+      when r.accion_tenant = 'REACTIVADA'
+        then 'REACTIVACION'
+      else 'REUTILIZACION'
+    end,
+    v.motivo,
+    null,
+    to_jsonb(r) - 'accion_tenant',
+    v.usuario_id,
+    v.usuario_id
+  from relacion_final r
+  cross join validacion v
+  where r.accion_tenant in (
+    'CREADA',
+    'REACTIVADA'
+  )
+  returning id
+)
+
+select
+  i.id as vehiculo_id,
+  r.id as tenant_vehiculo_id,
+
+  r.tenant_id,
+
+  i.codigo_interno,
+  i.pais_placa,
+  i.placa,
+
+  i.tipo_vehiculo_terrestre_id,
+  i.marca,
+  i.modelo,
+  i.color,
+  i.capacidad_carga_kg,
+
+  r.transportadora_id,
+  r.tipo_vehiculo_id,
+
+  r.soat_no,
+  r.soat_vencimiento,
+
+  r.habilitado_nacional,
+  r.habilitado_internacional,
+  r.estado_administrativo,
+  r.activo,
+
+  i.accion_identidad,
+  r.accion_tenant,
+
+  case
+    when r.activo = false
+      or r.estado_administrativo <> 'ACTIVO'
+      then 'VEHICULO_INACTIVO'
+
+    when r.soat_no is null
+      or trim(r.soat_no) = ''
+      or r.soat_vencimiento is null
+      then 'SIN_SOAT'
+
+    when r.soat_vencimiento < current_date
+      then 'SOAT_VENCIDO'
+
+    when r.soat_vencimiento <= current_date + 30
+      then 'SOAT_POR_VENCER'
+
+    else 'SOAT_VIGENTE'
+  end as estado_documental,
+
+  case
+    when r.soat_vencimiento is null
+      then null
+    else r.soat_vencimiento - current_date
+  end as dias_vigencia_soat,
+
+  (
+    r.activo = true
+    and r.estado_administrativo = 'ACTIVO'
+    and r.habilitado_nacional = true
+    and r.soat_no is not null
+    and trim(r.soat_no) <> ''
+    and r.soat_vencimiento is not null
+    and r.soat_vencimiento >= current_date
+  ) as disponible_para_viaje
+
+from identidad_final i
+cross join relacion_final r;

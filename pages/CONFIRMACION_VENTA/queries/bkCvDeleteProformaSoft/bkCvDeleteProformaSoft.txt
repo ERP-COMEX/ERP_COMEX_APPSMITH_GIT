@@ -1,0 +1,38 @@
+with ctx as (
+  select
+    nullif('{{ appsmith.store.delete_context?.id || "" }}', '')::uuid as proforma_id,
+    nullif('{{ appsmith.store.current_user_id || appsmith.store.user_id || "" }}', '')::uuid as deleted_by,
+    nullif('{{ taDeleteReason.text || "" }}', '') as delete_reason
+),
+
+upd_detalle as (
+  update public.proforma_exportacion_detalle d
+  set
+    activo = false,
+    deleted_at = now(),
+    deleted_by = ctx.deleted_by,
+    delete_reason = ctx.delete_reason,
+    updated_at = now()
+  from ctx
+  where d.proforma_id = ctx.proforma_id
+    and d.activo = true
+  returning d.id
+),
+
+upd_cabecera as (
+  update public.proformas_exportacion p
+  set
+    activo = false,
+    deleted_at = now(),
+    deleted_by = ctx.deleted_by,
+    delete_reason = ctx.delete_reason,
+    updated_at = now()
+  from ctx
+  where p.id = ctx.proforma_id
+    and p.activo = true
+  returning p.id
+)
+
+select
+  (select count(*) from upd_cabecera)::int as proformas_eliminadas,
+  (select count(*) from upd_detalle)::int as items_eliminados;

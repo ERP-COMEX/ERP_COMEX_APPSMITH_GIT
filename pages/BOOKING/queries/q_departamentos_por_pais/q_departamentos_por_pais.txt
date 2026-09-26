@@ -1,0 +1,8 @@
+select
+  id as value,
+  nombre as label
+from public.divisiones_territoriales
+where tipo = 'DEPARTAMENTO'
+  and pais_id = {{ sl_pais_origen.selectedOptionValue }}
+  and activo = true
+order by nombre;

@@ -1,0 +1,11 @@
+{
+  "gitSyncId": "693476e8bab1731f64a493f4_9827ef14-ffd5-4fc0-b518-3c0068a35f8a",
+  "id": "pgAdministracionUsuarios_JS_NotificacionesAdmin",
+  "unpublishedCollection": {
+    "name": "JS_NotificacionesAdmin",
+    "pageId": "pgAdministracionUsuarios",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": []
+  }
+}

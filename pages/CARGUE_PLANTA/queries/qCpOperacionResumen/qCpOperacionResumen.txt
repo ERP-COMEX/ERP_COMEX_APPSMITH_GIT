@@ -1,0 +1,36 @@
+select
+  operacion_no,
+  referencia_cliente,
+
+  booking_no,
+  proforma_no,
+
+  booking_status,
+  confirmacion_venta_status,
+  cargue_planta_status,
+
+  modalidad_transporte_id,
+  tipo_carga_id,
+  caracteristica_carga_id,
+
+  total_contenedores,
+  total_contenedores_confirmados,
+  total_vehiculos_ter,
+
+  proforma_cantidad_total,
+  proforma_peso_neto_total,
+  proforma_peso_bruto_total,
+  proforma_volumen_total,
+
+  total_vehiculos,
+  total_contenedores_cargados,
+  total_peso_neto_kg,
+  total_peso_bruto_kg,
+  total_volumen_cbm,
+
+  etd,
+  eta
+
+from public.v_cp_operaciones_disponibles
+where exportacion_id = '{{ appsmith.store.cp_exportacion_id }}'
+limit 1;

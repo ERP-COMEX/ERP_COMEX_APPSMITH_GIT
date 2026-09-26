@@ -1,0 +1,303 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 5,
+  "boxShadow": "none",
+  "buttonVariant": "PRIMARY",
+  "childStylesheet": {
+    "button": {
+      "buttonColor": "{{appsmith.theme.colors.primaryColor}}"
+    }
+  },
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "groupButtons.groupButtonn15izot6di.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButtonn15izot6di.isVisible"
+    },
+    {
+      "key": "groupButtons.groupButton1.isVisible"
+    },
+    {
+      "key": "groupButtons.groupButton1.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButton2eurxo2u9t.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButtony6s6995jgm.isVisible"
+    },
+    {
+      "key": "groupButtons.groupButtony6s6995jgm.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButton2eurxo2u9t.isVisible"
+    },
+    {
+      "key": "groupButtons.groupButton2.isVisible"
+    },
+    {
+      "key": "groupButtons.groupButton2.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButtonf1mwztqves.isVisible"
+    },
+    {
+      "key": "groupButtons.groupButtonf1mwztqves.isDisabled"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "groupButtons.groupButtonf1mwztqves.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton3.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtony6s6995jgm.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton1.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton2eurxo2u9t.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton2.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton2.isVisible"
+    },
+    {
+      "key": "groupButtons.groupButton2.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButtonf1mwztqves.isVisible"
+    },
+    {
+      "key": "groupButtons.groupButtonf1mwztqves.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButtony6s6995jgm.isVisible"
+    },
+    {
+      "key": "groupButtons.groupButtony6s6995jgm.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButton1.isVisible"
+    },
+    {
+      "key": "groupButtons.groupButton1.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButton2eurxo2u9t.isVisible"
+    },
+    {
+      "key": "groupButtons.groupButton2eurxo2u9t.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButtonn15izot6di.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonn15izot6di.isDisabled"
+    },
+    {
+      "key": "groupButtons.groupButtonrimifg6zp1.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonf3v1xockm5.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonn15izot6di.isVisible"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "groupButtons.groupButtonf1mwztqves.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtony6s6995jgm.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton1.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton2eurxo2u9t.onClick"
+    },
+    {
+      "key": "groupButtons.groupButton2.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonn15izot6di.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonrimifg6zp1.onClick"
+    },
+    {
+      "key": "groupButtons.groupButtonf3v1xockm5.onClick"
+    }
+  ],
+  "groupButtons": {
+    "groupButton1": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "disabledWhenInvalid": false,
+      "iconName": "edit",
+      "id": "groupButton1",
+      "index": 3,
+      "isDisabled": "{{\n  !appsmith.store.cp_exportacion_id\n  ||\n  appsmith.store.cp_form_mode === \"EDIT\"\n  ||\n  !appsmith.store.cp_vehiculo_selected_id\n}}",
+      "isVisible": "{{\n  !!appsmith.store.cp_exportacion_id\n}}",
+      "label": "EDITAR VIAJE",
+      "menuItems": {},
+      "onClick": "{{\n  (async () => {\n    if (!appsmith.store.cp_exportacion_id) {\n      showAlert(\n        \"SELECCIONE UNA OPERACIÓN.\",\n        \"warning\"\n      );\n      return false;\n    }\n\n    if (!appsmith.store.cp_vehiculo_selected_id) {\n      showAlert(\n        \"SELECCIONE UN VIAJE EN LA TABLA.\",\n        \"warning\"\n      );\n      return false;\n    }\n\n    await JS_CarguePlanta.editVehiculoViaje();\n\n    return true;\n  })()\n}}",
+      "placement": "START",
+      "widgetId": ""
+    },
+    "groupButton2": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "disabledWhenInvalid": false,
+      "iconName": "new-layer",
+      "id": "groupButton2",
+      "index": 0,
+      "isDisabled": "{{\n  !appsmith.store.cp_exportacion_id\n  ||\n  [\"EDIT\", \"DUPLICATE\"].includes(appsmith.store.cp_form_mode)\n}}",
+      "isVisible": "{{\n  !!appsmith.store.cp_exportacion_id\n}}",
+      "label": "NUEVO VIAJE",
+      "menuItems": {},
+      "onClick": "{{\n  (async () => {\n    try {\n      if (!appsmith.store.cp_exportacion_id) {\n        showAlert(\"SELECCIONE UNA OPERACIÓN.\", \"warning\");\n        return false;\n      }\n\n      await JS_CarguePlanta.newVehiculoViaje();\n\n      showAlert(\n        \"FORMULARIO PREPARADO PARA UN NUEVO VIAJE.\",\n        \"info\"\n      );\n\n      return true;\n    } catch (error) {\n      console.error(\n        \"ERROR AL PREPARAR NUEVO VIAJE:\",\n        error\n      );\n\n      showAlert(\n        \"NO SE PUDO PREPARAR EL NUEVO VIAJE: \" +\n          (\n            error?.message ||\n            error?.error ||\n            \"ERROR NO IDENTIFICADO\"\n          ),\n        \"error\"\n      );\n\n      return false;\n    }\n  })()\n}}",
+      "placement": "START",
+      "widgetId": ""
+    },
+    "groupButton2eurxo2u9t": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "iconName": "remove",
+      "id": "groupButton2eurxo2u9t",
+      "index": 4,
+      "isDisabled": "{{\n  !appsmith.store.cp_exportacion_id\n}}",
+      "isSeparator": false,
+      "isVisible": "{{\n  !!appsmith.store.cp_exportacion_id\n  &&\n  (\n    [\"EDIT\", \"DUPLICATE\"].includes(appsmith.store.cp_form_mode)\n    ||\n    appsmith.store.cp_has_pending_changes\n    ||\n    !!String(inpCpPlaca.text || \"\").trim()\n    ||\n    !!String(inpCpCedulaConductor.text || \"\").trim()\n  )\n}}",
+      "itemType": "BUTTON",
+      "label": "CANCELAR",
+      "menuItems": {},
+      "onClick": "{{\n  (async () => {\n    try {\n      await JS_CarguePlanta.cancelVehiculoForm();\n\n      showAlert(\n        \"FORMULARIO DE VEHÍCULO / VIAJE CANCELADO.\",\n        \"info\"\n      );\n\n      return true;\n    } catch (error) {\n      console.error(\n        \"ERROR AL CANCELAR VEHÍCULO / VIAJE:\",\n        error\n      );\n\n      showAlert(\n        \"NO SE PUDO CANCELAR EL FORMULARIO: \" +\n          (error?.message || error?.error || error),\n        \"error\"\n      );\n\n      return false;\n    }\n  })()\n}}",
+      "placement": "START",
+      "variant": "filled",
+      "widgetId": "5b3qqwi43i"
+    },
+    "groupButtonf1mwztqves": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "iconName": "floppy-disk",
+      "id": "groupButtonf1mwztqves",
+      "index": 1,
+      "isDisabled": "{{\n  !appsmith.store.cp_exportacion_id\n  ||\n  !String(inpCpPlaca.text || \"\").trim()\n  ||\n  !slCpTipoVehiculo.selectedOptionValue\n  ||\n  !slCpMarcaVehiculo.selectedOptionValue\n  ||\n  !String(inpCpModeloVehiculo.text || \"\").trim()\n  ||\n  !slCpColorVehiculo.selectedOptionValue\n  ||\n  !String(inpCpCapacidadCargaKg.text || \"\").trim()\n  ||\n  !String(inpCpSoatNo.text || \"\").trim()\n  ||\n  !dpCpSoatVencimiento.selectedDate\n  ||\n  !String(inpCpCedulaConductor.text || \"\").trim()\n  ||\n  !String(inpCpNombreConductor.text || \"\").trim()\n  ||\n  !String(inpCpLicenciaConductor.text || \"\").trim()\n  ||\n  !String(inpCpTelefonoConductor.text || \"\").trim()\n  ||\n  (\n    appsmith.store.cp_form_mode === \"EDIT\"\n    &&\n    !appsmith.store.cp_vehiculo_edit_id\n  )\n  ||\n  (\n    appsmith.store.cp_form_mode === \"DUPLICATE\"\n    &&\n    !appsmith.store.cp_duplicate_source\n  )\n}}",
+      "isSeparator": false,
+      "isVisible": "{{\n  !!appsmith.store.cp_exportacion_id\n  &&\n  [\"NEW\", \"EDIT\", \"DUPLICATE\"].includes(\n    appsmith.store.cp_form_mode || \"NEW\"\n  )\n}}",
+      "itemType": "BUTTON",
+      "label": "GUARDAR VIAJE",
+      "menuItems": {},
+      "onClick": "{{\n  (async () => {\n    try {\n      const mode =\n        appsmith.store.cp_form_mode ||\n        \"NEW\";\n\n      const tenantId =\n        appsmith.store.cp_tenant_id ||\n        appsmith.store.tenant_id ||\n        appsmith.store.current_user?.tenant_id ||\n        null;\n\n      const userId =\n        appsmith.store.user_id ||\n        appsmith.store.current_user?.id ||\n        null;\n\n      /*\n       * =========================================================\n       * 1. VALIDACIÓN DEL CONTEXTO\n       * =========================================================\n       */\n\n      if (!appsmith.store.cp_exportacion_id) {\n        showAlert(\n          \"SELECCIONE UNA OPERACIÓN.\",\n          \"warning\"\n        );\n        return false;\n      }\n\n      if (!tenantId) {\n        showAlert(\n          \"NO SE ENCONTRÓ EL TENANT DE LA OPERACIÓN.\",\n          \"error\"\n        );\n        return false;\n      }\n\n      if (!userId) {\n        showAlert(\n          \"NO SE ENCONTRÓ EL USUARIO AUTENTICADO.\",\n          \"error\"\n        );\n        return false;\n      }\n\n      if (\n        ![\"NEW\", \"EDIT\", \"DUPLICATE\"].includes(mode)\n      ) {\n        showAlert(\n          \"EL FORMULARIO NO ESTÁ EN UN MODO VÁLIDO PARA GUARDAR.\",\n          \"error\"\n        );\n        return false;\n      }\n\n      if (\n        mode === \"EDIT\" &&\n        !appsmith.store.cp_vehiculo_edit_id\n      ) {\n        showAlert(\n          \"NO SE ENCONTRÓ EL VIAJE QUE SE DESEA ACTUALIZAR.\",\n          \"error\"\n        );\n        return false;\n      }\n\n      /*\n       * En modo DUPLICATE debe existir la trazabilidad\n       * del viaje que fue copiado.\n       */\n      if (\n        mode === \"DUPLICATE\" &&\n        !appsmith.store.cp_duplicate_source\n      ) {\n        showAlert(\n          \"NO SE ENCONTRÓ EL VIAJE DE ORIGEN DE LA DUPLICACIÓN.\",\n          \"error\"\n        );\n        return false;\n      }\n\n      /*\n       * =========================================================\n       * 2. VALIDACIÓN DEL VEHÍCULO\n       * =========================================================\n       */\n\n      const placa = String(\n        inpCpPlaca.text || \"\"\n      )\n        .trim()\n        .toUpperCase();\n\n      if (!placa) {\n        showAlert(\n          \"DEBE DIGITAR LA PLACA DEL VEHÍCULO.\",\n          \"warning\"\n        );\n        return false;\n      }\n\n      if (!slCpTipoVehiculo.selectedOptionValue) {\n        showAlert(\n          \"DEBE SELECCIONAR EL TIPO DE VEHÍCULO.\",\n          \"warning\"\n        );\n        return false;\n      }\n\n      if (!slCpMarcaVehiculo.selectedOptionValue) {\n        showAlert(\n          \"DEBE SELECCIONAR LA MARCA DEL VEHÍCULO.\",\n          \"warning\"\n        );\n        return false;\n      }\n\n      if (\n        !String(\n          inpCpModeloVehiculo.text || \"\"\n        ).trim()\n      ) {\n        showAlert(\n          \"DEBE DIGITAR EL MODELO DEL VEHÍCULO.\",\n          \"warning\"\n        );\n        return false;\n      }\n\n      if (!slCpColorVehiculo.selectedOptionValue) {\n        showAlert(\n          \"DEBE SELECCIONAR EL COLOR DEL VEHÍCULO.\",\n          \"warning\"\n        );\n        return false;\n      }\n\n      const capacidadKg = Number(\n        String(\n          inpCpCapacidadCargaKg.text || \"\"\n        )\n          .trim()\n          .replace(\",\", \".\")\n      );\n\n      if (\n        !Number.isFinite(capacidadKg) ||\n        capacidadKg <= 0\n      ) {\n        showAlert(\n          \"LA CAPACIDAD DE CARGA DEBE SER MAYOR QUE CERO.\",\n          \"warning\"\n        );\n        return false;\n      }\n\n      if (\n        !String(\n          inpCpSoatNo.text || \"\"\n        ).trim()\n      ) {\n        showAlert(\n          \"DEBE DIGITAR EL NÚMERO DEL SOAT.\",\n          \"warning\"\n        );\n        return false;\n      }\n\n      if (!dpCpSoatVencimiento.selectedDate) {\n        showAlert(\n          \"DEBE SELECCIONAR LA FECHA DE VENCIMIENTO DEL SOAT.\",\n          \"warning\"\n        );\n        return false;\n      }\n\n      /*\n       * =========================================================\n       * 3. VALIDACIÓN DEL REMOLQUE\n       * =========================================================\n       */\n\n      const tipoRemolqueId =\n        slCpTipoRemolque.selectedOptionValue ||\n        null;\n\n      const tipoRemolqueLabel = String(\n        slCpTipoRemolque.selectedOptionLabel ||\n        \"\"\n      )\n        .trim()\n        .toUpperCase();\n\n      const placaRemolque = String(\n        inpCpPlacaRemolque.text || \"\"\n      )\n        .trim()\n        .toUpperCase();\n\n      if (\n        tipoRemolqueId &&\n        tipoRemolqueLabel !== \"NO APLICA\" &&\n        !placaRemolque\n      ) {\n        showAlert(\n          \"DEBE DIGITAR LA PLACA DEL REMOLQUE.\",\n          \"warning\"\n        );\n        return false;\n      }\n\n      /*\n       * =========================================================\n       * 4. VALIDACIÓN DEL CONDUCTOR\n       * =========================================================\n       */\n\n      const documentoConductor = String(\n        inpCpCedulaConductor.text || \"\"\n      ).trim();\n\n      if (!documentoConductor) {\n        showAlert(\n          \"DEBE DIGITAR EL DOCUMENTO DEL CONDUCTOR.\",\n          \"warning\"\n        );\n        return false;\n      }\n\n      if (\n        !String(\n          inpCpNombreConductor.text || \"\"\n        ).trim()\n      ) {\n        showAlert(\n          \"DEBE REGISTRAR EL NOMBRE DEL CONDUCTOR.\",\n          \"warning\"\n        );\n        return false;\n      }\n\n      if (\n        !String(\n          inpCpLicenciaConductor.text || \"\"\n        ).trim()\n      ) {\n        showAlert(\n          \"DEBE REGISTRAR LA LICENCIA DEL CONDUCTOR.\",\n          \"warning\"\n        );\n        return false;\n      }\n\n      if (\n        !String(\n          inpCpTelefonoConductor.text || \"\"\n        ).trim()\n      ) {\n        showAlert(\n          \"DEBE REGISTRAR EL TELÉFONO DEL CONDUCTOR.\",\n          \"warning\"\n        );\n        return false;\n      }\n\n      /*\n       * =========================================================\n       * 5. REVALIDACIÓN DE LOS DIRECTORIOS\n       * =========================================================\n       *\n       * Las queries pueden conservar resultados anteriores.\n       * Se ejecutan nuevamente usando los valores actuales.\n       */\n\n      await qCpBuscarVehiculoPorPlaca.run();\n      await qCpBuscarConductorPorDocumento.run();\n\n      const vehiculoDirectorio =\n        qCpBuscarVehiculoPorPlaca.data?.[0] ||\n        null;\n\n      const conductorDirectorio =\n        qCpBuscarConductorPorDocumento.data?.[0] ||\n        null;\n\n      if (!vehiculoDirectorio?.vehiculo_id) {\n        showAlert(\n          \"EL VEHÍCULO NO EXISTE EN EL DIRECTORIO. CRÉELO DESDE ACTUALIZAR VEHÍCULO ANTES DE GUARDAR EL VIAJE.\",\n          \"warning\"\n        );\n        return false;\n      }\n\n      if (!conductorDirectorio?.conductor_id) {\n        showAlert(\n          \"EL CONDUCTOR NO EXISTE EN EL DIRECTORIO. CRÉELO DESDE ACTUALIZAR CONDUCTOR ANTES DE GUARDAR EL VIAJE.\",\n          \"warning\"\n        );\n        return false;\n      }\n\n      /*\n       * =========================================================\n       * 6. PERSISTENCIA\n       * =========================================================\n       */\n\n      let mensajeExito = \"\";\n\n      if (mode === \"EDIT\") {\n        /*\n         * EDIT actualiza exclusivamente el viaje seleccionado.\n         */\n        await bkCpVehiculoUpdate.run();\n\n        const updated =\n          bkCpVehiculoUpdate.data?.[0] ||\n          null;\n\n        if (!updated?.cargue_vehiculo_id) {\n          showAlert(\n            \"LA QUERY FINALIZÓ, PERO NO DEVOLVIÓ EL VIAJE ACTUALIZADO.\",\n            \"error\"\n          );\n          return false;\n        }\n\n        mensajeExito =\n          \"VEHÍCULO / VIAJE ACTUALIZADO CORRECTAMENTE.\";\n      } else {\n        /*\n         * NEW y DUPLICATE generan un registro nuevo.\n         *\n         * bkCpVehiculoInsert calcula:\n         * - nuevo item_no;\n         * - nuevo viaje_no por placa;\n         * - referencias al vehículo y conductor.\n         */\n\n        await bkCpVehiculoInsert.run();\n\n        const inserted =\n          bkCpVehiculoInsert.data?.[0] ||\n          null;\n\n        if (!inserted?.cargue_vehiculo_id) {\n          showAlert(\n            \"LA QUERY FINALIZÓ, PERO NO DEVOLVIÓ EL VIAJE CREADO.\",\n            \"error\"\n          );\n          return false;\n        }\n\n        mensajeExito =\n          mode === \"DUPLICATE\"\n            ? \"VIAJE DUPLICADO CORRECTAMENTE.\"\n            : \"VEHÍCULO / VIAJE REGISTRADO CORRECTAMENTE.\";\n      }\n\n      /*\n       * =========================================================\n       * 7. RECARGA DE INFORMACIÓN\n       * =========================================================\n       */\n\n      if (\n        typeof qCpVehiculosResumen !==\n          \"undefined\" &&\n        qCpVehiculosResumen?.run\n      ) {\n        await qCpVehiculosResumen.run();\n      }\n\n      if (\n        typeof qCpOperacionResumen !==\n          \"undefined\" &&\n        qCpOperacionResumen?.run\n      ) {\n        await qCpOperacionResumen.run();\n      }\n\n      /*\n       * =========================================================\n       * 8. LIMPIEZA FINAL\n       * =========================================================\n       */\n\n      await JS_CarguePlanta.cancelVehiculoForm();\n\n      showAlert(\n        mensajeExito,\n        \"success\"\n      );\n\n      return true;\n\n    } catch (error) {\n      console.error(\n        \"ERROR AL GUARDAR VEHÍCULO / VIAJE:\",\n        error\n      );\n\n      const mensajeError =\n        error?.message ||\n        error?.error ||\n        \"ERROR NO IDENTIFICADO\";\n\n      showAlert(\n        \"NO SE PUDO GUARDAR EL VEHÍCULO / VIAJE: \" +\n          mensajeError,\n        \"error\"\n      );\n\n      return false;\n    }\n  })()\n}}",
+      "placement": "START",
+      "variant": "filled",
+      "widgetId": "ox17mlyqv6"
+    },
+    "groupButtonf3v1xockm5": {
+      "buttonColor": "#581c87",
+      "buttonType": "SIMPLE",
+      "iconName": "database",
+      "id": "groupButtonf3v1xockm5",
+      "index": 7,
+      "isDisabled": false,
+      "isSeparator": false,
+      "isVisible": true,
+      "itemType": "BUTTON",
+      "label": "ACTUALIZAR CONDUCTOR",
+      "menuItems": {},
+      "onClick": "{{ JS_CarguePlanta.openDirectorioConductorUpdate() }}",
+      "placement": "CENTER",
+      "variant": "filled",
+      "widgetId": "i7ekd6df4p"
+    },
+    "groupButtonn15izot6di": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "iconName": "trash",
+      "id": "groupButtonn15izot6di",
+      "index": 5,
+      "isDisabled": "{{ false }}",
+      "isSeparator": false,
+      "isVisible": "{{\n  !!appsmith.store.cp_exportacion_id\n  &&\n  appsmith.store.cp_form_mode !== \"VIEW\"\n}}",
+      "itemType": "BUTTON",
+      "label": "ELIMINAR VIAJE",
+      "menuItems": {},
+      "onClick": "{{\n  (() => {\n    const row = tblCpVehiculos.selectedRow || null;\n    const id = row?.cargue_vehiculo_id || row?.id || null;\n\n    if (!row || !id) {\n      showAlert(\"SELECCIONE UN VEHÍCULO / VIAJE EN LA TABLA.\", \"warning\");\n      return;\n    }\n\n    storeValue(\"cp_vehiculo_selected\", row);\n    storeValue(\"cp_vehiculo_selected_id\", id);\n\n    storeValue(\"cp_delete_context\", {\n      id: id,\n      item_no: row.item_no,\n      viaje_no: row.viaje_no,\n      placa: row.placa,\n      conductor_nombre: row.conductor_nombre\n    });\n\n    showModal(\"mdlCpDeleteVehiculo\");\n  })()\n}}",
+      "placement": "CENTER",
+      "variant": "filled",
+      "widgetId": "bj4r726hps"
+    },
+    "groupButtonrimifg6zp1": {
+      "buttonColor": "#581c87",
+      "buttonType": "SIMPLE",
+      "iconName": "database",
+      "id": "groupButtonrimifg6zp1",
+      "index": 6,
+      "isDisabled": false,
+      "isSeparator": false,
+      "isVisible": true,
+      "itemType": "BUTTON",
+      "label": "ACTUALIZAR VEHICULO",
+      "menuItems": {},
+      "onClick": "{{ JS_CarguePlanta.openDirectorioVehiculoUpdate() }}",
+      "placement": "CENTER",
+      "variant": "filled",
+      "widgetId": "1mjmdcsk3v"
+    },
+    "groupButtony6s6995jgm": {
+      "buttonColor": "#1e3a8a",
+      "buttonType": "SIMPLE",
+      "iconName": "applications",
+      "id": "groupButtony6s6995jgm",
+      "index": 2,
+      "isDisabled": "{{\n  !appsmith.store.cp_exportacion_id\n  ||\n  !appsmith.store.cp_vehiculo_selected_id\n  ||\n  [\"EDIT\", \"DUPLICATE\"].includes(appsmith.store.cp_form_mode)\n}}",
+      "isSeparator": false,
+      "isVisible": "{{\n  !!appsmith.store.cp_exportacion_id\n}}",
+      "itemType": "BUTTON",
+      "label": "DUPLICAR VIAJE",
+      "menuItems": {},
+      "onClick": "{{\n  (async () => {\n    try {\n      if (!appsmith.store.cp_exportacion_id) {\n        showAlert(\"SELECCIONE UNA OPERACIÓN.\", \"warning\");\n        return false;\n      }\n\n      if (!appsmith.store.cp_vehiculo_selected_id) {\n        showAlert(\n          \"SELECCIONE UN VEHÍCULO / VIAJE EN LA TABLA.\",\n          \"warning\"\n        );\n        return false;\n      }\n\n      await JS_CarguePlanta.duplicateVehiculoViaje();\n\n      return true;\n    } catch (error) {\n      console.error(\"ERROR AL DUPLICAR VIAJE:\", error);\n\n      showAlert(\n        \"NO SE PUDO PREPARAR LA DUPLICACIÓN DEL VIAJE: \" +\n          (error?.message || error?.error || error),\n        \"error\"\n      );\n\n      return false;\n    }\n  })()\n}}",
+      "placement": "CENTER",
+      "variant": "filled",
+      "widgetId": "41r86q4fq4"
+    }
+  },
+  "isCanvas": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "8meibkymex",
+  "leftColumn": 1,
+  "minWidth": 450,
+  "mobileBottomRow": 28,
+  "mobileLeftColumn": 4,
+  "mobileRightColumn": 28,
+  "mobileTopRow": 24,
+  "needsErrorInfo": false,
+  "orientation": "horizontal",
+  "originalBottomRow": 56,
+  "originalTopRow": 52,
+  "parentColumnSpace": 13.3564453125,
+  "parentId": "9ud1kojf62",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 64,
+  "topRow": 0,
+  "type": "BUTTON_GROUP_WIDGET",
+  "version": 1,
+  "widgetId": "y5yuizpeec",
+  "widgetName": "btnCpDetalle"
+}

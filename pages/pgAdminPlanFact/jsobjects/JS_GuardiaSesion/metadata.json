@@ -1,0 +1,16 @@
+{
+  "gitSyncId": "693476e8bab1731f64a493f4_81682cdc-1f59-472c-8077-07a6614328cd",
+  "id": "pgAdminPlanFact_JS_GuardiaSesion",
+  "unpublishedCollection": {
+    "name": "JS_GuardiaSesion",
+    "pageId": "pgAdminPlanFact",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": [
+      {
+        "name": "DESTINO_ACCESO",
+        "value": "\"pgAccesoERP\""
+      }
+    ]
+  }
+}

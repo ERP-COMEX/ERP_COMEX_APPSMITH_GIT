@@ -1,0 +1,21 @@
+select
+  p.id as value,
+  upper(
+    coalesce(dt.nombre, '') ||
+    ' - ' ||
+    p.nombre ||
+    case
+      when p.es_puerto = true then ' (PUERTO)'
+      else ''
+    end
+  ) as label
+from public.patios_retiro_vacios p
+left join public.divisiones_territoriales dt
+  on dt.id = p.ciudad_id
+where p.activo = true
+  and p.transportadora_id =
+    nullif('{{ appsmith.store.booking_form?.transportadora_internacional_id || "" }}', '')::uuid
+order by
+  coalesce(dt.nombre, ''),
+  p.es_puerto,
+  p.nombre;

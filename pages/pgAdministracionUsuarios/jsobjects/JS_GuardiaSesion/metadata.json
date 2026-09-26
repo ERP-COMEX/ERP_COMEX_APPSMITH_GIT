@@ -1,0 +1,16 @@
+{
+  "gitSyncId": "693476e8bab1731f64a493f4_87096ac4-85a1-4fcb-b2b7-ef3460ebf388",
+  "id": "pgAdministracionUsuarios_JS_GuardiaSesion",
+  "unpublishedCollection": {
+    "name": "JS_GuardiaSesion",
+    "pageId": "pgAdministracionUsuarios",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": [
+      {
+        "name": "MARGEN_EXPIRACION_SEGUNDOS",
+        "value": "60"
+      }
+    ]
+  }
+}

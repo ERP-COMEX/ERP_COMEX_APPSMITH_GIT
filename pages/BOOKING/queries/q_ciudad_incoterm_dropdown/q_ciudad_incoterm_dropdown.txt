@@ -1,0 +1,126 @@
+with ctx as (
+  select
+    upper('{{ sl_incoterm.selectedOptionLabel || "" }}') as incoterm,
+    upper('{{ sl_pais_origen.selectedOptionLabel || "" }}') as pais_origen_label,
+    upper('{{ sl_pais_destino.selectedOptionLabel || "" }}') as pais_destino_label,
+    nullif('{{ sl_pais_origen.selectedOptionValue || "" }}', '')::uuid as pais_origen_id,
+    nullif('{{ sl_pais_destino.selectedOptionValue || "" }}', '')::uuid as pais_destino_id,
+    nullif('{{ sl_pol.selectedOptionValue || "" }}', '')::uuid as pol_id,
+    nullif('{{ sl_pod.selectedOptionValue || "" }}', '')::uuid as pod_id
+),
+
+grupo as (
+  select
+    incoterm,
+    case
+      when incoterm in ('EXW','FCA','FAS') then 'ORIGEN_CATALOGO'
+      when incoterm = 'FOB' then 'POL'
+      when incoterm in ('CFR','CIF') then 'POD'
+      when incoterm in ('CPT','CIP','DAP','DPU','DDP') then 'DESTINO_CATALOGO'
+      else ''
+    end as grupo_incoterm,
+    pais_origen_label,
+    pais_destino_label,
+    pais_origen_id,
+    pais_destino_id,
+    pol_id,
+    pod_id
+  from ctx
+)
+
+select value, label, source_type
+from (
+
+  select
+    dt.id as value,
+    dt.nombre as label,
+    'DIVISION_TERRITORIAL' as source_type
+  from public.divisiones_territoriales dt
+  cross join grupo g
+  where g.grupo_incoterm = 'ORIGEN_CATALOGO'
+    and g.pais_origen_label like '%COLOMBIA%'
+    and dt.activo = true
+
+  union all
+
+  select
+    ui.id as value,
+    ui.nombre as label,
+    'UBICACION_INTERNACIONAL' as source_type
+  from public.ubicaciones_internacionales ui
+  cross join grupo g
+  where g.grupo_incoterm = 'ORIGEN_CATALOGO'
+    and g.pais_origen_label not like '%COLOMBIA%'
+    and g.pais_origen_id is not null
+    and ui.pais_id = g.pais_origen_id
+    and ui.activo = true
+
+  union all
+
+  select
+    coalesce(dt_pol.id, ui_pol.id) as value,
+    coalesce(dt_pol.nombre, ui_pol.nombre) as label,
+    case
+      when dt_pol.id is not null then 'DIVISION_TERRITORIAL'
+      when ui_pol.id is not null then 'UBICACION_INTERNACIONAL'
+      else null
+    end as source_type
+  from public.puertos p
+  cross join grupo g
+  left join public.divisiones_territoriales dt_pol
+    on dt_pol.id = p.division_territorial_id
+  left join public.ubicaciones_internacionales ui_pol
+    on ui_pol.id = p.ubicacion_internacional_id
+  where g.grupo_incoterm = 'POL'
+    and g.pol_id is not null
+    and p.id = g.pol_id
+
+  union all
+
+  select
+    coalesce(dt_pod.id, ui_pod.id) as value,
+    coalesce(dt_pod.nombre, ui_pod.nombre) as label,
+    case
+      when dt_pod.id is not null then 'DIVISION_TERRITORIAL'
+      when ui_pod.id is not null then 'UBICACION_INTERNACIONAL'
+      else null
+    end as source_type
+  from public.puertos p
+  cross join grupo g
+  left join public.divisiones_territoriales dt_pod
+    on dt_pod.id = p.division_territorial_id
+  left join public.ubicaciones_internacionales ui_pod
+    on ui_pod.id = p.ubicacion_internacional_id
+  where g.grupo_incoterm = 'POD'
+    and g.pod_id is not null
+    and p.id = g.pod_id
+
+  union all
+
+  select
+    dt.id as value,
+    dt.nombre as label,
+    'DIVISION_TERRITORIAL' as source_type
+  from public.divisiones_territoriales dt
+  cross join grupo g
+  where g.grupo_incoterm = 'DESTINO_CATALOGO'
+    and g.pais_destino_label like '%COLOMBIA%'
+    and dt.activo = true
+
+  union all
+
+  select
+    ui.id as value,
+    ui.nombre as label,
+    'UBICACION_INTERNACIONAL' as source_type
+  from public.ubicaciones_internacionales ui
+  cross join grupo g
+  where g.grupo_incoterm = 'DESTINO_CATALOGO'
+    and g.pais_destino_label not like '%COLOMBIA%'
+    and g.pais_destino_id is not null
+    and ui.pais_id = g.pais_destino_id
+    and ui.activo = true
+
+) x
+where value is not null
+order by label;

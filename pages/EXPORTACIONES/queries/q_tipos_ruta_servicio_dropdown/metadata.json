@@ -29,7 +29,7 @@
     ],
     "name": "q_tipos_ruta_servicio_dropdown",
     "pageId": "EXPORTACIONES",
-    "runBehaviour": "ON_PAGE_LOAD",
+    "runBehaviour": "MANUAL",
     "userSetOnLoad": true
   }
 }

@@ -1,0 +1,6 @@
+select
+  a.id as value,
+  upper(a.nombre) as label
+from public.manejo_frontera a
+where a.activo = true
+order by a.sort_order nulls last, a.nombre;

@@ -1,0 +1,27 @@
+select 
+  count(*)::integer as total_proformas,
+
+  coalesce(sum(cantidad_total), 0)::numeric(18,4) as cantidad_total,
+
+  coalesce(sum(peso_neto_total), 0)::numeric(18,4) as peso_neto_total,
+
+  coalesce(sum(peso_bruto_total), 0)::numeric(18,4) as peso_bruto_total,
+
+  coalesce(sum(volumen_total), 0)::numeric(18,6) as volumen_total,
+
+  coalesce(sum(fob_total), 0)::numeric(18,2) as fob_total,
+
+  coalesce(sum(flete_total), 0)::numeric(18,2) as flete_total,
+
+  coalesce(sum(seguro_total), 0)::numeric(18,2) as seguro_total,
+
+  coalesce(sum(gastos_destino_total), 0)::numeric(18,2) as gastos_destino_total,
+
+  coalesce(sum(venta_total), 0)::numeric(18,2) as venta_total
+
+from public.proformas_exportacion
+
+where exportacion_id =
+  nullif('{{ appsmith.store.cv_exportacion_id || "" }}', '')::uuid
+
+  and activo = true;

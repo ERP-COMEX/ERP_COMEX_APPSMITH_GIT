@@ -1,0 +1,27 @@
+update public.cargues_planta_vehiculos
+set
+  activo = false,
+  deleted_at = now(),
+  deleted_by = coalesce(
+    nullif('{{ appsmith.store.user_id || "" }}', '')::uuid,
+    'ea458314-3934-4e4e-a726-6a24d28fba3c'::uuid
+  ),
+  delete_reason = upper(trim('{{ inpCpDeleteReason.text || "ELIMINACIÓN DESDE CARGUE PLANTA" }}')),
+  updated_at = now(),
+  updated_by = coalesce(
+    nullif('{{ appsmith.store.user_id || "" }}', '')::uuid,
+    'ea458314-3934-4e4e-a726-6a24d28fba3c'::uuid
+  )
+where id = '{{ appsmith.store.cp_delete_context?.id }}'::uuid
+  and tenant_id = '{{ appsmith.store.cp_tenant_id }}'::uuid
+  and activo = true
+returning
+  id,
+  item_no,
+  viaje_no,
+  placa,
+  conductor_nombre,
+  activo,
+  deleted_at,
+  deleted_by,
+  delete_reason;

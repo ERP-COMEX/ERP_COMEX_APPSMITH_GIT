@@ -1,0 +1,8 @@
+select
+  id::text as value,
+  upper(nombre) as label,
+  upper(codigo) as codigo,
+  upper(nombre) as nombre
+from public.tipos_documento_comercial
+where activo = true
+order by sort_order;

@@ -1,0 +1,6 @@
+{
+  "p_tenant_id": "{{ JS_SessionContext.getCurrent().tenant_id }}",
+  "p_company_id": "{{ JS_SessionContext.getCurrent().company_id }}",
+  "p_rule_id": "00000000-0000-0000-0000-000000000000",
+  "p_delete_reason": "Prueba controlada Appsmith 006-04-04-08; no debe persistir."
+}

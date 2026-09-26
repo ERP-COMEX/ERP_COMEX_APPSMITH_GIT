@@ -1,0 +1,6 @@
+select
+  codigo as value,
+  codigo || ' - ' || upper(descripcion) as label
+from public.categorias_licencia_conduccion
+where activo = true
+order by sort_order;

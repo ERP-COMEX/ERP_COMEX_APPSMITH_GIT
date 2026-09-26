@@ -1,0 +1,28 @@
+select
+  be.id,
+  be.exportacion_id,
+  e.operacion_no,
+  be.booking_no,
+  cli.nombre as cliente,
+  mt.nombre as transporte,
+  eo.nombre as estado_operacion,
+  be.fecha_booking,
+  ti.nombre as transportadora_internacional,
+  b.nombre as buque,
+  be.viaje,
+  be.cierre_fisico as cut_off
+from public.booking_exportacion be
+join public.exportaciones e
+  on e.id = be.exportacion_id
+left join public.clientes cli
+  on cli.id = be.cliente_id
+left join public.modalidades_transporte mt
+  on mt.id = be.modalidad_transporte_id
+left join public.estados_operacion eo
+  on eo.id = be.estado_operacion_id
+left join public.transportadoras ti
+  on ti.id = be.transportadora_internacional_id
+left join public.buques b
+  on b.id = be.buque_id
+where be.tenant_id = {{ appsmith.store.tenant_id }}::uuid
+order by e.created_at desc, e.operacion_no desc;

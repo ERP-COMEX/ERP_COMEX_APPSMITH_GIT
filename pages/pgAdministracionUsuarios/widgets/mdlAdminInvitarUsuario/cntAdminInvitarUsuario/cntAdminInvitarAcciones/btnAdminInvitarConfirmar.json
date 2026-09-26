@@ -1,0 +1,60 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 6,
+  "boxShadow": "none",
+  "buttonColor": "{{appsmith.theme.colors.primaryColor}}",
+  "buttonStyle": "PRIMARY_BUTTON",
+  "buttonVariant": "PRIMARY",
+  "disabledWhenInvalid": false,
+  "dynamicBindingPathList": [
+    {
+      "key": "buttonColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "onClick"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "isDefaultClickDisabled": true,
+  "isDisabled": "{{\n  !inpAdminInvitarCorreo.text?.trim() ||\n  !inpAdminInvitarNombre.text?.trim() ||\n  !inpAdminInvitarApellido.text?.trim() ||\n  !selAdminInvitarRol.selectedOptionValue ||\n  !selAdminInvitarEmpresa.selectedOptionValue\n}}",
+  "isLoading": false,
+  "isVisible": true,
+  "key": "60ukg14k3g",
+  "leftColumn": 24,
+  "minWidth": 120,
+  "mobileBottomRow": 22,
+  "mobileLeftColumn": 47,
+  "mobileRightColumn": 63,
+  "mobileTopRow": 18,
+  "needsErrorInfo": false,
+  "onClick": "{{\n  (() => {\n    const correo = (inpAdminInvitarCorreo.text || \"\").trim();\n    const nombre = (inpAdminInvitarNombre.text || \"\").trim();\n    const apellido = (inpAdminInvitarApellido.text || \"\").trim();\n    const empresa = selAdminInvitarEmpresa.selectedOptionValue;\n    const rol = selAdminInvitarRol.selectedOptionValue;\n\n    if (!correo) {\n      showAlert(\"Ingresa el correo electrónico.\", \"warning\");\n      return;\n    }\n\n    if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(correo)) {\n      showAlert(\"Ingresa un correo electrónico válido.\", \"warning\");\n      return;\n    }\n\n    if (!nombre || !apellido) {\n      showAlert(\"Ingresa el nombre y apellido del usuario.\", \"warning\");\n      return;\n    }\n\n    if (!empresa) {\n      showAlert(\"Selecciona la empresa.\", \"warning\");\n      return;\n    }\n\n    if (!rol) {\n      showAlert(\"Selecciona el rol del usuario.\", \"warning\");\n      return;\n    }\n\n    showAlert(\n      \"Formulario válido. La invitación aún no ha sido enviada.\",\n      \"success\"\n    );\n  })()\n}}",
+  "parentId": "lqfahq0er9",
+  "placement": "CENTER",
+  "recaptchaType": "V3",
+  "renderMode": "CANVAS",
+  "resetFormOnClick": false,
+  "responsiveBehavior": "hug",
+  "rightColumn": 40,
+  "text": "Confirm",
+  "topRow": 2,
+  "type": "BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "l2cxxbx2ye",
+  "widgetName": "btnAdminInvitarConfirmar"
+}

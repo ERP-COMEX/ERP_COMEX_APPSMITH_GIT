@@ -1,0 +1,70 @@
+{
+  "animateLoading": true,
+  "backgroundColor": "",
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 4,
+  "bottomRowBeforeCollapse": 7,
+  "dynamicBindingPathList": [
+    {
+      "key": "truncateButtonColor"
+    },
+    {
+      "key": "fontFamily"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "text"
+    },
+    {
+      "key": "textColor"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "isVisible"
+    },
+    {
+      "key": "textColor"
+    }
+  ],
+  "dynamicTriggerPathList": [],
+  "fontFamily": "{{appsmith.theme.fontFamily.appFont}}",
+  "fontSize": "1rem",
+  "fontStyle": "BOLD",
+  "isLoading": false,
+  "isVisible": "true",
+  "key": "qyfg8h72t2",
+  "leftColumn": 0,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 6,
+  "mobileLeftColumn": 40,
+  "mobileRightColumn": 56,
+  "mobileTopRow": 2,
+  "needsErrorInfo": false,
+  "originalBottomRow": 4,
+  "originalTopRow": 0,
+  "overflow": "NONE",
+  "parentColumnSpace": 14.03125,
+  "parentId": "sci05jar9u",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 32,
+  "shouldScrollContents": true,
+  "shouldTruncate": false,
+  "text": "{{\n  (() => {\n    const placa = String(inpCpPlaca.text || \"\").trim();\n    const vehiculo = qCpBuscarVehiculoPorPlaca.data?.[0];\n\n    if (!placa) return \"\";\n\n    if (!vehiculo?.vehiculo_id) {\n      return \"⚪ VEHÍCULO NUEVO\";\n    }\n\n    const dias = Number(vehiculo.dias_vigencia_soat);\n\n    if (\n      vehiculo.identidad_activa === false ||\n      vehiculo.relacion_activa === false ||\n      vehiculo.estado_administrativo !== \"ACTIVO\"\n    ) {\n      return \"🔴 VEHÍCULO INACTIVO\";\n    }\n\n    if (vehiculo.disponible_para_viaje === false) {\n      return \"🔴 VEHICULO NO APTO PARA VIAJE\";\n    }\n\n    if (Number.isFinite(dias) && dias < 0) {\n      return `🔴 SOAT VENCIDO HACE ${Math.abs(dias)} ${\n        Math.abs(dias) === 1 ? \"DÍA\" : \"DÍAS\"\n      }`;\n    }\n\n    if (dias === 0) {\n      return \"🟠 SOAT VENCE HOY\";\n    }\n\n    if (dias === 1) {\n      return \"🟠 SOAT VENCE MAÑANA\";\n    }\n\n    if (Number.isFinite(dias) && dias <= 30) {\n      return `🟠 SOAT VENCE EN ${dias} DÍAS`;\n    }\n\n    if (Number.isFinite(dias) && dias <= 90) {\n      return `🟡 SOAT VENCE EN ${dias} DÍAS`;\n    }\n\n    return \"🟢 VEHICULO APTO PARA VIAJE\";\n  })()\n}}",
+  "textAlign": "LEFT",
+  "textColor": "{{\n  (() => {\n    const placa = String(inpCpPlaca.text || \"\").trim();\n    const vehiculo = qCpBuscarVehiculoPorPlaca.data?.[0];\n\n    if (!placa || !vehiculo?.vehiculo_id) {\n      return \"#5F6368\";\n    }\n\n    const dias = Number(vehiculo.dias_vigencia_soat);\n\n    if (\n      vehiculo.identidad_activa === false ||\n      vehiculo.relacion_activa === false ||\n      vehiculo.estado_administrativo !== \"ACTIVO\" ||\n      vehiculo.disponible_para_viaje === false ||\n      (Number.isFinite(dias) && dias < 0)\n    ) {\n      return \"#C62828\";\n    }\n\n    if (Number.isFinite(dias) && dias <= 30) {\n      return \"#E65100\";\n    }\n\n    if (Number.isFinite(dias) && dias <= 90) {\n      return \"#9A6700\";\n    }\n\n    return \"#2E7D32\";\n  })()\n}}",
+  "topRow": 0,
+  "topRowBeforeCollapse": 0,
+  "truncateButtonColor": "{{appsmith.theme.colors.primaryColor}}",
+  "type": "TEXT_WIDGET",
+  "version": 1,
+  "widgetId": "q579sj19od",
+  "widgetName": "txtCpVehiculoEstadoPrincipal"
+}

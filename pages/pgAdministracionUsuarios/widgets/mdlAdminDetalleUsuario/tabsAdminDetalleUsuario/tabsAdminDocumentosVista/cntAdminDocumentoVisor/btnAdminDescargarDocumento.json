@@ -1,0 +1,63 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 4,
+  "boxShadow": "none",
+  "buttonColor": "#173a63",
+  "buttonVariant": "PRIMARY",
+  "disabledWhenInvalid": false,
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "onClick"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "iconAlign": "left",
+  "iconName": "download",
+  "isDefaultClickDisabled": true,
+  "isDisabled": "{{ !appsmith.store.adminDocumentoSeleccionado?.document_id }}",
+  "isLoading": false,
+  "isVisible": true,
+  "key": "t5d9l3r3v8",
+  "leftColumn": 50,
+  "minWidth": 120,
+  "mobileBottomRow": 117,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 13,
+  "mobileTopRow": 113,
+  "needsErrorInfo": false,
+  "onClick": "{{\n  JS_AdminUsuarios.descargarDocumento(\n    appsmith.store.adminDocumentoSeleccionado\n  )\n}}",
+  "originalBottomRow": 33,
+  "originalTopRow": 29,
+  "parentColumnSpace": 19.8125,
+  "parentId": "q7fydy26ng",
+  "parentRowSpace": 10,
+  "placement": "START",
+  "recaptchaType": "V3",
+  "renderMode": "CANVAS",
+  "resetFormOnClick": false,
+  "responsiveBehavior": "hug",
+  "rightColumn": 58,
+  "text": "Descargar",
+  "tooltip": "Descargar documento",
+  "topRow": 0,
+  "type": "BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "pmiclu99q1",
+  "widgetName": "btnAdminDescargarDocumento"
+}

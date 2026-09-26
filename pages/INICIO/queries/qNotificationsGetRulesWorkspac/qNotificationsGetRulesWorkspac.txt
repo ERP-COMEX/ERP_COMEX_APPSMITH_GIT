@@ -1,0 +1,4 @@
+{
+  "p_tenant_id": "{{ JS_SessionContext.getCurrent().tenant_id }}",
+  "p_company_id": "{{ JS_SessionContext.getCurrent().company_id }}"
+}

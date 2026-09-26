@@ -1,0 +1,11 @@
+{
+  "gitSyncId": "693476e8bab1731f64a493f4_b2bc3036-f043-4046-8607-3047b24719b6",
+  "id": "BOOKING_appContext",
+  "unpublishedCollection": {
+    "name": "appContext",
+    "pageId": "BOOKING",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": []
+  }
+}

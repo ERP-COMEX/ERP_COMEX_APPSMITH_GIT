@@ -1,0 +1,11 @@
+{
+  "gitSyncId": "693476e8bab1731f64a493f4_2cedede1-4567-4b5d-9431-5bff011e7eba",
+  "id": "CONFIRMACION_VENTA_JS_CvForm",
+  "unpublishedCollection": {
+    "name": "JS_CvForm",
+    "pageId": "CONFIRMACION_VENTA",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": []
+  }
+}

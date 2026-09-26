@@ -25,7 +25,7 @@
     "dynamicBindingPathList": [],
     "name": "q_caracteristicas_carga_dropdo",
     "pageId": "EXPORTACIONES",
-    "runBehaviour": "ON_PAGE_LOAD",
+    "runBehaviour": "MANUAL",
     "userSetOnLoad": true
   }
 }

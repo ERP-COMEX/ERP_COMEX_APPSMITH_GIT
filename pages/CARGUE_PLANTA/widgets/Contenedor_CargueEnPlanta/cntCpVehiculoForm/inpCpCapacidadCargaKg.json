@@ -1,0 +1,68 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "autoFocus": false,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 16,
+  "boxShadow": "none",
+  "defaultText": "{{\n  [\"EDIT\", \"DUPLICATE\"].includes(appsmith.store.cp_form_mode)\n    ? (\n        appsmith.store.cp_ui_veh_capacidad_kg !== null &&\n        appsmith.store.cp_ui_veh_capacidad_kg !== undefined\n          ? String(appsmith.store.cp_ui_veh_capacidad_kg)\n          : \"\"\n      )\n    : (\n        String(inpCpPlaca.text || \"\").trim() &&\n        qCpBuscarVehiculoPorPlaca.data?.[0]?.capacidad_carga_kg !== null &&\n        qCpBuscarVehiculoPorPlaca.data?.[0]?.capacidad_carga_kg !== undefined\n          ? String(qCpBuscarVehiculoPorPlaca.data[0].capacidad_carga_kg)\n          : \"\"\n      )\n}}",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "isDisabled"
+    },
+    {
+      "key": "defaultText"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicTriggerPathList": [],
+  "iconAlign": "left",
+  "inputType": "TEXT",
+  "isDisabled": "{{\n  !!qCpBuscarVehiculoPorPlaca.data?.[0]?.vehiculo_id\n  || appsmith.store.cp_form_mode === \"VIEW\"\n}}",
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "rm7qm9i02s",
+  "label": "CAPACIDAD CARGA KG",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelStyle": "BOLD",
+  "labelTextColor": "#1e3a8a",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 0,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 56,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 8,
+  "mobileTopRow": 49,
+  "needsErrorInfo": false,
+  "originalBottomRow": 16,
+  "originalTopRow": 9,
+  "parentColumnSpace": 17.34375,
+  "parentId": "504sacewws",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "resetOnSubmit": true,
+  "responsiveBehavior": "fill",
+  "rightColumn": 12,
+  "showStepArrows": false,
+  "topRow": 9,
+  "type": "INPUT_WIDGET_V2",
+  "version": 2,
+  "widgetId": "uoxhk5gbqr",
+  "widgetName": "inpCpCapacidadCargaKg"
+}

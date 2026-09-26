@@ -1,0 +1,60 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 40,
+  "bottomRowBeforeCollapse": 40,
+  "boxShadow": "none",
+  "buttonColor": "#9d2c34",
+  "buttonVariant": "PRIMARY",
+  "disabledWhenInvalid": false,
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "isDisabled"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "isDefaultClickDisabled": true,
+  "isDisabled": "{{\n  !inpLoginCorreo.text?.trim() ||\n  !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(\n    inpLoginCorreo.text.trim()\n  ) ||\n  !inpLoginPassword.text\n}}",
+  "isLoading": false,
+  "isVisible": true,
+  "key": "6b0bny5sp2",
+  "labelTextColor": "#ffffff",
+  "leftColumn": 4,
+  "minWidth": 120,
+  "mobileBottomRow": 37,
+  "mobileLeftColumn": 1,
+  "mobileRightColumn": 17,
+  "mobileTopRow": 33,
+  "needsErrorInfo": false,
+  "onClick": "{{JS_SesionERP.iniciarSesion();}}",
+  "originalBottomRow": 41,
+  "originalTopRow": 37,
+  "parentColumnSpace": 4.521759033203125,
+  "parentId": "8j9zne3yg8",
+  "parentRowSpace": 10,
+  "placement": "CENTER",
+  "recaptchaType": "V3",
+  "renderMode": "CANVAS",
+  "resetFormOnClick": false,
+  "responsiveBehavior": "hug",
+  "rightColumn": 58,
+  "text": "Ingresar",
+  "topRow": 36,
+  "topRowBeforeCollapse": 36,
+  "type": "BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "kfla95wwf2",
+  "widgetName": "btnLoginIngresar"
+}

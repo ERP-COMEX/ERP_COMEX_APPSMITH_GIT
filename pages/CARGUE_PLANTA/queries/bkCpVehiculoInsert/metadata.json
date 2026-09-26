@@ -1,0 +1,35 @@
+{
+  "gitSyncId": "693476e8bab1731f64a493f4_8261bb3a-b873-49a9-b81f-81dfb2e3bd81",
+  "id": "CARGUE_PLANTA_bkCpVehiculoInsert",
+  "pluginId": "postgres-plugin",
+  "pluginType": "DB",
+  "unpublishedAction": {
+    "actionConfiguration": {
+      "body": "with estado_borrador as (\n  select id\n  from public.estados_cargue_planta\n  where codigo = 'BORRADOR'\n  limit 1\n),\n\ncargue_existente as (\n  select id\n  from public.cargues_planta_exportacion\n  where tenant_id =\n        '{{ appsmith.store.cp_tenant_id }}'::uuid\n\n    and exportacion_id =\n        '{{ appsmith.store.cp_exportacion_id }}'::uuid\n\n    and activo = true\n  limit 1\n),\n\ncargue_creado as (\n  insert into public.cargues_planta_exportacion (\n    tenant_id,\n    exportacion_id,\n    booking_id,\n    proforma_id,\n    estado_cargue_id,\n    modalidad_transporte_id,\n    tipo_carga_id,\n    caracteristica_carga_id,\n    created_by,\n    updated_by\n  )\n  select\n    '{{ appsmith.store.cp_tenant_id }}'::uuid,\n\n    '{{ appsmith.store.cp_exportacion_id }}'::uuid,\n\n    nullif(\n      '{{ appsmith.store.cp_booking_id || \"\" }}',\n      ''\n    )::uuid,\n\n    nullif(\n      '{{ appsmith.store.cp_proforma_id || \"\" }}',\n      ''\n    )::uuid,\n\n    (select id from estado_borrador),\n\n    nullif(\n      '{{ appsmith.store.cp_modalidad_transporte_id || \"\" }}',\n      ''\n    )::uuid,\n\n    nullif(\n      '{{ appsmith.store.cp_tipo_carga_id || \"\" }}',\n      ''\n    )::uuid,\n\n    nullif(\n      '{{ appsmith.store.cp_caracteristica_carga_id || \"\" }}',\n      ''\n    )::uuid,\n\n    nullif(\n      '{{ appsmith.store.user_id || \"\" }}',\n      ''\n    )::uuid,\n\n    nullif(\n      '{{ appsmith.store.user_id || \"\" }}',\n      ''\n    )::uuid\n\n  where not exists (\n    select 1\n    from cargue_existente\n  )\n\n  returning id\n),\n\ncargue_final as (\n  select id\n  from cargue_existente\n\n  union all\n\n  select id\n  from cargue_creado\n\n  limit 1\n),\n\nvehiculo_final as (\n  select\n    nullif(\n      '{{ qCpBuscarVehiculoPorPlaca.data?.[0]?.vehiculo_id || \"\" }}',\n      ''\n    )::uuid as vehiculo_id,\n\n    nullif(\n      '{{ qCpBuscarVehiculoPorPlaca.data?.[0]?.tenant_vehiculo_id || \"\" }}',\n      ''\n    )::uuid as tenant_vehiculo_id\n),\n\nconductor_final as (\n  select\n    nullif(\n      '{{ qCpBuscarConductorPorDocumento.data?.[0]?.conductor_id || \"\" }}',\n      ''\n    )::uuid as conductor_id,\n\n    nullif(\n      '{{ qCpBuscarConductorPorDocumento.data?.[0]?.tenant_conductor_id || \"\" }}',\n      ''\n    )::uuid as tenant_conductor_id\n),\n\nnext_viaje as (\n  select\n    coalesce(max(viaje_no), 0) + 1\n      as viaje_no\n\n  from public.cargues_planta_vehiculos\n\n  where tenant_id =\n        '{{ appsmith.store.cp_tenant_id }}'::uuid\n\n    and cargue_id =\n        (select id from cargue_final)\n\n    and placa =\n        upper(trim('{{ inpCpPlaca.text || \"\" }}'))\n\n    and activo = true\n),\n\nnext_item as (\n  select\n    coalesce(max(item_no), 0) + 1\n      as item_no\n\n  from public.cargues_planta_vehiculos\n\n  where tenant_id =\n        '{{ appsmith.store.cp_tenant_id }}'::uuid\n\n    and cargue_id =\n        (select id from cargue_final)\n\n    and activo = true\n)\n\ninsert into public.cargues_planta_vehiculos (\n  tenant_id,\n  cargue_id,\n  exportacion_id,\n\n  vehiculo_id,\n  tenant_vehiculo_id,\n\n  conductor_id,\n  tenant_conductor_id,\n\n  item_no,\n  viaje_no,\n\n  tipo_vehiculo_terrestre_id,\n  placa,\n\n  tipo_remolque_catalogo_id,\n  placa_remolque,\n\n  marca_vehiculo,\n  modelo_vehiculo,\n  color_vehiculo,\n  capacidad_carga_kg,\n\n  soat_no,\n  soat_vencimiento,\n\n  conductor_documento,\n  conductor_nombre,\n  conductor_licencia,\n  conductor_telefono,\n  conductor_estado,\n\n  created_by,\n  updated_by\n)\n\nselect\n  '{{ appsmith.store.cp_tenant_id }}'::uuid,\n\n  (select id from cargue_final),\n\n  '{{ appsmith.store.cp_exportacion_id }}'::uuid,\n\n  (select vehiculo_id\n   from vehiculo_final),\n\n  (select tenant_vehiculo_id\n   from vehiculo_final),\n\n  (select conductor_id\n   from conductor_final),\n\n  (select tenant_conductor_id\n   from conductor_final),\n\n  (select item_no\n   from next_item),\n\n  (select viaje_no\n   from next_viaje),\n\n  nullif(\n    '{{ slCpTipoVehiculo.selectedOptionValue || \"\" }}',\n    ''\n  )::uuid,\n\n  upper(\n    trim('{{ inpCpPlaca.text || \"\" }}')\n  ),\n\n  nullif(\n    '{{ slCpTipoRemolque.selectedOptionValue || \"\" }}',\n    ''\n  )::uuid,\n\n  nullif(\n    upper(\n      trim('{{ inpCpPlacaRemolque.text || \"\" }}')\n    ),\n    ''\n  ),\n\n  upper(\n    trim(\n      '{{ slCpMarcaVehiculo.selectedOptionValue || \"\" }}'\n    )\n  ),\n\n  upper(\n    trim('{{ inpCpModeloVehiculo.text || \"\" }}')\n  ),\n\n  upper(\n    trim(\n      '{{ slCpColorVehiculo.selectedOptionValue || \"\" }}'\n    )\n  ),\n\n  nullif(\n    '{{ inpCpCapacidadCargaKg.text || \"\" }}',\n    ''\n  )::numeric,\n\n  upper(\n    trim('{{ inpCpSoatNo.text || \"\" }}')\n  ),\n\n  nullif(\n    '{{ dpCpSoatVencimiento.selectedDate || \"\" }}',\n    ''\n  )::date,\n\n  upper(\n    trim('{{ inpCpCedulaConductor.text || \"\" }}')\n  ),\n\n  upper(\n    trim('{{ inpCpNombreConductor.text || \"\" }}')\n  ),\n\n  upper(\n    trim('{{ inpCpLicenciaConductor.text || \"\" }}')\n  ),\n\n  trim(\n    '{{ inpCpTelefonoConductor.text || \"\" }}'\n  ),\n\n  nullif(\n    upper(\n      trim('{{ txtCpEstadoConductor.text || \"\" }}')\n    ),\n    ''\n  ),\n\n  nullif(\n    '{{ appsmith.store.user_id || \"\" }}',\n    ''\n  )::uuid,\n\n  nullif(\n    '{{ appsmith.store.user_id || \"\" }}',\n    ''\n  )::uuid\n\nwhere\n  (select vehiculo_id\n   from vehiculo_final) is not null\n\n  and\n  (select tenant_vehiculo_id\n   from vehiculo_final) is not null\n\n  and\n  (select conductor_id\n   from conductor_final) is not null\n\n  and\n  (select tenant_conductor_id\n   from conductor_final) is not null\n\nreturning\n  id as cargue_vehiculo_id,\n  cargue_id,\n\n  vehiculo_id,\n  tenant_vehiculo_id,\n\n  conductor_id,\n  tenant_conductor_id,\n\n  placa,\n  viaje_no,\n  item_no;",
+      "encodeParamsToggle": true,
+      "paginationType": "NONE",
+      "pluginSpecifiedTemplates": [
+        {
+          "value": false
+        }
+      ],
+      "timeoutInMillisecond": 10000
+    },
+    "confirmBeforeExecute": false,
+    "datasource": {
+      "id": "supabase_comex",
+      "isAutoGenerated": false,
+      "name": "supabase_comex",
+      "pluginId": "postgres-plugin"
+    },
+    "dynamicBindingPathList": [
+      {
+        "key": "body"
+      }
+    ],
+    "name": "bkCpVehiculoInsert",
+    "pageId": "CARGUE_PLANTA",
+    "runBehaviour": "MANUAL",
+    "userSetOnLoad": false
+  }
+}

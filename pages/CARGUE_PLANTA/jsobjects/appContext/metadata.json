@@ -1,0 +1,11 @@
+{
+  "gitSyncId": "693476e8bab1731f64a493f4_85b7c3d8-7ddf-4e96-bdbe-ecfb5b054625",
+  "id": "CARGUE_PLANTA_appContext",
+  "unpublishedCollection": {
+    "name": "appContext",
+    "pageId": "CARGUE_PLANTA",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": []
+  }
+}

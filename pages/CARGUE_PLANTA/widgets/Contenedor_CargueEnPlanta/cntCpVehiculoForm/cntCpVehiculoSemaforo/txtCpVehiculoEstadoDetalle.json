@@ -1,0 +1,63 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 8,
+  "bottomRowBeforeCollapse": 7,
+  "dynamicBindingPathList": [
+    {
+      "key": "truncateButtonColor"
+    },
+    {
+      "key": "fontFamily"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "text"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "isVisible"
+    }
+  ],
+  "dynamicTriggerPathList": [],
+  "fontFamily": "{{appsmith.theme.fontFamily.appFont}}",
+  "fontSize": "1rem",
+  "fontStyle": "BOLD",
+  "isLoading": false,
+  "isVisible": "true",
+  "key": "qyfg8h72t2",
+  "leftColumn": 0,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 6,
+  "mobileLeftColumn": 40,
+  "mobileRightColumn": 56,
+  "mobileTopRow": 2,
+  "needsErrorInfo": false,
+  "originalBottomRow": 11,
+  "originalTopRow": 4,
+  "overflow": "NONE",
+  "parentColumnSpace": 14.03125,
+  "parentId": "sci05jar9u",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 60,
+  "shouldScrollContents": true,
+  "shouldTruncate": false,
+  "text": "{{\n  (() => {\n    const placa = String(inpCpPlaca.text || \"\").trim();\n    const vehiculo = qCpBuscarVehiculoPorPlaca.data?.[0];\n\n    if (!placa) return \"\";\n\n    if (!vehiculo?.vehiculo_id) {\n      return \"Complete los datos para registrar el vehículo en el directorio.\";\n    }\n\n    const fecha = vehiculo.soat_vencimiento\n      ? new Date(\n          `${String(vehiculo.soat_vencimiento).substring(0, 10)}T00:00:00`\n        ).toLocaleDateString(\"es-CO\")\n      : \"Sin registrar\";\n\n    const dias = Number(vehiculo.dias_vigencia_soat);\n\n    const vigencia = Number.isFinite(dias)\n      ? dias < 0\n        ? `Vencido hace ${Math.abs(dias)} ${\n            Math.abs(dias) === 1 ? \"día\" : \"días\"\n          }`\n        : dias === 0\n          ? \"Vence hoy\"\n          : `${dias} ${dias === 1 ? \"día vigente\" : \"días vigentes\"}`\n      : \"Vigencia no determinada\";\n\n    const capacidad = Number(vehiculo.capacidad_carga_kg);\n\n    const capacidadTexto = Number.isFinite(capacidad)\n      ? `${capacidad.toLocaleString(\"es-CO\")} kg`\n      : \"Sin registrar\";\n\n    const alcance =\n      vehiculo.habilitado_internacional === true\n        ? \"Nacional e internacional\"\n        : vehiculo.habilitado_nacional === true\n          ? \"Nacional\"\n          : \"No definido\";\n\n    return [\n      `SOAT: ${vehiculo.soat_no || \"Sin registrar\"} · Vencimiento: ${fecha}`,\n      `${vigencia} · Capacidad: ${capacidadTexto}`,\n      `Tipo: ${vehiculo.tipo_vehiculo || \"Sin definir\"} · Alcance: ${alcance}`\n    ].join(\"\\n\");\n  })()\n}}",
+  "textAlign": "LEFT",
+  "textColor": "#231F20",
+  "topRow": 4,
+  "topRowBeforeCollapse": 0,
+  "truncateButtonColor": "{{appsmith.theme.colors.primaryColor}}",
+  "type": "TEXT_WIDGET",
+  "version": 1,
+  "widgetId": "t6za40al3n",
+  "widgetName": "txtCpVehiculoEstadoDetalle"
+}

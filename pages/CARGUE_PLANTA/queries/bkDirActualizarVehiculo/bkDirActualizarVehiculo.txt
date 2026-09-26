@@ -1,0 +1,346 @@
+with contexto as (
+  select
+    nullif(
+      nullif(
+        '{{ appsmith.store.cp_update_context?.entity_id || "" }}',
+        ''
+      ),
+      'null'
+    )::uuid as vehiculo_id,
+
+    nullif(
+      nullif(
+        '{{ appsmith.store.cp_update_context?.tenant_vehiculo_id || "" }}',
+        ''
+      ),
+      'null'
+    )::uuid as tenant_vehiculo_id,
+
+    coalesce(
+      nullif(
+        nullif('{{ appsmith.store.cp_tenant_id || "" }}', ''),
+        'null'
+      )::uuid,
+
+      nullif(
+        nullif('{{ appsmith.store.tenant_id || "" }}', ''),
+        'null'
+      )::uuid,
+
+      nullif(
+        nullif(
+          '{{ appsmith.store.current_user?.tenant_id || "" }}',
+          ''
+        ),
+        'null'
+      )::uuid
+    ) as tenant_id,
+
+    coalesce(
+      nullif(
+        nullif('{{ appsmith.store.user_id || "" }}', ''),
+        'null'
+      )::uuid,
+
+      nullif(
+        nullif('{{ appsmith.store.current_user?.id || "" }}', ''),
+        'null'
+      )::uuid
+    ) as usuario_id
+),
+
+datos as (
+  select
+    c.*,
+
+    nullif(
+      nullif(
+        '{{ slDirVehTipoVehiculo.selectedOptionValue || "" }}',
+        ''
+      ),
+      'null'
+    )::uuid as tipo_vehiculo_terrestre_id,
+
+    upper(
+      trim('{{ slDirVehMarca.selectedOptionValue || "" }}')
+    ) as marca,
+
+    upper(
+      trim('{{ inpDirVehModelo.text || "" }}')
+    ) as modelo,
+
+    upper(
+      trim('{{ slDirVehColor.selectedOptionValue || "" }}')
+    ) as color,
+
+    nullif(
+      nullif(
+        '{{ inpDirVehCapacidadKg.text || "" }}',
+        ''
+      ),
+      'null'
+    )::numeric as capacidad_carga_kg,
+
+    upper(
+      trim('{{ inpDirVehSoatNo.text || "" }}')
+    ) as soat_no,
+
+    nullif(
+      nullif(
+        '{{ dpDirVehSoatVencimiento.selectedDate || "" }}',
+        ''
+      ),
+      'null'
+    )::date as soat_vencimiento,
+
+    upper(
+      trim(
+        coalesce(
+          nullif(
+            '{{ inpDirUpdateMotivo.text || "" }}',
+            ''
+          ),
+          'ACTUALIZACIÓN DE VEHÍCULO DESDE CARGUE PLANTA'
+        )
+      )
+    ) as motivo
+
+  from contexto c
+),
+
+validacion as (
+  select d.*
+  from datos d
+  where d.vehiculo_id is not null
+    and d.tenant_vehiculo_id is not null
+    and d.tenant_id is not null
+    and d.usuario_id is not null
+    and d.tipo_vehiculo_terrestre_id is not null
+    and d.marca <> ''
+    and d.modelo <> ''
+    and d.color <> ''
+    and d.capacidad_carga_kg is not null
+    and d.capacidad_carga_kg > 0
+    and d.soat_no <> ''
+    and d.soat_vencimiento is not null
+),
+
+bloqueo as (
+  select
+    pg_advisory_xact_lock(
+      hashtextextended(
+        v.vehiculo_id::text
+        || '|'
+        || v.tenant_vehiculo_id::text,
+        0
+      )
+    ) as bloqueado
+  from validacion v
+),
+
+datos_anteriores_identidad as (
+  select
+    to_jsonb(vh) as data
+  from public.vehiculos vh
+  cross join validacion v
+  cross join bloqueo b
+  where vh.id = v.vehiculo_id
+    and vh.activo = true
+  limit 1
+),
+
+datos_anteriores_tenant as (
+  select
+    to_jsonb(tv) as data
+  from public.tenant_vehiculos tv
+  cross join validacion v
+  cross join bloqueo b
+  where tv.id = v.tenant_vehiculo_id
+    and tv.tenant_id = v.tenant_id
+    and tv.vehiculo_id = v.vehiculo_id
+    and tv.activo = true
+    and tv.deleted_at is null
+  limit 1
+),
+
+actualizar_identidad as (
+  update public.vehiculos vh
+  set
+    tipo_vehiculo_terrestre_id =
+      v.tipo_vehiculo_terrestre_id,
+
+    marca = v.marca,
+    modelo = v.modelo,
+    color = v.color,
+
+    capacidad_carga_kg =
+      v.capacidad_carga_kg,
+
+    updated_at = now(),
+    updated_by = v.usuario_id
+
+  from validacion v
+  cross join bloqueo b
+
+  where vh.id = v.vehiculo_id
+    and vh.activo = true
+
+  returning vh.*
+),
+
+actualizar_tenant as (
+  update public.tenant_vehiculos tv
+  set
+    soat_no = v.soat_no,
+    soat_vencimiento = v.soat_vencimiento,
+
+    updated_at = now(),
+    updated_by = v.usuario_id
+
+  from validacion v
+  cross join actualizar_identidad ai
+
+  where tv.id = v.tenant_vehiculo_id
+    and tv.tenant_id = v.tenant_id
+    and tv.vehiculo_id = ai.id
+    and tv.activo = true
+    and tv.deleted_at is null
+
+  returning tv.*
+),
+
+auditoria_identidad as (
+  insert into public.auditoria_entidades (
+    tenant_id,
+    modulo,
+    entidad,
+    entidad_id,
+    operacion,
+    motivo,
+    datos_anteriores,
+    datos_nuevos,
+    usuario_id,
+    autorizado_por
+  )
+  select
+    v.tenant_id,
+    'CARGUE_PLANTA',
+    'VEHICULOS',
+    ai.id,
+    'DIRECTORIO_UPDATE',
+    v.motivo,
+    dai.data,
+    to_jsonb(ai),
+    v.usuario_id,
+    v.usuario_id
+
+  from actualizar_identidad ai
+  cross join validacion v
+  cross join datos_anteriores_identidad dai
+
+  returning id
+),
+
+auditoria_tenant as (
+  insert into public.auditoria_entidades (
+    tenant_id,
+    modulo,
+    entidad,
+    entidad_id,
+    operacion,
+    motivo,
+    datos_anteriores,
+    datos_nuevos,
+    usuario_id,
+    autorizado_por
+  )
+  select
+    atv.tenant_id,
+    'CARGUE_PLANTA',
+    'TENANT_VEHICULOS',
+    atv.id,
+    'DIRECTORIO_UPDATE',
+    v.motivo,
+    dat.data,
+    to_jsonb(atv),
+    v.usuario_id,
+    v.usuario_id
+
+  from actualizar_tenant atv
+  cross join validacion v
+  cross join datos_anteriores_tenant dat
+
+  returning id
+)
+
+select
+  ai.id as vehiculo_id,
+  atv.id as tenant_vehiculo_id,
+
+  atv.tenant_id,
+
+  ai.codigo_interno,
+  ai.pais_placa,
+  ai.placa,
+
+  ai.tipo_vehiculo_terrestre_id,
+  ai.marca,
+  ai.modelo,
+  ai.color,
+  ai.capacidad_carga_kg,
+
+  atv.transportadora_id,
+  atv.tipo_vehiculo_id,
+
+  atv.soat_no,
+  atv.soat_vencimiento,
+
+  atv.habilitado_nacional,
+  atv.habilitado_internacional,
+  atv.estado_administrativo,
+  atv.activo,
+
+  'ACTUALIZADA'::text as accion_identidad,
+  'ACTUALIZADA'::text as accion_tenant,
+
+  case
+    when atv.activo = false
+      or atv.estado_administrativo <> 'ACTIVO'
+      then 'VEHICULO_INACTIVO'
+
+    when atv.soat_no is null
+      or trim(atv.soat_no) = ''
+      or atv.soat_vencimiento is null
+      then 'SIN_SOAT'
+
+    when atv.soat_vencimiento < current_date
+      then 'SOAT_VENCIDO'
+
+    when atv.soat_vencimiento <= current_date + 30
+      then 'SOAT_POR_VENCER'
+
+    else 'SOAT_VIGENTE'
+  end as estado_documental,
+
+  case
+    when atv.soat_vencimiento is null
+      then null
+    else atv.soat_vencimiento - current_date
+  end as dias_vigencia_soat,
+
+  (
+    atv.activo = true
+    and atv.estado_administrativo = 'ACTIVO'
+    and atv.habilitado_nacional = true
+    and atv.soat_no is not null
+    and trim(atv.soat_no) <> ''
+    and atv.soat_vencimiento is not null
+    and atv.soat_vencimiento >= current_date
+  ) as disponible_para_viaje,
+
+  ai.updated_at as identidad_fecha_actualizacion,
+  atv.updated_at as relacion_fecha_actualizacion
+
+from actualizar_identidad ai
+join actualizar_tenant atv
+  on atv.vehiculo_id = ai.id;

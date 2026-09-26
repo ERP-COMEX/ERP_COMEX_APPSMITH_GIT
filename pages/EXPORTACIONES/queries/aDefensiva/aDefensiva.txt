@@ -1,0 +1,44 @@
+with context as (
+    select
+        nullif(
+            trim('{{ appsmith.store.platform_user_id || "" }}'),
+            ''
+        )::uuid as user_id,
+
+        nullif(
+            trim('{{ appsmith.store.platform_tenant_id || "" }}'),
+            ''
+        )::uuid as tenant_id,
+
+        nullif(
+            trim('{{ appsmith.store.platform_company_id || "" }}'),
+            ''
+        )::uuid as company_id
+)
+
+select
+    voa.area_id as value,
+    voa.area_name as label,
+    voa.area_code,
+    voa.area_type,
+    voa.hierarchy_level,
+    voa.area_name_path,
+    voa.is_primary_area
+
+from platform.v_user_organizational_access voa
+
+cross join context ctx
+
+where ctx.user_id is not null
+  and ctx.tenant_id is not null
+  and ctx.company_id is not null
+
+  and voa.user_id = ctx.user_id
+  and voa.tenant_id = ctx.tenant_id
+  and voa.company_id = ctx.company_id
+
+  and voa.effective_access = true
+
+order by
+    voa.is_primary_area desc,
+    voa.area_name_path;

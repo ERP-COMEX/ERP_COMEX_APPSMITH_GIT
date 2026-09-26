@@ -1,0 +1,103 @@
+{
+  "animateLoading": true,
+  "backgroundColor": "{{\n  (() => {\n    const documento = String(inpCpCedulaConductor.text || \"\").trim();\n    const conductor = qCpBuscarConductorPorDocumento.data?.[0];\n\n    if (!documento || !conductor?.conductor_id) {\n      return \"#F5F5F5\";\n    }\n\n    const dias = Number(conductor.dias_vigencia_licencia);\n\n    if (\n      conductor.activo === false ||\n      conductor.estado_administrativo !== \"ACTIVO\" ||\n      conductor.disponible_para_viaje === false ||\n      (Number.isFinite(dias) && dias < 0)\n    ) {\n      return \"#FFEBEE\";\n    }\n\n    if (Number.isFinite(dias) && dias <= 30) {\n      return \"#FFF3E0\";\n    }\n\n    if (Number.isFinite(dias) && dias <= 90) {\n      return \"#FFFDE7\";\n    }\n\n    return \"#E8F5E9\";\n  })()\n}}",
+  "borderColor": "#E0DEDE",
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "borderWidth": "0",
+  "bottomRow": 34,
+  "boxShadow": "none",
+  "children": [
+    {
+      "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+      "bottomRow": 110,
+      "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
+      "canExtend": false,
+      "containerStyle": "none",
+      "detachFromLayout": true,
+      "dynamicBindingPathList": [
+        {
+          "key": "borderRadius"
+        },
+        {
+          "key": "boxShadow"
+        }
+      ],
+      "dynamicHeight": "AUTO_HEIGHT",
+      "flexLayers": [],
+      "isLoading": false,
+      "isVisible": true,
+      "key": "rrrssf8f9g",
+      "leftColumn": 0,
+      "maxDynamicHeight": 9000,
+      "minDynamicHeight": 4,
+      "minHeight": 100,
+      "minWidth": 450,
+      "mobileBottomRow": 100,
+      "mobileLeftColumn": 0,
+      "mobileRightColumn": 122.09893798828125,
+      "mobileTopRow": 0,
+      "needsErrorInfo": false,
+      "parentColumnSpace": 1,
+      "parentId": "ygtrqpefx3",
+      "parentRowSpace": 1,
+      "renderMode": "CANVAS",
+      "responsiveBehavior": "fill",
+      "rightColumn": 122.09893798828125,
+      "topRow": 0,
+      "type": "CANVAS_WIDGET",
+      "version": 1,
+      "widgetId": "61xxr70dn4",
+      "widgetName": "Canvas14CopyCopy"
+    }
+  ],
+  "containerStyle": "card",
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "backgroundColor"
+    },
+    {
+      "key": "isVisible"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "backgroundColor"
+    },
+    {
+      "key": "isVisible"
+    }
+  ],
+  "dynamicTriggerPathList": [],
+  "flexVerticalAlignment": "stretch",
+  "isCanvas": true,
+  "isLoading": false,
+  "isVisible": "{{\n  Boolean(\n    String(inpCpCedulaConductor.text || \"\").trim()\n  ) &&\n  !qCpBuscarConductorPorDocumento.isLoading\n}}",
+  "key": "54gavmjjvp",
+  "leftColumn": 0,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 10,
+  "minWidth": 450,
+  "mobileBottomRow": 23,
+  "mobileLeftColumn": 1,
+  "mobileRightColumn": 25,
+  "mobileTopRow": 13,
+  "needsErrorInfo": false,
+  "originalBottomRow": 34,
+  "originalTopRow": 23,
+  "parentColumnSpace": 5.087455749511719,
+  "parentId": "504sacewws",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 32,
+  "shouldScrollContents": true,
+  "topRow": 23,
+  "type": "CONTAINER_WIDGET",
+  "version": 1,
+  "widgetId": "ygtrqpefx3",
+  "widgetName": "cntCpConductorSemaforo"
+}

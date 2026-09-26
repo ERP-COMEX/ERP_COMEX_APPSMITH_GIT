@@ -1,0 +1,63 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 9,
+  "bottomRowBeforeCollapse": 7,
+  "dynamicBindingPathList": [
+    {
+      "key": "truncateButtonColor"
+    },
+    {
+      "key": "fontFamily"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "text"
+    }
+  ],
+  "dynamicHeight": "AUTO_HEIGHT",
+  "dynamicPropertyPathList": [
+    {
+      "key": "isVisible"
+    }
+  ],
+  "dynamicTriggerPathList": [],
+  "fontFamily": "{{appsmith.theme.fontFamily.appFont}}",
+  "fontSize": "1rem",
+  "fontStyle": "BOLD",
+  "isLoading": false,
+  "isVisible": "true",
+  "key": "qyfg8h72t2",
+  "leftColumn": 0,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 6,
+  "mobileLeftColumn": 40,
+  "mobileRightColumn": 56,
+  "mobileTopRow": 2,
+  "needsErrorInfo": false,
+  "originalBottomRow": 12,
+  "originalTopRow": 5,
+  "overflow": "NONE",
+  "parentColumnSpace": 14.03125,
+  "parentId": "61xxr70dn4",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 63,
+  "shouldScrollContents": true,
+  "shouldTruncate": false,
+  "text": "{{\n  (() => {\n    const documento = String(inpCpCedulaConductor.text || \"\").trim();\n    const conductor = appsmith.store.cp_ui_conductor_estado_operativo;\n\n    if (!documento) return \"\";\n\n    if (!conductor?.conductor_id) {\n      return \"Complete los datos para registrar el conductor en el directorio.\";\n    }\n\n    const fecha = conductor.fecha_vencimiento_licencia\n      ? new Date(\n          `${String(conductor.fecha_vencimiento_licencia).substring(0, 10)}T00:00:00`\n        ).toLocaleDateString(\"es-CO\")\n      : \"Sin registrar\";\n\n    const dias = Number(conductor.dias_vigencia_licencia);\n\n    const vigencia = Number.isFinite(dias)\n      ? dias < 0\n        ? `Vencida hace ${Math.abs(dias)} ${\n            Math.abs(dias) === 1 ? \"día\" : \"días\"\n          }`\n        : dias === 0\n          ? \"Vence hoy\"\n          : `${dias} ${dias === 1 ? \"día vigente\" : \"días vigentes\"}`\n      : \"Vigencia no determinada\";\n\n    const categoria =\n      String(conductor.categoria_licencia || \"\").trim() || \"Sin categoría\";\n\n    const alcance =\n      String(conductor.alcance_habilitacion || \"\")\n        .replaceAll(\"_\", \" \")\n        .trim() || \"No definido\";\n\n    return [\n      `Licencia: ${conductor.numero_licencia || \"Sin registrar\"} · Categoría: ${categoria}`,\n      `Vencimiento: ${fecha} · ${vigencia}`,\n      `Alcance: ${alcance}`\n    ].join(\"\\n\");\n  })()\n}}",
+  "textAlign": "LEFT",
+  "textColor": "#231F20",
+  "topRow": 5,
+  "topRowBeforeCollapse": 0,
+  "truncateButtonColor": "{{appsmith.theme.colors.primaryColor}}",
+  "type": "TEXT_WIDGET",
+  "version": 1,
+  "widgetId": "2r25r1oyi5",
+  "widgetName": "txtCpConductorEstadoDetalle"
+}

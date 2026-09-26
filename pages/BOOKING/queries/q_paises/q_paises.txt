@@ -1,0 +1,6 @@
+select
+  id as value,
+  nombre as label
+from public.paises
+where activo = true
+order by nombre;

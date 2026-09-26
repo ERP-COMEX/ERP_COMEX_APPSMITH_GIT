@@ -25,7 +25,7 @@
     "fullyQualifiedName": "appContext.reset",
     "name": "reset",
     "pageId": "EXPORTACIONES",
-    "runBehaviour": "ON_PAGE_LOAD",
+    "runBehaviour": "MANUAL",
     "userSetOnLoad": true
   }
 }

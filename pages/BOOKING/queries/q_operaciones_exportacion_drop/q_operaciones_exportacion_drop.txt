@@ -1,0 +1,8 @@
+select
+  id as value,
+  upper(nombre) as label,
+  codigo,
+  prefijo_codigo
+from public.operaciones_exportacion
+where activo = true
+order by sort_order, nombre;

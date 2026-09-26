@@ -1,0 +1,21 @@
+select
+  cc.id as value,
+  upper(cc.numero_cuenta || ' - ' || coalesce(cc.nombre_cuenta, 'SIN NOMBRE')) as label
+from public.cuentas_courier cc
+where cc.activo = true
+
+  and cc.courier_id =
+    nullif('{{ appsmith.store.booking_form?.courier_correo_id || "" }}', '')::uuid
+
+  and cc.flete_pagado_en_id =
+    nullif('{{ appsmith.store.booking_form?.flete_pagado_en_id || "" }}', '')::uuid
+
+  and (
+    cc.tenant_exportador_id =
+      nullif('{{ appsmith.store.booking_form?.exportador_id || "" }}', '')::uuid
+
+    or cc.cliente_id =
+      nullif('{{ appsmith.store.booking_form?.cliente_id || "" }}', '')::uuid
+  )
+
+order by cc.sort_order nulls last, cc.numero_cuenta;

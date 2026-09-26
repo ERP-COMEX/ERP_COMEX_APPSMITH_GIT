@@ -1,0 +1,427 @@
+with contexto as (
+  select
+    nullif(
+      nullif(
+        '{{ appsmith.store.cp_update_context?.entity_id || "" }}',
+        ''
+      ),
+      'null'
+    )::uuid as conductor_id_contexto,
+
+    nullif(
+      nullif(
+        '{{ appsmith.store.cp_update_context?.tenant_conductor_id || "" }}',
+        ''
+      ),
+      'null'
+    )::uuid as tenant_conductor_id_contexto,
+
+    coalesce(
+      nullif(
+        nullif(
+          '{{ appsmith.store.cp_tenant_id || "" }}',
+          ''
+        ),
+        'null'
+      )::uuid,
+
+      nullif(
+        nullif(
+          '{{ appsmith.store.tenant_id || "" }}',
+          ''
+        ),
+        'null'
+      )::uuid,
+
+      nullif(
+        nullif(
+          '{{ appsmith.store.current_user?.tenant_id || "" }}',
+          ''
+        ),
+        'null'
+      )::uuid
+    ) as tenant_id,
+
+    coalesce(
+      nullif(
+        nullif(
+          '{{ appsmith.store.user_id || "" }}',
+          ''
+        ),
+        'null'
+      )::uuid,
+
+      nullif(
+        nullif(
+          '{{ appsmith.store.current_user?.id || "" }}',
+          ''
+        ),
+        'null'
+      )::uuid
+    ) as usuario_id
+),
+
+datos as (
+  select
+    upper(
+      trim(
+        '{{ inpDirCondNombre.text || "" }}'
+      )
+    ) as nombre_completo,
+
+    upper(
+      trim(
+        '{{ slDirCondTipoDocumento.selectedOptionValue || "" }}'
+      )
+    ) as tipo_documento,
+
+    upper(
+      trim(
+        '{{ inpDirCondDocumento.text || "" }}'
+      )
+    ) as numero_documento_formulario,
+
+    upper(
+      trim(
+        '{{ inpDirCondLicencia.text || "" }}'
+      )
+    ) as numero_licencia,
+
+    upper(
+      trim(
+        '{{ (msDirCondCategoriaLicencia.selectedOptionValues || []).join(",") }}'
+      )
+    ) as categoria_licencia,
+
+    nullif(
+      '{{ dpDirCondVencimientoLicencia.selectedDate || "" }}',
+      ''
+    )::date as fecha_vencimiento_licencia,
+
+    trim(
+      '{{ inpDirCondTelefono.text || "" }}'
+    ) as telefono,
+
+    lower(
+      trim(
+        '{{ inpDirCondEmail.text || "" }}'
+      )
+    ) as email,
+
+    upper(
+      trim(
+        coalesce(
+          nullif(
+            '{{ inpDirUpdateMotivo.text || "" }}',
+            ''
+          ),
+          'ACTUALIZACIÓN DE CONDUCTOR DESDE CARGUE EN PLANTA'
+        )
+      )
+    ) as motivo
+),
+
+relacion_objetivo as (
+  select
+    tc.id as tenant_conductor_id,
+    tc.tenant_id,
+    tc.conductor_id
+
+  from public.tenant_conductores tc
+  cross join contexto ctx
+
+  where tc.tenant_id = ctx.tenant_id
+    and tc.deleted_at is null
+
+    and (
+      (
+        ctx.tenant_conductor_id_contexto is not null
+        and tc.id = ctx.tenant_conductor_id_contexto
+      )
+      or
+      (
+        ctx.tenant_conductor_id_contexto is null
+        and ctx.conductor_id_contexto is not null
+        and tc.conductor_id = ctx.conductor_id_contexto
+      )
+    )
+
+  order by
+    tc.activo desc,
+    tc.fecha_ultima_actualizacion desc
+
+  limit 1
+),
+
+datos_validos as (
+  select
+    ctx.tenant_id,
+    ctx.usuario_id,
+
+    ro.conductor_id,
+    ro.tenant_conductor_id,
+
+    d.nombre_completo,
+    d.tipo_documento,
+    d.numero_documento_formulario,
+
+    d.numero_licencia,
+    d.categoria_licencia,
+    d.fecha_vencimiento_licencia,
+
+    d.telefono,
+    d.email,
+    d.motivo
+
+  from contexto ctx
+  cross join datos d
+  join relacion_objetivo ro
+    on true
+
+  join public.conductores cnd
+    on cnd.id = ro.conductor_id
+
+  where ctx.tenant_id is not null
+    and ctx.usuario_id is not null
+
+    and d.nombre_completo <> ''
+    and d.tipo_documento <> ''
+    and d.numero_documento_formulario <> ''
+
+    and d.numero_licencia <> ''
+    and d.categoria_licencia <> ''
+    and d.fecha_vencimiento_licencia is not null
+    and d.telefono <> ''
+    and d.email <> ''
+
+    /*
+      El documento es inmutable en actualización.
+      Debe coincidir con la identidad seleccionada.
+    */
+    and upper(
+          trim(
+            coalesce(cnd.numero_documento, '')
+          )
+        ) = d.numero_documento_formulario
+),
+
+identidad_anterior as (
+  select
+    to_jsonb(cnd) as datos_anteriores
+
+  from public.conductores cnd
+  join datos_validos dv
+    on dv.conductor_id = cnd.id
+
+  limit 1
+),
+
+relacion_anterior as (
+  select
+    to_jsonb(tc) as datos_anteriores
+
+  from public.tenant_conductores tc
+  join datos_validos dv
+    on dv.tenant_conductor_id = tc.id
+
+  limit 1
+),
+
+actualizar_identidad as (
+  update public.conductores cnd
+
+  set
+    nombre_completo = dv.nombre_completo,
+    tipo_documento = dv.tipo_documento,
+    fecha_ultima_actualizacion = now()
+
+  from datos_validos dv
+
+  where cnd.id = dv.conductor_id
+
+  returning
+    cnd.id as conductor_id,
+    cnd.nombre_completo,
+    cnd.tipo_documento,
+    cnd.numero_documento,
+    cnd.pais_documento,
+    cnd.activo,
+    cnd.fecha_ultima_actualizacion
+),
+
+actualizar_relacion as (
+  update public.tenant_conductores tc
+
+  set
+    numero_licencia = dv.numero_licencia,
+    categoria_licencia = dv.categoria_licencia,
+    fecha_vencimiento_licencia =
+      dv.fecha_vencimiento_licencia,
+
+    telefono = dv.telefono,
+    email = dv.email,
+
+    fecha_ultima_actualizacion = now(),
+    actualizado_por = dv.usuario_id
+
+  from datos_validos dv
+
+  where tc.id = dv.tenant_conductor_id
+    and tc.tenant_id = dv.tenant_id
+    and tc.deleted_at is null
+
+  returning
+    tc.id as tenant_conductor_id,
+    tc.tenant_id,
+    tc.conductor_id,
+
+    tc.numero_licencia,
+    tc.categoria_licencia,
+    tc.pais_licencia,
+    tc.fecha_vencimiento_licencia,
+
+    tc.telefono,
+    tc.email,
+
+    tc.habilitado_nacional,
+    tc.habilitado_internacional,
+    tc.estado_administrativo,
+    tc.observaciones,
+    tc.activo,
+
+    tc.fecha_ultima_actualizacion
+),
+
+auditoria_identidad as (
+  insert into public.auditoria_entidades (
+    tenant_id,
+    modulo,
+    entidad,
+    entidad_id,
+    operacion,
+    motivo,
+    datos_anteriores,
+    datos_nuevos,
+    usuario_id,
+    autorizado_por
+  )
+  select
+    dv.tenant_id,
+    'CARGUE_PLANTA',
+    'CONDUCTORES',
+    ai.conductor_id,
+    'DIRECTORIO_UPDATE',
+    dv.motivo,
+    ia.datos_anteriores,
+    to_jsonb(ai),
+    dv.usuario_id,
+    dv.usuario_id
+
+  from actualizar_identidad ai
+  cross join datos_validos dv
+  cross join identidad_anterior ia
+
+  returning id
+),
+
+auditoria_relacion as (
+  insert into public.auditoria_entidades (
+    tenant_id,
+    modulo,
+    entidad,
+    entidad_id,
+    operacion,
+    motivo,
+    datos_anteriores,
+    datos_nuevos,
+    usuario_id,
+    autorizado_por
+  )
+  select
+    dv.tenant_id,
+    'CARGUE_PLANTA',
+    'TENANT_CONDUCTORES',
+    ar.tenant_conductor_id,
+    'DIRECTORIO_UPDATE',
+    dv.motivo,
+    ra.datos_anteriores,
+    to_jsonb(ar),
+    dv.usuario_id,
+    dv.usuario_id
+
+  from actualizar_relacion ar
+  cross join datos_validos dv
+  cross join relacion_anterior ra
+
+  returning id
+)
+
+select
+  ai.conductor_id,
+  ar.tenant_conductor_id,
+  ar.tenant_id,
+
+  ai.nombre_completo,
+  ai.tipo_documento,
+  ai.numero_documento,
+  ai.pais_documento,
+
+  ar.numero_licencia,
+  ar.categoria_licencia,
+  ar.pais_licencia,
+  ar.fecha_vencimiento_licencia,
+
+  ar.telefono,
+  ar.email,
+
+  ar.habilitado_nacional,
+  ar.habilitado_internacional,
+  ar.estado_administrativo,
+  ar.observaciones,
+  ar.activo,
+
+  'ACTUALIZADA'::text as accion_identidad,
+  'ACTUALIZADA'::text as accion_tenant,
+
+  case
+    when ar.estado_administrativo <> 'ACTIVO'
+      then ar.estado_administrativo
+
+    when ar.activo = false
+      then 'INACTIVO'
+
+    when ar.fecha_vencimiento_licencia is null
+      then 'SIN_FECHA_VENCIMIENTO'
+
+    when ar.fecha_vencimiento_licencia < current_date
+      then 'LICENCIA_VENCIDA'
+
+    when ar.fecha_vencimiento_licencia = current_date
+      then 'LICENCIA_VENCE_HOY'
+
+    when ar.fecha_vencimiento_licencia
+         <= current_date + 30
+      then 'LICENCIA_POR_VENCER'
+
+    else
+      'LICENCIA_VIGENTE'
+  end as estado_documental,
+
+  case
+    when ar.fecha_vencimiento_licencia is null
+      then null
+
+    else
+      ar.fecha_vencimiento_licencia - current_date
+  end as dias_vigencia_licencia,
+
+  ai.fecha_ultima_actualizacion
+    as identidad_fecha_actualizacion,
+
+  ar.fecha_ultima_actualizacion
+    as relacion_fecha_actualizacion
+
+from actualizar_identidad ai
+
+join actualizar_relacion ar
+  on ar.conductor_id = ai.conductor_id;

@@ -1,0 +1,16 @@
+{
+  "gitSyncId": "693476e8bab1731f64a493f4_316c13a0-4da7-4e75-a4f4-9ab5c989ee84",
+  "id": "pgAdminPlanFact_JS_AdminUsuarios",
+  "unpublishedCollection": {
+    "name": "JS_AdminUsuarios",
+    "pageId": "pgAdminPlanFact",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": [
+      {
+        "name": "documentosMock",
+        "value": "[{\n  document_id: \"DOC-001\",\n  tipo_codigo: \"DELIVERY_ACT\",\n  tipo_nombre: \"Acta de entrega\",\n  nombre_archivo: \"acta_entrega_usuario.pdf\",\n  mime_type: \"application/pdf\",\n  estado: \"GENERADO\",\n  version: 1,\n  fecha: \"2026-09-04\",\n  creado_por: \"Nicolás Cano\",\n  view_url: \"https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf\"\n}]"
+      }
+    ]
+  }
+}

@@ -29,7 +29,7 @@
     ],
     "name": "q_cuentacourrier_correo_drop",
     "pageId": "EXPORTACIONES",
-    "runBehaviour": "ON_PAGE_LOAD",
+    "runBehaviour": "MANUAL",
     "userSetOnLoad": true
   }
 }

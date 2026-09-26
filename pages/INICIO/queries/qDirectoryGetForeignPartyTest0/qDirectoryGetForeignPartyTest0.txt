@@ -1,0 +1,5 @@
+{
+  "p_tenant_id": "f15b1d9c-ac7a-49a7-9ec7-7eeb9e405d27",
+  "p_company_id": "55cba4b9-c749-4cc4-a710-c31197d72fad",
+  "p_party_id": "6b16ade2-af01-48bc-a513-35014f9bec50"
+}

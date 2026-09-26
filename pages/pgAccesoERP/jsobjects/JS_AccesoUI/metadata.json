@@ -1,0 +1,16 @@
+{
+  "gitSyncId": "693476e8bab1731f64a493f4_8dc19c4d-5c51-46fc-b146-486e894b45b5",
+  "id": "pgAccesoERP_JS_AccesoUI",
+  "unpublishedCollection": {
+    "name": "JS_AccesoUI",
+    "pageId": "pgAccesoERP",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": [
+      {
+        "name": "VISTAS",
+        "value": "{\n  LOGIN: \"LOGIN\",\n  RECOVERY: \"RECOVERY\",\n  VALIDATING: \"VALIDATING\",\n  ACCESS_DENIED: \"ACCESS_DENIED\"\n}"
+      }
+    ]
+  }
+}

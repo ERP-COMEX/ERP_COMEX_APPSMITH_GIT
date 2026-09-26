@@ -1,0 +1,522 @@
+with contexto as (
+  select
+    coalesce(
+      nullif(
+        '{{ appsmith.store.cp_tenant_id || "" }}',
+        ''
+      )::uuid,
+      nullif(
+        '{{ appsmith.store.tenant_id || "" }}',
+        ''
+      )::uuid,
+      nullif(
+        '{{ appsmith.store.current_user?.tenant_id || "" }}',
+        ''
+      )::uuid
+    ) as tenant_id,
+
+    coalesce(
+      nullif(
+        '{{ appsmith.store.user_id || "" }}',
+        ''
+      )::uuid,
+      nullif(
+        '{{ appsmith.store.current_user?.id || "" }}',
+        ''
+      )::uuid
+    ) as usuario_id
+),
+
+datos as (
+  select
+    upper(
+      trim(
+        '{{ inpDirCondNombre.text || "" }}'
+      )
+    ) as nombre_completo,
+
+    upper(
+      trim(
+        '{{ slDirCondTipoDocumento.selectedOptionValue || "CC" }}'
+      )
+    ) as tipo_documento,
+
+    upper(
+      trim(
+        '{{ inpDirCondDocumento.text || "" }}'
+      )
+    ) as numero_documento,
+
+    upper(
+      trim(
+        '{{ inpDirCondLicencia.text || "" }}'
+      )
+    ) as numero_licencia,
+
+    upper(
+      trim(
+        '{{ (msDirCondCategoriaLicencia.selectedOptionValues || []).join(",") }}'
+      )
+    ) as categoria_licencia,
+
+    nullif(
+      '{{ dpDirCondVencimientoLicencia.selectedDate || "" }}',
+      ''
+    )::date as fecha_vencimiento_licencia,
+
+    trim(
+      '{{ inpDirCondTelefono.text || "" }}'
+    ) as telefono,
+
+    lower(
+      trim(
+        '{{ inpDirCondEmail.text || "" }}'
+      )
+    ) as email,
+
+    upper(
+      trim(
+        coalesce(
+          nullif(
+            '{{ inpDirUpdateMotivo.text || "" }}',
+            ''
+          ),
+          'CREACIÓN DE CONDUCTOR DESDE CARGUE EN PLANTA'
+        )
+      )
+    ) as motivo
+),
+
+datos_validos as (
+  select
+    c.tenant_id,
+    c.usuario_id,
+
+    d.nombre_completo,
+    d.tipo_documento,
+    d.numero_documento,
+
+    d.numero_licencia,
+    d.categoria_licencia,
+    d.fecha_vencimiento_licencia,
+    d.telefono,
+    d.email,
+    d.motivo
+
+  from contexto c
+  cross join datos d
+
+  where c.tenant_id is not null
+    and c.usuario_id is not null
+
+    and d.nombre_completo <> ''
+    and d.tipo_documento <> ''
+    and d.numero_documento <> ''
+
+    and d.numero_licencia <> ''
+    and d.categoria_licencia <> ''
+    and d.fecha_vencimiento_licencia is not null
+    and d.telefono <> ''
+    and d.email <> ''
+),
+
+bloqueo_documento as materialized (
+  select
+    pg_advisory_xact_lock(
+      hashtextextended(
+        dv.tipo_documento
+        || '|'
+        || dv.numero_documento,
+        0
+      )
+    ) as bloqueo
+  from datos_validos dv
+),
+
+identidad_existente as (
+  select
+    c.id as conductor_id,
+    c.nombre_completo,
+    c.tipo_documento,
+    c.numero_documento,
+    c.pais_documento
+
+  from public.conductores c
+  cross join datos_validos dv
+  cross join bloqueo_documento bd
+
+  where upper(
+          trim(
+            coalesce(c.tipo_documento, '')
+          )
+        ) = dv.tipo_documento
+
+    and upper(
+          trim(
+            coalesce(c.numero_documento, '')
+          )
+        ) = dv.numero_documento
+
+  order by
+    c.activo desc,
+    c.fecha_ultima_actualizacion desc
+
+  limit 1
+),
+
+insertar_identidad as (
+  insert into public.conductores (
+    nombre_completo,
+    tipo_documento,
+    numero_documento,
+    activo,
+    fecha_creacion,
+    fecha_ultima_actualizacion
+  )
+  select
+    dv.nombre_completo,
+    dv.tipo_documento,
+    dv.numero_documento,
+    true,
+    now(),
+    now()
+
+  from datos_validos dv
+  cross join bloqueo_documento bd
+
+  where not exists (
+    select 1
+    from identidad_existente
+  )
+
+  returning
+    id as conductor_id,
+    nombre_completo,
+    tipo_documento,
+    numero_documento,
+    pais_documento
+),
+
+identidad_final as (
+  select
+    ii.conductor_id,
+    ii.nombre_completo,
+    ii.tipo_documento,
+    ii.numero_documento,
+    ii.pais_documento,
+    'CREADA'::text as accion_identidad
+
+  from insertar_identidad ii
+
+  union all
+
+  select
+    ie.conductor_id,
+    ie.nombre_completo,
+    ie.tipo_documento,
+    ie.numero_documento,
+    ie.pais_documento,
+    'REUTILIZADA'::text as accion_identidad
+
+  from identidad_existente ie
+
+  where not exists (
+    select 1
+    from insertar_identidad
+  )
+),
+
+relacion_existente as (
+  select
+    tc.id as tenant_conductor_id,
+    tc.tenant_id,
+    tc.conductor_id,
+
+    tc.numero_licencia,
+    tc.categoria_licencia,
+    tc.pais_licencia,
+    tc.fecha_vencimiento_licencia,
+
+    tc.telefono,
+    tc.email,
+
+    tc.habilitado_nacional,
+    tc.habilitado_internacional,
+    tc.estado_administrativo,
+
+    tc.observaciones,
+    tc.activo
+
+  from public.tenant_conductores tc
+  join identidad_final i
+    on i.conductor_id = tc.conductor_id
+
+  cross join datos_validos dv
+
+  where tc.tenant_id = dv.tenant_id
+    and tc.deleted_at is null
+
+  order by
+    tc.activo desc,
+    tc.fecha_ultima_actualizacion desc
+
+  limit 1
+),
+
+insertar_relacion as (
+  insert into public.tenant_conductores (
+    tenant_id,
+    conductor_id,
+
+    numero_licencia,
+    categoria_licencia,
+    fecha_vencimiento_licencia,
+
+    telefono,
+    email,
+
+    habilitado_nacional,
+    habilitado_internacional,
+
+    estado_administrativo,
+    observaciones,
+    activo,
+
+    fecha_creacion,
+    fecha_ultima_actualizacion,
+
+    creado_por,
+    actualizado_por
+  )
+  select
+    dv.tenant_id,
+    i.conductor_id,
+
+    dv.numero_licencia,
+    dv.categoria_licencia,
+    dv.fecha_vencimiento_licencia,
+
+    dv.telefono,
+    dv.email,
+
+    true,
+    false,
+
+    'ACTIVO',
+    dv.motivo,
+    true,
+
+    now(),
+    now(),
+
+    dv.usuario_id,
+    dv.usuario_id
+
+  from datos_validos dv
+  cross join identidad_final i
+
+  where not exists (
+    select 1
+    from relacion_existente
+  )
+
+  returning
+    id as tenant_conductor_id,
+    tenant_id,
+    conductor_id,
+
+    numero_licencia,
+    categoria_licencia,
+    pais_licencia,
+    fecha_vencimiento_licencia,
+
+    telefono,
+    email,
+
+    habilitado_nacional,
+    habilitado_internacional,
+    estado_administrativo,
+
+    observaciones,
+    activo
+),
+
+relacion_final as (
+  select
+    ir.tenant_conductor_id,
+    ir.tenant_id,
+    ir.conductor_id,
+
+    ir.numero_licencia,
+    ir.categoria_licencia,
+    ir.pais_licencia,
+    ir.fecha_vencimiento_licencia,
+
+    ir.telefono,
+    ir.email,
+
+    ir.habilitado_nacional,
+    ir.habilitado_internacional,
+    ir.estado_administrativo,
+
+    ir.observaciones,
+    ir.activo,
+
+    'CREADA'::text as accion_tenant
+
+  from insertar_relacion ir
+
+  union all
+
+  select
+    re.tenant_conductor_id,
+    re.tenant_id,
+    re.conductor_id,
+
+    re.numero_licencia,
+    re.categoria_licencia,
+    re.pais_licencia,
+    re.fecha_vencimiento_licencia,
+
+    re.telefono,
+    re.email,
+
+    re.habilitado_nacional,
+    re.habilitado_internacional,
+    re.estado_administrativo,
+
+    re.observaciones,
+    re.activo,
+
+    'YA_EXISTE_EN_TENANT'::text as accion_tenant
+
+  from relacion_existente re
+
+  where not exists (
+    select 1
+    from insertar_relacion
+  )
+),
+
+auditoria_identidad as (
+  insert into public.auditoria_entidades (
+    tenant_id,
+    modulo,
+    entidad,
+    entidad_id,
+    operacion,
+    motivo,
+    datos_anteriores,
+    datos_nuevos,
+    usuario_id,
+    autorizado_por
+  )
+  select
+    dv.tenant_id,
+    'CARGUE_PLANTA',
+    'CONDUCTORES',
+    ii.conductor_id,
+    'INSERT',
+    dv.motivo,
+    null,
+    to_jsonb(ii),
+    dv.usuario_id,
+    dv.usuario_id
+
+  from insertar_identidad ii
+  cross join datos_validos dv
+
+  returning id
+),
+
+auditoria_relacion as (
+  insert into public.auditoria_entidades (
+    tenant_id,
+    modulo,
+    entidad,
+    entidad_id,
+    operacion,
+    motivo,
+    datos_anteriores,
+    datos_nuevos,
+    usuario_id,
+    autorizado_por
+  )
+  select
+    dv.tenant_id,
+    'CARGUE_PLANTA',
+    'TENANT_CONDUCTORES',
+    ir.tenant_conductor_id,
+    'INSERT',
+    dv.motivo,
+    null,
+    to_jsonb(ir),
+    dv.usuario_id,
+    dv.usuario_id
+
+  from insertar_relacion ir
+  cross join datos_validos dv
+
+  returning id
+)
+
+select
+  i.conductor_id,
+  r.tenant_conductor_id,
+  r.tenant_id,
+
+  i.nombre_completo,
+  i.tipo_documento,
+  i.numero_documento,
+  i.pais_documento,
+
+  r.numero_licencia,
+  r.categoria_licencia,
+  r.pais_licencia,
+  r.fecha_vencimiento_licencia,
+
+  r.telefono,
+  r.email,
+
+  r.habilitado_nacional,
+  r.habilitado_internacional,
+  r.estado_administrativo,
+  r.activo,
+
+  i.accion_identidad,
+  r.accion_tenant,
+
+  case
+    when r.estado_administrativo <> 'ACTIVO'
+      then r.estado_administrativo
+
+    when r.activo = false
+      then 'INACTIVO'
+
+    when r.fecha_vencimiento_licencia is null
+      then 'SIN_FECHA_VENCIMIENTO'
+
+    when r.fecha_vencimiento_licencia < current_date
+      then 'LICENCIA_VENCIDA'
+
+    when r.fecha_vencimiento_licencia = current_date
+      then 'LICENCIA_VENCE_HOY'
+
+    when r.fecha_vencimiento_licencia
+         <= current_date + 30
+      then 'LICENCIA_POR_VENCER'
+
+    else
+      'LICENCIA_VIGENTE'
+  end as estado_documental,
+
+  case
+    when r.fecha_vencimiento_licencia is null
+      then null
+    else
+      r.fecha_vencimiento_licencia - current_date
+  end as dias_vigencia_licencia
+
+from identidad_final i
+join relacion_final r
+  on r.conductor_id = i.conductor_id;

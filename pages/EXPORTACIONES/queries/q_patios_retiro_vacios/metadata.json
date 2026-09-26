@@ -29,7 +29,7 @@
     ],
     "name": "q_patios_retiro_vacios",
     "pageId": "EXPORTACIONES",
-    "runBehaviour": "ON_PAGE_LOAD",
+    "runBehaviour": "MANUAL",
     "userSetOnLoad": true
   }
 }

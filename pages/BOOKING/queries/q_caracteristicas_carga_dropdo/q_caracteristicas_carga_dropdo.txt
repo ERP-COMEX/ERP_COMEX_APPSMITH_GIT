@@ -1,0 +1,6 @@
+select 
+  id as value,
+  upper(nombre) as label
+from public.caracteristicas_carga_exportacion
+where activo = true
+order by sort_order nulls last, nombre;

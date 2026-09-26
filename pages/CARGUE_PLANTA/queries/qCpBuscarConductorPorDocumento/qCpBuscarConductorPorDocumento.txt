@@ -1,0 +1,159 @@
+with contexto as (
+  select
+    coalesce(
+      nullif(
+        '{{ appsmith.store.cp_tenant_id || "" }}',
+        ''
+      )::uuid,
+      nullif(
+        '{{ appsmith.store.tenant_id || "" }}',
+        ''
+      )::uuid,
+      nullif(
+        '{{ appsmith.store.current_user?.tenant_id || "" }}',
+        ''
+      )::uuid
+    ) as tenant_id
+),
+
+entrada as (
+  select
+    upper(
+      trim(
+        '{{ inpCpCedulaConductor.text || "" }}'
+      )
+    ) as documento
+)
+
+select
+  c.id as conductor_id,
+  tc.id as tenant_conductor_id,
+  tc.tenant_id,
+
+  c.nombre_completo,
+  c.tipo_documento,
+  c.numero_documento,
+  c.pais_documento,
+
+  tc.numero_licencia,
+  tc.categoria_licencia,
+  tc.pais_licencia,
+  tc.fecha_vencimiento_licencia,
+
+  tc.telefono,
+  tc.email,
+
+  tc.habilitado_nacional,
+  tc.habilitado_internacional,
+  tc.estado_administrativo,
+
+  tc.observaciones,
+  tc.activo,
+
+  case
+    when tc.estado_administrativo = 'BLOQUEADO'
+      then 'BLOQUEADO'
+
+    when tc.estado_administrativo = 'SUSPENDIDO'
+      then 'SUSPENDIDO'
+
+    when tc.estado_administrativo = 'INACTIVO'
+      then 'INACTIVO'
+
+    when tc.fecha_vencimiento_licencia is null
+      then 'SIN_FECHA_VENCIMIENTO'
+
+    when tc.fecha_vencimiento_licencia < current_date
+      then 'LICENCIA_VENCIDA'
+
+    when tc.fecha_vencimiento_licencia = current_date
+      then 'LICENCIA_VENCE_HOY'
+
+    when tc.fecha_vencimiento_licencia
+         <= current_date + 30
+      then 'LICENCIA_POR_VENCER'
+
+    else
+      'LICENCIA_VIGENTE'
+  end as estado_documental,
+
+  case
+    when tc.habilitado_internacional = true
+      then 'INTERNACIONAL'
+
+    when tc.habilitado_nacional = true
+      then 'NACIONAL'
+
+    else
+      'NO_HABILITADO'
+  end as alcance_habilitacion,
+
+  case
+    when tc.estado_administrativo <> 'ACTIVO'
+      then false
+
+    when tc.activo = false
+      then false
+
+    when tc.fecha_vencimiento_licencia is null
+      then false
+
+    when tc.fecha_vencimiento_licencia < current_date
+      then false
+
+    when tc.habilitado_nacional = false
+     and tc.habilitado_internacional = false
+      then false
+
+    else
+      true
+  end as disponible_para_viaje,
+
+  case
+    when tc.fecha_vencimiento_licencia is null
+      then null
+    else
+      tc.fecha_vencimiento_licencia - current_date
+  end as dias_vigencia_licencia,
+
+  c.fecha_creacion as identidad_fecha_creacion,
+  c.fecha_ultima_actualizacion
+    as identidad_fecha_actualizacion,
+
+  tc.fecha_creacion
+    as relacion_fecha_creacion,
+  tc.fecha_ultima_actualizacion
+    as relacion_fecha_actualizacion
+
+from public.conductores c
+
+join public.tenant_conductores tc
+  on tc.conductor_id = c.id
+
+cross join contexto ctx
+cross join entrada e
+
+where
+  ctx.tenant_id is not null
+
+  and e.documento <> ''
+
+  and tc.tenant_id = ctx.tenant_id
+
+  and coalesce(c.activo, false) = true
+
+  and coalesce(tc.activo, false) = true
+
+  and tc.deleted_at is null
+
+  and upper(
+    trim(
+      coalesce(c.numero_documento, '')
+    )
+  ) = e.documento
+
+order by
+  tc.fecha_ultima_actualizacion desc,
+  c.fecha_ultima_actualizacion desc
+
+limit 1;

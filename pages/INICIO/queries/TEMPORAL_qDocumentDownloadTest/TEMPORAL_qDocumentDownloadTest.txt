@@ -1,0 +1,6 @@
+{
+  "tenant_id": "ba9871b9-f0f5-4b96-8801-dde466a3f8fd",
+  "company_id": "6887482c-2175-428d-a9a0-a7d921202a1c",
+  "document_id": "f8b8a17f-32ac-4edc-8aad-477cf8986dbc",
+  "version_id": "d2d0538c-f643-4898-8967-46a815a5d459"
+}

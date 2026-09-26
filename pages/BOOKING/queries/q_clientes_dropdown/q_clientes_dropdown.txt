@@ -1,0 +1,9 @@
+select
+  c.id as value,
+  c.nombre as label
+from public.tenant_exportadores te
+join public.clientes c
+  on c.id = te.exportador_id
+where te.tenant_id = '9aa932bd-c31d-4e6a-8df2-b57645f65dfa'
+  and te.activo = true
+order by c.nombre;

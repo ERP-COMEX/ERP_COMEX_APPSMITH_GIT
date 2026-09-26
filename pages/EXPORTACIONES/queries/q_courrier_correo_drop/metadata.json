@@ -25,7 +25,7 @@
     "dynamicBindingPathList": [],
     "name": "q_courrier_correo_drop",
     "pageId": "EXPORTACIONES",
-    "runBehaviour": "ON_PAGE_LOAD",
+    "runBehaviour": "MANUAL",
     "userSetOnLoad": true
   }
 }

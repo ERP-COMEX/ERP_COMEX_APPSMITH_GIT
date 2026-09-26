@@ -1,0 +1,21 @@
+select
+  pe.id::text as value,
+  upper(pe.nombre || ' - ' || coalesce(pe.presentacion_comercial, '')) as label,
+
+  pe.id::text as empaque_id,
+  upper(pe.codigo) as codigo_empaque,
+  upper(pe.nombre) as nombre_empaque,
+  upper(coalesce(pe.presentacion_comercial, '')) as presentacion_comercial,
+  upper(pe.tipo_empaque) as tipo_empaque,
+  upper(pe.unidad_comercial) as unidad_comercial,
+  upper(coalesce(pe.unidad_dian, '')) as unidad_dian,
+
+  coalesce(pe.cantidad_por_empaque, 1) as cantidad_por_empaque,
+  coalesce(pe.peso_neto_empaque_kg, 0) as peso_neto_empaque_kg,
+  coalesce(pe.peso_bruto_empaque_kg, 0) as peso_bruto_empaque_kg,
+  coalesce(pe.volumen_empaque_m3, 0) as volumen_empaque_m3,
+  pe.es_empaque_default
+from public.producto_empaques pe
+where pe.activo = true
+  and pe.producto_id::text = '{{ slCvItemCodigo.selectedOptionValue || "" }}'
+order by pe.es_empaque_default desc, pe.nombre;

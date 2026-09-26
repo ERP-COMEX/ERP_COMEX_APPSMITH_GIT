@@ -1,0 +1,14 @@
+  select
+  id as value,
+  nombre as label
+from public.transportadoras
+where activo = true
+  and bloqueado_operativo = false
+  and tipo_transportador =
+    case
+      when {{ sl_transporte.selectedOptionLabel }} = 'MARÍTIMO' then 'NAVIERA'
+      when {{ sl_transporte.selectedOptionLabel }} = 'AÉREO' then 'AEROLINEA'
+      when {{ sl_transporte.selectedOptionLabel }} = 'CARRETERA' then 'TERRESTRE'
+      else null
+    end
+order by nombre;

@@ -1,0 +1,24 @@
+{
+  "gitSyncId": "693476e8bab1731f64a493f4_264741bb-f21f-4d6e-acb9-faf88e4aa513",
+  "id": "pgAccesoERP_JS_SesionERP",
+  "unpublishedCollection": {
+    "name": "JS_SesionERP",
+    "pageId": "pgAccesoERP",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": [
+      {
+        "name": "DESTINO_INICIAL",
+        "value": "\"pgAdministracionUsuarios\""
+      },
+      {
+        "name": "PAGINA_ACCESO",
+        "value": "\"pgAccesoERP\""
+      },
+      {
+        "name": "MARGEN_EXPIRACION_SEGUNDOS",
+        "value": "60"
+      }
+    ]
+  }
+}
