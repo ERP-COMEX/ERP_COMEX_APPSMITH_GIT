@@ -1,12 +1,16 @@
 {
-  "gitSyncId": "693476e8bab1731f64a493f4_18d2f079-3d7a-4a10-9c3f-e42fefdc6da1",
-  "id": "pgAccesoERP_JS_AccesoUI.inicializar",
+  "gitSyncId": "693476e8bab1731f64a493f4_9bf78b5e-fbf2-4e97-b920-046028eb8b9a",
+  "id": "pgAccesoERP_JS_AccesoUI.mostrarInvitacion",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
     "actionConfiguration": {
       "encodeParamsToggle": true,
-      "jsArguments": [],
+      "jsArguments": [
+        {
+          "name": "mensaje"
+        }
+      ],
       "paginationType": "NONE",
       "timeoutInMillisecond": 10000
     },
@@ -22,10 +26,10 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "JS_AccesoUI.inicializar",
-    "name": "inicializar",
+    "fullyQualifiedName": "JS_AccesoUI.mostrarInvitacion",
+    "name": "mostrarInvitacion",
     "pageId": "pgAccesoERP",
-    "runBehaviour": "ON_PAGE_LOAD",
-    "userSetOnLoad": true
+    "runBehaviour": "MANUAL",
+    "userSetOnLoad": false
   }
 }

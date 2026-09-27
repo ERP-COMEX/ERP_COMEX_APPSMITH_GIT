@@ -1,6 +1,6 @@
 {
-  "gitSyncId": "693476e8bab1731f64a493f4_b276b00c-534f-4e72-9e9d-3e56631b1c86",
-  "id": "pgAccesoERP_JS_AccesoUI.cerrarAccesoRestringido",
+  "gitSyncId": "693476e8bab1731f64a493f4_e40f2df3-5bf4-4787-837e-9952d0d5dcf6",
+  "id": "pgAccesoERP_JS_AccesoUI.validarInvitacion",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
@@ -22,8 +22,8 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "JS_AccesoUI.cerrarAccesoRestringido",
-    "name": "cerrarAccesoRestringido",
+    "fullyQualifiedName": "JS_AccesoUI.validarInvitacion",
+    "name": "validarInvitacion",
     "pageId": "pgAccesoERP",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false

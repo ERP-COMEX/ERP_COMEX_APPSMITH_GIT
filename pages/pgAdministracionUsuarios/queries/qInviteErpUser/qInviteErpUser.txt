@@ -1,0 +1,38 @@
+{{
+JSON.stringify({
+  email: (inpAdminInvitarCorreo.text || "")
+    .trim()
+    .toLowerCase(),
+
+  tenant_id: appsmith.store.erp_tenant_id || null,
+
+  company_id:
+    selAdminInvitarEmpresa.selectedOptionValue || null,
+
+  role_code:
+    selAdminInvitarRol.selectedOptionValue || null,
+
+  full_name:
+    (
+      (inpAdminInvitarNombre.text || "").trim() +
+      " " +
+      (inpAdminInvitarApellido.text || "").trim()
+    ).trim(),
+
+  first_name:
+    (inpAdminInvitarNombre.text || "").trim(),
+
+  last_name:
+    (inpAdminInvitarApellido.text || "").trim(),
+
+  is_default_tenant: true,
+
+  is_default_company: true,
+
+  valid_from: null,
+
+  valid_to: null,
+
+  notes: "Invitación enviada desde pgAdministracionUsuarios"
+})
+}}

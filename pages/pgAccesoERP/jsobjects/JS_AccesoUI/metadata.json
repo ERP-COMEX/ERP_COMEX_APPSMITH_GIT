@@ -9,7 +9,7 @@
     "variables": [
       {
         "name": "VISTAS",
-        "value": "{\n  LOGIN: \"LOGIN\",\n  RECOVERY: \"RECOVERY\",\n  VALIDATING: \"VALIDATING\",\n  ACCESS_DENIED: \"ACCESS_DENIED\"\n}"
+        "value": "{\n  LOGIN: \"LOGIN\",\n  RECOVERY: \"RECOVERY\",\n  VALIDATING: \"VALIDATING\",\n  ACCESS_DENIED: \"ACCESS_DENIED\",\n  INVITE: \"INVITE\"\n}"
       }
     ]
   }

@@ -194,6 +194,51 @@
       "version": 1,
       "widgetId": "jry9xs2v50",
       "widgetName": "Canvas7"
+    },
+    {
+      "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+      "bottomRow": 580,
+      "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
+      "canExtend": false,
+      "containerStyle": "none",
+      "detachFromLayout": true,
+      "dynamicBindingPathList": [
+        {
+          "key": "borderRadius"
+        },
+        {
+          "key": "boxShadow"
+        }
+      ],
+      "dynamicHeight": "AUTO_HEIGHT",
+      "dynamicTriggerPathList": [],
+      "flexLayers": [],
+      "isLoading": false,
+      "isVisible": true,
+      "key": "2ra7qyh604",
+      "leftColumn": 0,
+      "maxDynamicHeight": 9000,
+      "minDynamicHeight": 4,
+      "minHeight": 580,
+      "minWidth": 450,
+      "mobileBottomRow": 581,
+      "mobileLeftColumn": 0,
+      "mobileRightColumn": 289.392578125,
+      "mobileTopRow": 1,
+      "needsErrorInfo": false,
+      "parentColumnSpace": 1,
+      "parentId": "z7dh7izdwb",
+      "parentRowSpace": 1,
+      "renderMode": "CANVAS",
+      "responsiveBehavior": "fill",
+      "rightColumn": 289.392578125,
+      "tabId": "tabgj5qggctth",
+      "tabName": "INVITE",
+      "topRow": 1,
+      "type": "CANVAS_WIDGET",
+      "version": 1,
+      "widgetId": "w3q7r83h2i",
+      "widgetName": "Canvas8"
     }
   ],
   "defaultTab": "{{ appsmith.store.accesoVista || \"LOGIN\" }}",
@@ -249,6 +294,13 @@
       "label": "RECOVERY",
       "positioning": "vertical",
       "widgetId": "3xk29tger4"
+    },
+    "tabgj5qggctth": {
+      "id": "tabgj5qggctth",
+      "index": 4,
+      "isVisible": true,
+      "label": "INVITE",
+      "widgetId": "w3q7r83h2i"
     },
     "tabneak4fqybv": {
       "id": "tabneak4fqybv",

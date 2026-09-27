@@ -1,16 +1,12 @@
 {
-  "gitSyncId": "693476e8bab1731f64a493f4_a6955e57-c5a9-40c2-9f51-9d098fe1d02b",
-  "id": "pgAccesoERP_JS_AccesoUI.mostrarMensajeRecuperacion",
+  "gitSyncId": "693476e8bab1731f64a493f4_de63c2ff-7967-4e43-87c0-5b1d3979fadd",
+  "id": "pgAccesoERP_JS_AccesoUI.activarInvitacion",
   "pluginId": "js-plugin",
   "pluginType": "JS",
   "unpublishedAction": {
     "actionConfiguration": {
       "encodeParamsToggle": true,
-      "jsArguments": [
-        {
-          "name": "mensaje"
-        }
-      ],
+      "jsArguments": [],
       "paginationType": "NONE",
       "timeoutInMillisecond": 10000
     },
@@ -26,8 +22,8 @@
         "key": "body"
       }
     ],
-    "fullyQualifiedName": "JS_AccesoUI.mostrarMensajeRecuperacion",
-    "name": "mostrarMensajeRecuperacion",
+    "fullyQualifiedName": "JS_AccesoUI.activarInvitacion",
+    "name": "activarInvitacion",
     "pageId": "pgAccesoERP",
     "runBehaviour": "MANUAL",
     "userSetOnLoad": false
